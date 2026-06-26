@@ -299,8 +299,10 @@
   /* ===== sales kompaktan (sve vidljivo u jednom screenshot-u) ===== */
   .sales{padding-top:84px;padding-bottom:84px}
   .sales .head-block{margin-bottom:32px;gap:14px}
-  .sales .stack-card{padding:34px;gap:20px}
-  .sales .vlist{gap:13px}
+  .sales .stack-card{padding:38px;gap:22px}
+  .stack-title{font-family:var(--display);font-weight:700;font-size:clamp(25px,3.6vw,34px);letter-spacing:-.025em;line-height:1.05;margin-top:-6px}
+  .stack-card>.kicker{margin-bottom:-14px}
+  .sales .vlist{gap:13px;margin-top:4px}
   .sales .vlist .row{align-items:center}
   .sales .vlist .row b{font-weight:600;font-size:16.5px;letter-spacing:-.01em}
   .sales .buy .price{line-height:.9}
@@ -475,13 +477,9 @@
 <!-- SALES 2 -->
 <section class="sales" id="kupovina">
   <div class="wrap reveal">
-    <div class="head-block">
-      <span class="kicker">UZMI EBOOK</span>
-      <h2>29€. Platiš jednom, znaš zauvek kako da smisliš ideju koja probije.</h2>
-      <p class="lead">Ovo nije motivacija ni priča o ring lightu. Ovo je tačan postupak po kom ja i mojih 10 klijenata smišljamo ideje za reelove koji probiju. Pročitaš danas, primeniš na sledeći snimak.</p>
-    </div>
     <div class="stack-card">
-      <div class="bar"></div>
+      <span class="kicker">UZMI EBOOK</span>
+      <h2 class="stack-title">Sve što dobiješ za 29€</h2>
       <div class="vlist">
         <div class="row"><span class="chk">✓</span><b>Ceo sistem u 5 koraka — od prazne glave do viralne ideje</b></div>
         <div class="row"><span class="chk">✓</span><b>Više načina da dođeš do ideje, bez praznog papira</b></div>
