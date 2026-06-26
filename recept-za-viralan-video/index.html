@@ -4,7 +4,7 @@
 <script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recept za smišljanje viralnog videa - Boris Vasić</title>
-<meta name="description" content="Tačan sistem kako da smisliš ideju za video koji ode viralno. Ebook Borisa Vasića, osnivača agencije Edge Cut. 29€.">
+<meta name="description" content="Tačan sistem kako da smisliš ideju za video koji ode viralno. Priručnik Borisa Vasića, osnivača agencije Edge Cut. 29€.">
 <meta property="og:title" content="Recept za smišljanje viralnog videa - Boris Vasić">
 <meta property="og:description" content="Sistem za smišljanje ideja koje odu viralno. Bez teorije, bez izgovora oko opreme.">
 <meta property="og:type" content="website">
@@ -99,8 +99,7 @@
   .reel-tag{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.02em}
   .hero-right{display:flex;flex-direction:column;gap:14px;align-items:center}
   .hero-right .cap{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.02em}
-  .cover-frame{width:100%;border:1px solid var(--accent-line);border-radius:22px;overflow:hidden;
-    box-shadow:0 0 60px -20px var(--accent-line);background:var(--bg)}
+  .cover-frame{width:100%;background:transparent}
   .cover-frame img{display:block;width:100%;height:auto}
 
   /* strip */
@@ -282,19 +281,19 @@
   .step-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
   .step-title{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.25;color:var(--text);max-width:172px}
 
-  /* ===== proof — kompaktan red: mali thumbnail + tekst pored ===== */
-  .proof-list{display:flex;flex-direction:column;gap:16px;max-width:760px;margin:0 auto}
-  .proof-item{display:flex;gap:18px;align-items:center;background:var(--elevated);border:1px solid var(--border);
-    border-radius:16px;padding:16px;text-decoration:none;transition:border-color .2s ease,transform .2s ease,box-shadow .25s ease}
-  .proof-item:hover{border-color:var(--accent-line);transform:translateY(-2px);box-shadow:0 14px 40px -22px var(--accent-line)}
-  .proof-thumb{flex:0 0 auto;width:116px;aspect-ratio:9/16;border-radius:12px;overflow:hidden;position:relative;
-    border:1px solid var(--accent-line);box-shadow:0 0 44px -16px var(--accent-line);background:var(--surface)}
-  .proof-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-  .proof-info{display:flex;flex-direction:column;gap:7px;min-width:0}
-  .proof-metric{font-family:var(--display);font-weight:800;font-size:26px;color:var(--accent);letter-spacing:-.02em;line-height:1}
-  .proof-quote{color:var(--muted);font-size:13.5px;line-height:1.5}
-  .proof-who{font-family:var(--mono);font-size:12px;color:var(--accent);display:inline-flex;align-items:center;gap:6px}
-  .proof-who .arrr{opacity:.7}
+  /* ===== proof — zbijena galerija klipova (9:16) ===== */
+  .clip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:880px;margin:0 auto}
+  .clip{display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform .25s ease;min-width:0}
+  .clip:hover{transform:translateY(-4px)}
+  .clip-media{position:relative;aspect-ratio:9/16;border-radius:14px;overflow:hidden;
+    border:1px solid var(--accent-line);box-shadow:0 0 52px -18px var(--accent-line);background:var(--surface)}
+  .clip:hover .clip-media{border-color:var(--accent);box-shadow:0 0 64px -12px var(--accent-line)}
+  .clip-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .clip-badge{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--display);font-weight:800;font-size:17px;color:var(--text);
+    background:rgba(9,9,11,.62);backdrop-filter:blur(4px);border:1px solid var(--accent-line);border-radius:10px;padding:3px 10px;letter-spacing:-.01em}
+  .clip-who{font-family:var(--mono);font-size:12px;color:var(--accent);display:flex;align-items:center;justify-content:center;gap:5px;
+    min-width:0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .arrr{opacity:.7}
 
   /* ===== sales kompaktan (sve vidljivo u jednom screenshot-u) ===== */
   .sales{padding-top:84px;padding-bottom:84px}
@@ -317,10 +316,9 @@
     .step-title{max-width:none}
   }
   @media(max-width:520px){
-    .proof-item{gap:14px;padding:13px}
-    .proof-thumb{width:96px}
-    .proof-metric{font-size:22px}
-    .proof-quote{font-size:13px}
+    .clip-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;max-width:360px}
+    .clip-badge{font-size:14px;padding:3px 8px;top:7px;left:7px}
+    .clip-who{font-size:11px}
     .step-node{width:54px;height:54px;font-size:19px}
     .steps-track{left:27px}
   }
@@ -333,7 +331,7 @@
   <div class="nav">
     <a class="brand" href="https://borisprproj.com">Boris <span class="sur">Vasić</span></a>
     <div class="nav-right">
-      <a class="nav-link" href="#sadrzaj">EBOOK</a>
+      <a class="nav-link" href="#sadrzaj">PRIRUČNIK</a>
       <a class="nav-link" href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Saradnja</a>
       <a class="btn sm" href="#kupovina">Preuzmi →</a>
     </div>
@@ -345,9 +343,9 @@
   <div class="hero-glow"></div>
   <div class="wrap hero-inner">
     <div class="hero-left">
-      <span class="kicker">EBOOK</span>
-      <h1><span data-e="">Recept za</span><br><span class="teal" data-e="">viralni video</span></h1>
-      <p class="lead">Naučiću te tačan sistem kako da smisliš viralnu ideju za svoju publiku. Sistem koji sam ja primenio na videima svojih klijenata i kreirao na desetine milionskih videa.</p>
+      <span class="kicker">PRIRUČNIK</span>
+      <h1><span data-e="">Recept za smišljanje</span><br><span class="teal" data-e="">viralnog videa</span></h1>
+      <p class="lead">Korak-po-korak sistem za dolazak do ideje koja donosi preglede.</p>
       <div class="cta-row">
         <a class="btn" href="#kupovina">PREUZMI ZA 29€</a>
       </div>
@@ -360,79 +358,32 @@
   </div>
 </section>
 
-<!-- STRIP -->
-<div class="strip">
-  <div class="strip-inner">
-    <div class="strip-group">
-      <span>ANALIZA</span><span class="sep">/</span>
-      <span>IDEJA</span><span class="sep">/</span>
-      <span>VREDNOST</span><span class="sep">/</span>
-      <span>FORMAT</span><span class="sep">/</span>
-      <span>HOOK</span><span class="sep">/</span>
-      <span>VIRAL</span><span class="sep">/</span>
-      <span>ANALIZA</span><span class="sep">/</span>
-      <span>IDEJA</span><span class="sep">/</span>
-      <span>VREDNOST</span><span class="sep">/</span>
-      <span>FORMAT</span><span class="sep">/</span>
-      <span>HOOK</span><span class="sep">/</span>
-      <span>VIRAL</span><span class="sep">/</span>
-      <span>ANALIZA</span><span class="sep">/</span>
-      <span>IDEJA</span><span class="sep">/</span>
-      <span>VREDNOST</span><span class="sep">/</span>
-      <span>FORMAT</span><span class="sep">/</span>
-      <span>HOOK</span><span class="sep">/</span>
-      <span>VIRAL</span><span class="sep">/</span>
-    </div>
-    <div class="strip-group" aria-hidden="true">
-      <span>ANALIZA</span><span class="sep">/</span>
-      <span>IDEJA</span><span class="sep">/</span>
-      <span>VREDNOST</span><span class="sep">/</span>
-      <span>FORMAT</span><span class="sep">/</span>
-      <span>HOOK</span><span class="sep">/</span>
-      <span>VIRAL</span><span class="sep">/</span>
-      <span>ANALIZA</span><span class="sep">/</span>
-      <span>IDEJA</span><span class="sep">/</span>
-      <span>VREDNOST</span><span class="sep">/</span>
-      <span>FORMAT</span><span class="sep">/</span>
-      <span>HOOK</span><span class="sep">/</span>
-      <span>VIRAL</span><span class="sep">/</span>
-      <span>ANALIZA</span><span class="sep">/</span>
-      <span>IDEJA</span><span class="sep">/</span>
-      <span>VREDNOST</span><span class="sep">/</span>
-      <span>FORMAT</span><span class="sep">/</span>
-      <span>HOOK</span><span class="sep">/</span>
-      <span>VIRAL</span><span class="sep">/</span>
-    </div>
-  </div>
-</div>
-
 <!-- VALUE -->
 <section id="sadrzaj">
   <div class="wrap reveal">
     <div class="head-block">
       <span class="kicker">Šta te čeka</span>
       <h2>Naučiću te kako da za bilo koju nišu smisliš ideju koja ide viralno</h2>
-      <p class="lead">Većina misli da je snimanje videa i oprema najbitnija. Ali ono što zapravo stoji iza svakog viralnog videa je ideja koja pažljivo osmišljena<br><br>U ebook-u se nalaze mojih 5 koraka koje treba uraditi i ideja se piše sama od sebe:</p>
+      <p class="lead">Većina misli da na viralnost utiču kvalitet kamere i montaža… a istina je skroz suprotna.<br><br>U ovom vodiču nalazi se 5 koraka koje ja koristim da bih generisao milionske preglede svojim klijentima.</p>
     </div>
     <div class="steps">
       <div class="steps-track"><div class="steps-fill"></div></div>
       <div class="steps-row">
-        <div class="step"><div class="step-node">01</div><div class="step-label">Korak 01</div><div class="step-title">Analiza usluge i ciljne grupe</div></div>
-        <div class="step"><div class="step-node">02</div><div class="step-label">Korak 02</div><div class="step-title">Smišljanje konkretne ideje</div></div>
-        <div class="step"><div class="step-node">03</div><div class="step-label">Korak 03</div><div class="step-title">Vrednost videa</div></div>
-        <div class="step"><div class="step-node">04</div><div class="step-label">Korak 04</div><div class="step-title">Izbor formata</div></div>
-        <div class="step"><div class="step-node">05</div><div class="step-label">Korak 05</div><div class="step-title">Kreiranje hook-a</div></div>
+        <div class="step"><div class="step-node">01</div><div class="step-title">Analiza usluge i ciljne grupe</div></div>
+        <div class="step"><div class="step-node">02</div><div class="step-title">Smišljanje konkretne ideje</div></div>
+        <div class="step"><div class="step-node">03</div><div class="step-title">Vrednost videa</div></div>
+        <div class="step"><div class="step-node">04</div><div class="step-title">Izbor formata</div></div>
+        <div class="step"><div class="step-node">05</div><div class="step-title">Kreiranje hook-a</div></div>
       </div>
     </div>
     <div class="outcome">
       <span class="kicker">Nakon ovih 5 koraka</span>
       <div class="row"><span class="arr">→</span><span>Imaćeš sve potrebne informacije da smisliš video vredan tuđe pažnje.</span></div>
-      <div class="row"><span class="arr">→</span><span>Znaćeš da li video ide viralno samo po ideji.</span></div>
       <div class="row"><span class="arr">→</span><span>Moći ćeš da napišeš hook koji zaustavlja scroll.</span></div>
       <div class="row"><span class="arr">→</span><span>Imaćeš sistem koji možeš da ponoviš koliko god puta hoćeš.</span></div>
     </div>
     <div class="center-cta">
-      <a class="btn" href="#kupovina">Ebook te čeka 29€</a>
+      <a class="btn" href="#kupovina">Priručnik te čeka 29€</a>
     </div>
   </div>
 </section>
@@ -443,32 +394,20 @@
     <div class="head-block">
       <span class="kicker">PROOF</span>
       <h2>Ne moraš da mi veruješ. <br>Pogledaj i uveri se.</h2>
-      <p class="lead">Ovim sistemom generisao sam stotine viralnih videa za klijente.<br>Od profila sa svega nekoliko hiljada pregleda po videu, napravili smo content mašine koje sad generišu milionske preglede i svaki video ode viralno.</p>
+      <p class="lead">Ovim sistemom generisao sam stotine viralnih videa za klijente.</p>
     </div>
-    <div class="proof-list">
-      <a class="proof-item" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">
-        <div class="proof-thumb"><img src="assets/proof-ivan.png" alt="Ivan reel — 1M+ pregleda" loading="lazy"></div>
-        <div class="proof-info">
-          <span class="proof-metric">1M+</span>
-          <p class="proof-quote">Jedan od desetine klipova koji su prešli milion pregleda na Ivanovom profilu.</p>
-          <span class="proof-who">Ivan · @superdog.akademija <span class="arrr">↗</span></span>
-        </div>
+    <div class="clip-grid">
+      <a class="clip" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">
+        <div class="clip-media"><span class="clip-badge">1M+</span><img src="assets/proof-ivan.png" alt="Ivan reel — 1M+ pregleda" loading="lazy"></div>
+        <span class="clip-who">@superdog.akademija <span class="arrr">↗</span></span>
       </a>
-      <a class="proof-item" href="https://instagram.com/studiolepoteana" target="_blank" rel="noopener">
-        <div class="proof-thumb"><img src="assets/proof-ana.png" alt="Ana reel — 2.2M pregleda" loading="lazy"></div>
-        <div class="proof-info">
-          <span class="proof-metric">2.2M</span>
-          <p class="proof-quote">Rezultat nakon samo 6 videa na profilu — ovim formatom 5m+ pregleda na 20 videa.</p>
-          <span class="proof-who">Ana · @studiolepoteana <span class="arrr">↗</span></span>
-        </div>
+      <a class="clip" href="https://instagram.com/studiolepoteana" target="_blank" rel="noopener">
+        <div class="clip-media"><span class="clip-badge">2.2M</span><img src="assets/proof-ana.png" alt="Ana reel — 2.2M pregleda" loading="lazy"></div>
+        <span class="clip-who">@studiolepoteana <span class="arrr">↗</span></span>
       </a>
-      <a class="proof-item" href="https://instagram.com/ro.surovo.zdravo" target="_blank" rel="noopener">
-        <div class="proof-thumb"><img src="assets/proof-ro.png" alt="Veljko reel — 1.2M pregleda" loading="lazy"></div>
-        <div class="proof-info">
-          <span class="proof-metric">1.2M</span>
-          <p class="proof-quote">Veljko se prvi put pojavio pred kamerom — uz našu ideju, desetine viralnih videa, ovaj sa 1.2m pregleda.</p>
-          <span class="proof-who">Veljko · @ro.surovo.zdravo <span class="arrr">↗</span></span>
-        </div>
+      <a class="clip" href="https://instagram.com/ro.surovo.zdravo" target="_blank" rel="noopener">
+        <div class="clip-media"><span class="clip-badge">1.2M</span><img src="assets/proof-ro.png" alt="Veljko reel — 1.2M pregleda" loading="lazy"></div>
+        <span class="clip-who">@ro.surovo.zdravo <span class="arrr">↗</span></span>
       </a>
     </div>
   </div>
@@ -478,18 +417,18 @@
 <section class="sales" id="kupovina">
   <div class="wrap reveal">
     <div class="stack-card">
-      <span class="kicker">UZMI EBOOK</span>
+      <span class="kicker">UZMI PRIRUČNIK</span>
       <h2 class="stack-title">Sve što dobiješ za 29€</h2>
       <div class="vlist">
-        <div class="row"><span class="chk">✓</span><b>Ceo sistem u 5 koraka — od prazne glave do viralne ideje</b></div>
-        <div class="row"><span class="chk">✓</span><b>Više načina da dođeš do ideje, bez praznog papira</b></div>
+        <div class="row"><span class="chk">✓</span><b>Ceo sistem u 5 koraka</b></div>
+        <div class="row"><span class="chk">✓</span><b>Više načina da dođeš do ideje</b></div>
         <div class="row"><span class="chk">✓</span><b>Pravi format za pravu poruku</b></div>
         <div class="row"><span class="chk">✓</span><b>Hook koji zaustavi scroll u prve 2 sekunde</b></div>
       </div>
       <div class="divider"></div>
       <div class="buy">
         <div class="pwrap"><span class="price">29€</span><span class="mono faint">jednom. pristup ostaje zauvek.</span></div>
-        <div class="bwrap"><a class="btn" href="https://buy.stripe.com/3cI6oA2uO6mm5KLfKJ5wI0h">Uzmi ebook - 29€</a></div>
+        <div class="bwrap"><a class="btn" href="https://buy.stripe.com/3cI6oA2uO6mm5KLfKJ5wI0h">Uzmi priručnik - 29€</a></div>
       </div>
     </div>
   </div>
@@ -503,9 +442,9 @@
       <h2>Par bitnih pitanja</h2>
     </div>
     <div class="faq">
-      <details open=""><summary><span class="q-text">Kako dobijam ebook posle kupovine?</span><span class="ic">+</span></summary><div class="ans">Odmah. Čim plaćanje prođe, link za skidanje ti stigne na mejl - bez čekanja. <br>Ako ne stigne za par minuta, proveri spam. Ako ni tamo nema, javi se i sredimo za minut.</div></details>
+      <details open=""><summary><span class="q-text">Kako dobijam priručnik posle kupovine?</span><span class="ic">+</span></summary><div class="ans">Odmah. Čim plaćanje prođe, link za skidanje ti stigne na mejl - bez čekanja. <br>Ako ne stigne za par minuta, proveri spam. Ako ni tamo nema, javi se i sredimo za minut.</div></details>
       <details><summary><span class="q-text">U kom je formatu?</span><span class="ic">+</span></summary><div class="ans">PDF. Otvaraš ga na telefonu, laptopu, tabletu - gde god. Skineš jednom i tvoj je. Čitaš kad hoćeš, koliko god puta, i bez interneta.</div></details>
-      <details><summary><span class="q-text">Za koga je namenje?</span><span class="ic">+</span></summary><div class="ans">Namenjen je za svakoga ko snima sadržaj za društvene mreže a ima problem kako da dođe do ideja koje zapravo idu viralno. Mogu da ga koriste i ljudi koji tek počinju da snimaju i oni koji su već jako dugo u tome.</div></details>
+      <details><summary><span class="q-text">Za koga je namenjen?</span><span class="ic">+</span></summary><div class="ans">Namenjen je za svakoga ko snima sadržaj za društvene mreže a ima problem kako da dođe do ideja koje zapravo idu viralno. Mogu da ga koriste i ljudi koji tek počinju da snimaju i oni koji su već jako dugo u tome.</div></details>
       <details><summary><span class="q-text">Kako se plaća?</span><span class="ic">+</span></summary><div class="ans">Karticom, online, za par klikova. Transakcija je sigurna, bez pretplate i bez skrivenih troškova. Platiš 29€ jednom i gotovo.</div></details>
       <details><summary><span class="q-text">Gde mogu da te kontaktiram?</span><span class="ic">+</span></summary><div class="ans">Možeš mi pisati na mejlu, a možeš da mi se javiš i putem instagrama na @boris.prproj. Odgovaram svima.</div></details>
     </div>
@@ -519,7 +458,7 @@
     <div class="foot-top">
       <h2>Tvoj sledeći video može biti viralan.</h2>
       <div class="ft-cta">
-        <a class="btn" href="#kupovina">Preuzmi ebook - 29€</a>
+        <a class="btn" href="#kupovina">Preuzmi priručnik - 29€</a>
         <span class="mono faint">Pristup odmah nakon kupovine</span>
       </div>
     </div>
@@ -528,7 +467,7 @@
         <div class="b">Boris <span class="sur">Vasić</span></div>
         <div class="foot-tag">EDGECUT MEDIA</div>
       </div>
-      <div class="fcol"><h4>Ebook</h4><a href="#sadrzaj">Šta te čeka</a><a href="#dokaz">Proof</a><a href="#kupovina">Kupovina</a><a href="#pitanja">FAQ</a></div>
+      <div class="fcol"><h4>Priručnik</h4><a href="#sadrzaj">Šta te čeka</a><a href="#dokaz">Proof</a><a href="#kupovina">Kupovina</a><a href="#pitanja">FAQ</a></div>
       <div class="fcol"><h4>Kontakt</h4><a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Instagram - @boris.prproj</a><a href="mailto:boris@edgecut.app">Email - boris@edgecut.app</a></div>
     </div>
     <div class="foot-bottom">
