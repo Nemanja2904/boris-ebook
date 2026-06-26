@@ -100,7 +100,8 @@
   .hero-right{display:flex;flex-direction:column;gap:14px;align-items:center}
   .hero-right .cap{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.02em}
   .cover-frame{width:100%;background:transparent}
-  .cover-frame img{display:block;width:100%;height:auto}
+  .cover-frame img{display:block;width:100%;height:auto;transform:scale(1.18);transform-origin:center}
+  @media(max-width:880px){.cover-frame img{transform:scale(1.1)}}
 
   /* strip */
   .strip{background:var(--accent);border-top:2px solid var(--bg);border-bottom:2px solid var(--bg);
@@ -352,7 +353,7 @@
     </div>
     <div class="hero-right">
       <div class="cover-frame">
-        <img src="assets/boris-cover.jpg" alt="Recept za smišljanje viralnog videa - Boris Vasić" loading="eager">
+        <img src="assets/boris-cover.png" alt="Boris Vasić" loading="eager">
       </div>
     </div>
   </div>
@@ -369,11 +370,11 @@
     <div class="steps">
       <div class="steps-track"><div class="steps-fill"></div></div>
       <div class="steps-row">
-        <div class="step"><div class="step-node">01</div><div class="step-title">Analiza usluge i ciljne grupe</div></div>
-        <div class="step"><div class="step-node">02</div><div class="step-title">Smišljanje konkretne ideje</div></div>
-        <div class="step"><div class="step-node">03</div><div class="step-title">Vrednost videa</div></div>
-        <div class="step"><div class="step-node">04</div><div class="step-title">Izbor formata</div></div>
-        <div class="step"><div class="step-node">05</div><div class="step-title">Kreiranje hook-a</div></div>
+        <div class="step"><div class="step-node">01</div><div class="step-title">Korak 1</div></div>
+        <div class="step"><div class="step-node">02</div><div class="step-title">Korak 2</div></div>
+        <div class="step"><div class="step-node">03</div><div class="step-title">Korak 3</div></div>
+        <div class="step"><div class="step-node">04</div><div class="step-title">Korak 4</div></div>
+        <div class="step"><div class="step-node">05</div><div class="step-title">Korak 5</div></div>
       </div>
     </div>
     <div class="outcome">
