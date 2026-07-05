@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="sr"><head>
 <meta charset="UTF-8">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4374976512714502');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recept za smišljanje viralnog videa - Boris Vasić</title>
@@ -433,7 +450,7 @@
       <div class="divider"></div>
       <div class="buy">
         <div class="pwrap"><span class="price">29€</span><span class="mono faint">jednom. pristup ostaje zauvek.</span></div>
-        <div class="bwrap"><a class="btn" href="https://buy.stripe.com/3cI6oA2uO6mm5KLfKJ5wI0h">Uzmi priručnik - 29€</a></div>
+        <div class="bwrap"><a class="btn" href="https://buy.stripe.com/3cI6oA2uO6mm5KLfKJ5wI0h" onclick="if(window.fbq)fbq('track','InitiateCheckout',{value:29,currency:'EUR',content_name:'Recept za viralni video'});">Uzmi priručnik - 29€</a></div>
       </div>
     </div>
   </div>
