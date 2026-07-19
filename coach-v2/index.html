@@ -107,23 +107,21 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 
   /* hero phone-reel visual */
   .hero-right{display:flex;justify-content:center;width:100%}
-  .phone{position:relative;width:238px;max-width:74vw;aspect-ratio:9/17;background:#0b0f17;border-radius:30px;
+  .hero-right{flex-direction:column;gap:12px}
+  .phone{position:relative;width:238px;max-width:74vw;background:#0b0f17;border-radius:30px;
     padding:9px;box-shadow:0 22px 50px -18px rgba(16,24,40,.4);border:1px solid #1c2432}
-  .phone-screen{position:relative;width:100%;height:100%;border-radius:23px;overflow:hidden;
-    background:linear-gradient(160deg,#12303a,#0891b2 55%,#0e7490);display:flex}
-  .phone-screen .reel-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-    color:rgba(255,255,255,.85);font-size:12px;text-align:center;padding:0 20px}
-  .phone-screen .reel-ph .pl{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);
-    display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.3)}
-  .phone-screen .reel-ph .pl::after{content:'';border-style:solid;border-width:8px 0 8px 13px;border-color:transparent transparent transparent #fff;margin-left:3px}
+  .phone-screen{position:relative;width:100%;aspect-ratio:284/438;border-radius:23px;overflow:hidden;
+    background:#12303a;display:flex}
+  .phone-screen .reel-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .phone-screen::before{content:'';position:absolute;top:0;left:0;right:0;height:72px;z-index:1;
+    background:linear-gradient(180deg,rgba(0,0,0,.45),transparent)}
+  .reel-cap{font-size:12.5px;color:var(--faint);text-align:center;max-width:238px;line-height:1.4}
   .ig-top{position:absolute;top:12px;left:12px;right:12px;display:flex;align-items:center;gap:8px;z-index:2}
   .ig-top .av{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.9);flex-shrink:0}
   .ig-top .hn{font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3)}
   .ig-side{position:absolute;right:10px;bottom:74px;display:flex;flex-direction:column;gap:15px;align-items:center;z-index:2;color:#fff}
   .ig-side .ic{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.35)}
   .ig-side .ic i{font-style:normal;font-size:19px;line-height:1}
-  .ig-cap{position:absolute;left:12px;bottom:16px;right:52px;color:#fff;font-size:11.5px;line-height:1.4;
-    text-shadow:0 1px 4px rgba(0,0,0,.4);z-index:2}
   .reel-badge{position:absolute;top:-10px;right:-10px;z-index:5;background:#fff;border:1px solid var(--accent-line);
     border-radius:14px;padding:9px 13px;box-shadow:0 10px 26px -8px rgba(16,24,40,.28);display:flex;flex-direction:column;gap:1px}
   .reel-badge b{font-size:18px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.02em}
@@ -148,6 +146,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   .case-sec{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
   .case{display:flex;flex-direction:column;gap:0;background:var(--bg);border:1px solid var(--border);
     border-radius:18px;overflow:hidden;box-shadow:0 10px 34px -16px rgba(16,24,40,.18)}
+  .case + .case{margin-top:16px}
   .case-photo{position:relative;aspect-ratio:4/3;background:linear-gradient(150deg,#1a2130,#0e7490);
     display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.82);font-size:13px;text-align:center;padding:20px}
   .case-photo .ph-note{display:flex;flex-direction:column;gap:8px;align-items:center}
@@ -160,6 +159,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   .case-num b{font-size:46px;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:.9}
   .case-num span{font-size:14px;color:var(--muted);font-weight:600}
   .case-body h3{font-size:20px}
+  .case-body h3.case-h2{font-size:24px;font-weight:800;letter-spacing:-.025em;margin-bottom:-4px}
   .case-body p{color:var(--muted);font-size:15px;line-height:1.6}
   .case-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
   .case-chips .c{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);
@@ -313,6 +313,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     .pw-clips{grid-template-columns:repeat(4,1fr)}
     .dm-row{grid-template-columns:1fr 1fr}
     .case{flex-direction:row}
+    .case.rev{flex-direction:row-reverse}
     .case-photo{aspect-ratio:auto;width:44%;min-height:320px}
     .case-body{flex:1;padding:32px}
     .foot-grid{flex-direction:row;justify-content:space-between}
@@ -360,30 +361,30 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section class="hero" id="top">
   <div class="wrap hero-inner">
     <div class="hero-left">
-      <span class="kicker">Za coacheve i edukatore</span>
+      <span class="kicker">Ako si Coach ili Edukator</span>
       <h1>20-50 novih upita za tvoj kurs ili coaching <span class="blue">svakog meseca.</span></h1>
-      <p class="lead">Šta god da prodaješ, kurs, coaching ili edukaciju, važi isto: ljudi kupuju od onog kome veruju. Pravimo organski sadržaj koji to poverenje gradi iz nedelje u nedelju. Bez dizanja budžeta za reklame.</p>
+      <p class="lead">Šta god da prodaješ, kurs, coaching ili edukaciju, važi isto: <strong>ljudi kupuju od onog kome veruju.</strong> Pravimo organski sadržaj koji to poverenje gradi iz videa u video. Bez dodatnog ulaganja u reklame.</p>
       <a class="btn" href="#poziv" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Coach hero CTA'});">Zakaži besplatan poziv</a>
       <div class="proofstrip">
-        <div class="pchip"><b>7.000</b><span>lidova iz jednog organskog videa</span></div>
-        <div class="pchip"><b>1.000+</b><span>upita za SuperDog edukaciju</span></div>
+        <div class="pchip"><b>7000</b><span>toplih lead-ova iz jednog videa</span></div>
+        <div class="pchip"><b>2200+</b><span>toplih lead-ova preko lead magneta</span></div>
         <div class="pchip"><b>0 din</b><span>uloženo u reklame</span></div>
       </div>
     </div>
     <div class="hero-right">
       <div class="phone">
         <div class="phone-screen">
+          <img class="reel-img" src="img/reel-superdog.png" alt="Reel SuperDog akademije sa 2.5 miliona pregleda" width="284" height="438">
           <div class="ig-top"><span class="av"></span><span class="hn">@superdog.akademija</span></div>
-          <div class="reel-ph"><span class="pl"></span>[ pravi reel screenshot ]</div>
           <div class="ig-side">
-            <span class="ic"><i>♥</i>4.812</span>
-            <span class="ic"><i>💬</i>390</span>
-            <span class="ic"><i>➤</i>1.2k</span>
+            <span class="ic"><i>♥</i>56.200</span>
+            <span class="ic"><i>💬</i>2.350</span>
+            <span class="ic"><i>➤</i>11.900</span>
           </div>
-          <div class="ig-cap">Kako da naučiš psa da hoda uz nogu bez povoca...</div>
         </div>
-        <div class="reel-badge"><b>1.000+</b><span>upita</span></div>
+        <div class="reel-badge"><b>7000+</b><span>leadova</span></div>
       </div>
+      <p class="reel-cap">Pošalji poruku „Šetnja" da čuješ više o kursu...</p>
     </div>
   </div>
 </section>
@@ -392,15 +393,15 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section id="problem">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">Pročitaj ovo dvaput</span>
-      <h2>Plaćeni marketing ne radi posao ako ljudi ne veruju u tebe.</h2>
+      <span class="kicker">PROČITAJ OVO DVAPUT</span>
+      <h2>Plaćene reklame ne rade posao ako ljudi <strong>ne veruju</strong> u tebe.</h2>
       <p class="lead">Možda već imaš prodaje od plaćenih reklama. Ali koliko prodaja bi imao kada bi tvoj organski sadržaj dostigao više ljudi i podigao njihovo poverenje u tebe?</p>
     </div>
     <div class="benefits">
-      <div class="benefit"><span class="chk">✓</span><div><b>Prodaja ide lakše</b><p>I ne zavisi od budžeta koji sipaš u reklame. Publika koja te prati mesecima kupuje sama, bez guranja.</p></div></div>
+      <div class="benefit"><span class="chk">✓</span><div><b>Prodaja ide lakše</b><p>Ne oslanjaš se na plaćene reklame. Publika koja te prati mesecima kupuje sama, bez forsiranja.</p></div></div>
       <div class="benefit"><span class="chk">✓</span><div><b>Reklame postaju jeftinije</b><p>Topla publika klikće i kupuje bolje od hladne. Isti budžet, više prodaja.</p></div></div>
-      <div class="benefit"><span class="chk">✓</span><div><b>Upiti stižu sami</b><p>Poruke tipa "pratim te mesecima, kako da krenem?" postaju normalna stvar u inboxu.</p></div></div>
-      <div class="benefit"><span class="chk">✓</span><div><b>Cena prestaje da bude prepreka</b><p>Kod kursa i coachinga nema cenkanja: ljudi ili kupe ili ne. Kad ti veruju, kupe.</p></div></div>
+      <div class="benefit"><span class="chk">✓</span><div><b>Upiti stižu sami</b><p>Poruke tipa "pratim te mesecima..." postaju normalna stvar.</p></div></div>
+      <div class="benefit"><span class="chk">✓</span><div><b>Cena više nije bitna</b><p>Kad ljudi steknu poverenje u tebe, cena im više nije ni bitna, jer znaju da im rešavaš problem.</p></div></div>
     </div>
   </div>
 </section>
@@ -409,24 +410,30 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section class="case-sec" id="case">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">Dokaz, ne priča</span>
-      <h2>Jedan organski video. Preko 1.000 upita.</h2>
+      <span class="kicker">AKO NE VERUJEŠ MENI, VERUJ NJIMA</span>
+      <h2>Jedan organski video. Preko 7.000 leadova.</h2>
     </div>
     <div class="case">
       <div class="case-photo">
         <div class="ph-note"><span class="ph-ic">📷</span>[ slika: Boris + Ivan (SuperDog) ]</div>
-        <span class="case-tag">SuperDog akademija</span>
+        <span class="case-tag">SuperDog Akademija</span>
       </div>
       <div class="case-body">
-        <div class="case-num"><b>1.000+</b><span>upita iz jednog videa, 7.000 lidova, 0 din reklama</span></div>
-        <h3>Online edukator za pse, klijent preko godinu dana</h3>
-        <p>Ivan vodi online edukaciju o šetnji i treningu pasa. Napravili smo mu jedan organski video koji je doseglo preko 7.000 ljudi i doneo mu preko 1.000 upita za edukaciju, bez ijednog dinara u reklame. To je snaga contenta koji gradi poverenje pre nego što bilo šta prodaješ.</p>
-        <div class="case-chips">
-          <span class="c">1 organski video</span>
-          <span class="c">7.000 lidova</span>
-          <span class="c">1.000+ upita</span>
-          <span class="c">bez reklama</span>
-        </div>
+        <div class="case-num"><b>7.000+</b><span>leadova iz jednog videa, organski, 0 din uloženo u reklame</span></div>
+        <h3>Online edukator za pse, saradnja koja traje od prvog videa</h3>
+        <p>Ivan vodi online edukaciju o šetnji i treningu pasa. Napravili smo mu jedan organski video koji je prešao 2.5 miliona pregleda i doneo preko 7.000 leadova za edukaciju, bez ijednog dinara uloženog u reklame. To je snaga contenta koji gradi poverenje pre nego što bilo šta prodaješ.</p>
+      </div>
+    </div>
+    <div class="case rev">
+      <div class="case-photo">
+        <div class="ph-note"><span class="ph-ic">📷</span>[ slika: Boris + Stefan Ćirban ]</div>
+        <span class="case-tag">Stefan Ćirban</span>
+      </div>
+      <div class="case-body">
+        <h3 class="case-h2">Redovan sadržaj. 7 high-ticket klijenata za 7 dana</h3>
+        <div class="case-num"><b>7</b><span>high-ticket klijenata, organski, 0 din uloženo u reklame</span></div>
+        <h3>Meta ADS Expert i Edukator, saradnja koja traje preko godinu dana</h3>
+        <p>Stefan ima kurs i zajednicu vezanu za Meta ADS i CRO optimizaciju, ali takođe radi i B2B. Redovno smo objavljivali kvalitetan sadržaj i sticali poverenje njegove publike, što je na kraju rezultovalo sa 7 high-ticket klijenata za samo 7 dana. Da nije bilo poverenja izgrađenog preko contenta, ne bi bilo ni tih klijenata.</p>
       </div>
     </div>
   </div>
@@ -436,13 +443,13 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section id="dobijas">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">Šta dobijaš</span>
-      <h2>Ceo content sistem. Ti podeliš znanje, mi vodimo sve ostalo.</h2>
+      <span class="kicker">ŠTA DOBIJAŠ</span>
+      <h2>Ceo content sistem. Ti deliš znanje pred kamerom, mi vodimo sve ostalo.</h2>
     </div>
     <div class="grid4">
       <div class="dcard"><span class="ic">01</span><h3>Strategija i ideje</h3><p>Uglovi koji te grade kao autoritet u tvojoj niši. Ne random objave, nego plan gde svaki klip ima svoju ulogu.</p></div>
       <div class="dcard"><span class="ic">02</span><h3>Snimanje i montaža</h3><p>Mi vodimo celu produkciju. Tvoj deo je da staneš pred kameru i podeliš ono što znaš.</p></div>
-      <div class="dcard"><span class="ic">03</span><h3>Svi formati</h3><p>Klipovi, story sekvence, carousel, highlights. Sve povezano u jedan funnel koji vodi ka prodaji.</p></div>
+      <div class="dcard"><span class="ic">03</span><h3>Svi formati</h3><p>Videi, story sekvence, carousel... Sve povezano u jedan funnel koji vodi ka prodaji.</p></div>
       <div class="dcard result"><span class="ic">→</span><h3>Rezultat</h3><p>20-50 upita mesečno od ljudi koji te već doživljavaju kao autoritet i spremni su da kupe.</p></div>
     </div>
   </div>
@@ -456,10 +463,10 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
       <div class="vrow win"><span>Content koji gradi autoritet</span><em>ljudi se javljaju</em></div>
     </div>
     <div class="bio">
-      <span class="kicker">Zašto baš mi</span>
+      <span class="kicker">ZAŠTO BAŠ MI</span>
       <h2>Content je tvoj lambo.</h2>
-      <p>Zamisli da dolaziš u pun kafić. Jednom dođeš biciklom, drugi put lambom. Isti si čovek, ali te ljudi doživljavaju potpuno drugačije.</p>
-      <p>Content radi tačno to. Onaj ko te prvi put vidi, zbog kvaliteta oseti instant poverenje i gleda te kao autoritet.</p>
+      <p>Zamisli da dolaziš u pun kafić. Jednom dođeš biciklom, drugi put lambom. Isti si čovek, ali te ljudi doživljavaju <strong>potpuno drugačije.</strong></p>
+      <p>Content radi tačno to. Onaj ko te prvi put vidi, zbog kvaliteta oseti <strong>instant poverenje i gleda te kao autoritet.</strong></p>
     </div>
   </div>
 </section>
@@ -468,7 +475,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section id="kako">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">Kako radimo</span>
+      <span class="kicker">KAKO RADIMO</span>
       <h2>Od prvog poziva do sistema koji dovodi upite</h2>
     </div>
     <div class="procs">
@@ -483,9 +490,9 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section class="proofwall" id="dokaz">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">Zid dokaza</span>
-      <h2>Ovo su pravi klipovi i prave poruke.</h2>
-      <p class="lead">Content koji smo napravili za coacheve i edukatore, i poruke koje su im stigle.</p>
+      <span class="kicker">SOCIAL PROOF</span>
+      <h2>Ovo su samo neki od primera naših rezultata</h2>
+      <p class="lead">Content koji je gradio poverenje i autoritet kod publike</p>
     </div>
     <div class="pw-clips">
       <a class="clip" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">
@@ -493,16 +500,16 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
         <span class="clip-who">@superdog.akademija</span>
       </a>
       <a class="clip" href="https://instagram.com/stefanscirban" target="_blank" rel="noopener">
+        <div class="clip-media"><span class="clip-badge">[ leadovi ]</span><div class="clip-ph"><span class="fr"></span>screenshot</div></div>
+        <span class="clip-who">@stefanscirban</span>
+      </a>
+      <a class="clip" href="https://instagram.com/ro.surovo.zdravo" target="_blank" rel="noopener">
         <div class="clip-media"><span class="clip-badge">[ pregledi ]</span><div class="clip-ph"><span class="fr"></span>screenshot</div></div>
-        <span class="clip-who">Stefan Ćirban</span>
+        <span class="clip-who">@ro.surovo.zdravo</span>
       </a>
       <a class="clip" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">
         <div class="clip-media"><span class="clip-badge">[ pregledi ]</span><div class="clip-ph"><span class="fr"></span>screenshot</div></div>
         <span class="clip-who">@superdog.akademija</span>
-      </a>
-      <a class="clip" href="https://instagram.com/stefanscirban" target="_blank" rel="noopener">
-        <div class="clip-media"><span class="clip-badge">[ pregledi ]</span><div class="clip-ph"><span class="fr"></span>screenshot</div></div>
-        <span class="clip-who">Stefan Ćirban</span>
       </a>
     </div>
 
@@ -540,9 +547,9 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
       <h2>Rezultati koje smo doneli klijentima</h2>
     </div>
     <div class="stats">
-      <div class="stat"><b>7.000</b><span>lidova iz jednog organskog videa</span></div>
-      <div class="stat"><b>1.000+</b><span>upita za SuperDog edukaciju</span></div>
-      <div class="stat"><b>1god+</b><span>koliko vodimo SuperDog</span></div>
+      <div class="stat"><b>7.000+</b><span>upita za SuperDog edukaciju</span></div>
+      <div class="stat"><b>1.000+</b><span>leadova za RO! Detox</span></div>
+      <div class="stat"><b>7</b><span>klijenata za 7 dana kod Stefana</span></div>
       <div class="stat"><b>0 din</b><span>uloženo u plaćene reklame</span></div>
     </div>
     <p class="small" style="text-align:center;margin-top:16px">Dodajemo još primera kako ih finalizujemo.</p>
@@ -564,7 +571,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     </div>
     <div class="center-cta">
       <a class="btn" href="https://calendly.com/REPLACE_ME" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Coach call CTA'});">Zakaži besplatan poziv</a>
-      <span class="small">Bez obaveze · traje 30 min</span>
+      <span class="small">Bez obaveze · 30 min</span>
     </div>
   </div>
 </section>
@@ -594,7 +601,6 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     </div>
     <div class="center-cta">
       <a class="btn" href="https://calendly.com/REPLACE_ME" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Coach final CTA'});">Zakaži besplatan poziv</a>
-      <span class="small">Bez pritiska. Kratak razgovor, jasni sledeći koraci.</span>
     </div>
   </div>
 </section>
@@ -604,10 +610,10 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   <div class="wrap reveal">
     <div class="head-block center">
       <span class="kicker">FAQ</span>
-      <h2>Par bitnih pitanja</h2>
+      <h2>Šta su nas pitali</h2>
     </div>
     <div class="faq">
-      <details open=""><summary><span class="q-text">Šta tačno dobijam?</span><span class="ic">+</span></summary><div class="ans">Ceo content sistem za tvoj Instagram. Od strategije i ideja, preko snimanja i montaže, do objavljivanja kroz sve formate: klipove, story sekvence, live, carousel, highlights. Ti se baviš svojim poslom, mi vodimo content.</div></details>
+      <details open=""><summary><span class="q-text">Šta tačno dobijam?</span><span class="ic">+</span></summary><div class="ans">Ceo content sistem za tvoj Instagram. Od strategije i ideja, preko snimanja i montaže, do objavljivanja kroz sve formate: klipove, story sekvence, carousel... Ti se baviš svojim poslom, mi vodimo content.</div></details>
       <details><summary><span class="q-text">Već puštam reklame. Zašto mi treba organski content?</span><span class="ic">+</span></summary><div class="ans">Zato što reklame dovedu čoveka, a profil ga ubedi. Kad neko klikne na oglas i vidi profil koji gradi poverenje, konverzija raste, a cena po kupcu pada. Organski content i reklame nisu ili-ili, zajedno rade najbolje.</div></details>
       <details><summary><span class="q-text">Da li moram sam da snimam?</span><span class="ic">+</span></summary><div class="ans">Ne. Preuzimamo produkciju. Tvoj deo je da budeš ispred kamere i podeliš znanje, ostalo je na nama.</div></details>
       <details><summary><span class="q-text">Za koga je ovo?</span><span class="ic">+</span></summary><div class="ans">Za coacheve, edukatore i offer ownere koji već imaju dokazanu ponudu i žele konzistentan content koji dovodi prave ljude. Ako tek počinješ i nemaš ponudu, verovatno nismo pravi izbor za sad.</div></details>
