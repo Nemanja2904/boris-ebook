@@ -22,7 +22,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <title>20-50 novih upita za tvoj kurs ili coaching svakog meseca - Edge Cut</title>
 <meta name="description" content="Organski Instagram content koji ti gradi poverenje kod publike, pa ti se ljudi javljaju spremni da kupe. Za coacheve i edukatore. Edge Cut agencija.">
 <meta property="og:title" content="20-50 novih upita za tvoj kurs ili coaching svakog meseca - Edge Cut">
-<meta property="og:description" content="Plaćeni marketing ne radi posao ako ljudi ne veruju u tebe. Pravimo organski content koji gradi poverenje i dovodi upite.">
+<meta property="og:description" content="Plaćene reklame rade još bolje kada uz njih ide formiran lični brend. Pravimo organski content koji gradi poverenje i dovodi upite.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -138,6 +138,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   .benefits{display:flex;flex-direction:column;gap:12px}
   .benefit{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 18px;
     display:flex;gap:13px;align-items:flex-start;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  .benefit .chk.x{background:#fdecec;color:#c0392b}
   .benefit .chk{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
     display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;margin-top:1px}
   .benefit div p{color:var(--muted);font-size:14.5px;line-height:1.55;margin-top:3px}
@@ -148,13 +149,10 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   .case{display:flex;flex-direction:column;gap:0;background:var(--bg);border:1px solid var(--border);
     border-radius:18px;overflow:hidden;box-shadow:0 10px 34px -16px rgba(16,24,40,.18)}
   .case + .case{margin-top:16px}
-  .case-photo{position:relative;aspect-ratio:4/3;background:linear-gradient(150deg,#1a2130,#0e7490);
-    display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.82);font-size:13px;text-align:center;padding:20px}
-  .case-photo .ph-note{display:flex;flex-direction:column;gap:8px;align-items:center}
-  .case-photo .ph-ic{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
-    display:flex;align-items:center;justify-content:center;font-size:22px}
+  .case-photo{position:relative;aspect-ratio:16/10;background:linear-gradient(150deg,#1a2130,#0e7490);overflow:hidden}
+  .case-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .case-tag{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.95);border-radius:9px;padding:6px 11px;
-    font-size:12px;font-weight:700;color:var(--accent)}
+    font-size:12px;font-weight:700;color:var(--accent);box-shadow:0 2px 10px rgba(16,24,40,.18);z-index:1}
   .case-body{padding:24px 20px 26px;display:flex;flex-direction:column;gap:16px}
   .case-num{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .case-num b{font-size:46px;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:.9}
@@ -364,13 +362,13 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   <div class="wrap hero-inner">
     <div class="hero-left">
       <span class="kicker">Ako si Coach ili Edukator</span>
-      <h1>20-50 novih upita za tvoj kurs ili coaching <span class="blue">svakog meseca.</span></h1>
+      <h1>20-50 novih upita za tvoju uslugu ili kurs <span class="blue">svakog meseca.</span></h1>
       <p class="lead">Šta god da prodaješ, kurs, coaching ili edukaciju, važi isto: <strong>ljudi kupuju od onog kome veruju.</strong> Pravimo organski sadržaj koji to poverenje gradi iz videa u video. Bez dodatnog ulaganja u reklame.</p>
       <a class="btn" href="#poziv" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Coach hero CTA'});">Zakaži besplatan poziv</a>
       <div class="proofstrip">
-        <div class="pchip"><b>7000</b><span>toplih lead-ova iz jednog videa</span></div>
+        <div class="pchip"><b>7000+</b><span>toplih lead-ova iz jednog videa</span></div>
         <div class="pchip"><b>2200+</b><span>toplih lead-ova preko lead magneta</span></div>
-        <div class="pchip"><b>0 din</b><span>uloženo u reklame</span></div>
+        <div class="pchip"><b>0$</b><span>uloženo u reklame</span></div>
       </div>
     </div>
     <div class="hero-right">
@@ -391,19 +389,34 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   </div>
 </section>
 
-<!-- PROBLEM -->
+<!-- PROBLEM (pravi problem publike) -->
 <section id="problem">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">PROČITAJ OVO DVAPUT</span>
-      <h2>Plaćene reklame ne rade posao ako ljudi <strong>ne veruju</strong> u tebe.</h2>
-      <p class="lead">Možda već imaš prodaje od plaćenih reklama. Ali koliko prodaja bi imao kada bi tvoj organski sadržaj dostigao više ljudi i podigao njihovo poverenje u tebe?</p>
+      <span class="kicker">ZVUČI POZNATO?</span>
+      <h2>Želiš da kreneš organski content, ali ne znaš odakle da kreneš?</h2>
+      <p class="lead">Razumemo te skroz. Gradiš biznis, tražiš klijente, stalno si po nekim sastancima, i još na sve to treba da snimaš za društvene mreže, jer danas <strong>ne postojiš</strong> ako nisi na društvenim mrežama. I uvek su tu isti problemi:</p>
     </div>
     <div class="benefits">
-      <div class="benefit"><span class="chk">✓</span><div><b>Prodaja ide lakše</b><p>Ne oslanjaš se na plaćene reklame. Publika koja te prati mesecima kupuje sama, bez forsiranja.</p></div></div>
-      <div class="benefit"><span class="chk">✓</span><div><b>Reklame postaju jeftinije</b><p>Topla publika klikće i kupuje bolje od hladne. Isti budžet, više prodaja.</p></div></div>
-      <div class="benefit"><span class="chk">✓</span><div><b>Upiti stižu sami</b><p>Poruke tipa "pratim te mesecima..." postaju normalna stvar.</p></div></div>
-      <div class="benefit"><span class="chk">✓</span><div><b>Cena više nije bitna</b><p>Kad ljudi steknu poverenje u tebe, cena im više nije ni bitna, jer znaju da im rešavaš problem.</p></div></div>
+      <div class="benefit"><span class="chk x">✕</span><div><b>Nemaš vremena</b><p>Smišljanje ideja, snimanje videa, montaža tih videa, content strategija... Previše posla za nekog ko pored toga treba da vodi taj isti biznis.</p></div></div>
+      <div class="benefit"><span class="chk x">✕</span><div><b>Ne znaš šta da snimiš</b><p>Znaš da radiš svoj posao, ali nisi siguran šta tvoja publika hoće. To su sati testiranja i razmišljanja koje ti nemaš.</p></div></div>
+      <div class="benefit"><span class="chk x">✕</span><div><b>Kreneš da snimaš, ali?</b><p>Ispratiš snimanja nedelju dana, sve izgleda super, ima koliko toliko pregleda, upita, ali onda dođe period sastanaka, putovanja i svega neizbežnog. Tu content najviše ispašta.</p></div></div>
+      <div class="benefit"><span class="chk x">✕</span><div><b>Loši leadovi</b><p>A kad zapravo ljudi krenu da se javljaju, to uvek budu pitanja za cenu i nakon što je čuju samo nestanu. Kvalitetan i redovan content gradi baš to poverenje i dovodi kvalitetne leadove.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEHANIZAM (organski + reklame) -->
+<section id="mehanizam">
+  <div class="wrap reveal">
+    <div class="head-block">
+      <span class="kicker">PROČITAJ OVO DVAPUT</span>
+      <h2>Organski content je osnova svakog ličnog brenda na društvenim mrežama.</h2>
+      <p class="lead">Okej, možda već prodaješ preko reklama. Ali da li ti se ikad desilo da ti se neko sam javi sa rečima „pratim te već dugo, želeo bih da radim sa tobom"?</p>
+    </div>
+    <div class="benefits">
+      <div class="benefit"><span class="chk">✓</span><div><b>Poverenje kupuje</b><p>Ako redovno „hraniš" svoju publiku kvalitetnim sadržajem, gradiš poverenje koje će drastično podići prodaju.</p></div></div>
+      <div class="benefit"><span class="chk">✓</span><div><b>Organski content radi zauvek</b><p>Reklama radi dok traje budžet. Organski video ostaje na profilu i skuplja poverenje svaki dan, besplatno.</p></div></div>
     </div>
   </div>
 </section>
@@ -417,27 +430,27 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     </div>
     <div class="case">
       <div class="case-photo">
-        <div class="ph-note"><span class="ph-ic">📷</span>[ slika: Boris + Ivan (SuperDog) ]</div>
+        <img src="img/case-ivan.jpg" width="1000" height="625" loading="lazy" alt="Boris iz Edge Cut-a u razgovoru sa Ivanom, osnivačem SuperDog Akademije">
         <span class="case-tag">SuperDog Akademija</span>
       </div>
       <div class="case-body">
         <div class="case-num"><b>7.000+</b><span>leadova iz jednog videa, organski, 0 din uloženo u reklame</span></div>
         <h3>Online edukator za pse, saradnja koja traje od prvog videa</h3>
-        <p>Ivan vodi online edukaciju o šetnji i treningu pasa. Napravili smo mu jedan organski video koji je prešao 2.5 miliona pregleda i doneo preko 7.000 leadova za edukaciju, bez ijednog dinara uloženog u reklame. To je snaga contenta koji gradi poverenje pre nego što bilo šta prodaješ.</p>
+        <p>Ivan vodi online edukaciju o šetnji i treningu pasa. Videe smo rotirali na svaka dva dana i merili šta prolazi, dok nismo tačno znali koje poruke pogađaju njegovu publiku. Onda smo objavili video koji je bio zbir svega naučenog: prešao je 2.5 miliona pregleda i doneo preko 7.000 leadova za edukaciju. Bez ijednog dinara u reklame.</p>
       </div>
     </div>
     <div class="head-block right mt">
-      <h2>Redovan sadržaj. 7 high-ticket klijenata za 7 dana</h2>
+      <h2>7 dana kampanje. Preko 60.000 € vrednosti sklopljenih ugovora.</h2>
     </div>
     <div class="case rev">
       <div class="case-photo">
-        <div class="ph-note"><span class="ph-ic">📷</span>[ slika: Boris + Stefan Šćirban ]</div>
+        <img src="img/case-stefan.jpg" width="1000" height="625" loading="lazy" alt="Boris iz Edge Cut-a u razgovoru sa Stefanom Šćirbanom">
         <span class="case-tag">Stefan Šćirban</span>
       </div>
       <div class="case-body">
-        <div class="case-num"><b>7</b><span>high-ticket klijenata, organski, 0 din uloženo u reklame</span></div>
-        <h3>Meta ADS Expert i Edukator, saradnja koja traje preko godinu dana</h3>
-        <p>Stefan ima kurs i zajednicu vezanu za Meta ADS i CRO optimizaciju, ali takođe radi i B2B. Redovno smo objavljivali kvalitetan sadržaj i sticali poverenje njegove publike, što je na kraju rezultovalo sa 7 high-ticket klijenata za samo 7 dana. Da nije bilo poverenja izgrađenog preko contenta, ne bi bilo ni tih klijenata.</p>
+        <div class="case-num"><b>60.000 €</b><span>vrednost sklopljenih ugovora, organski, 0 din uloženo u reklame</span></div>
+        <h3>Stefan Šćirban, Meta ADS ekspert i edukator, saradnja duga dve godine</h3>
+        <p>Stefan prodaje kurs i zajednicu za Meta ADS i CRO optimizaciju, a radi i B2B. Tokom jedne fokusirane kampanje, content je za 7 dana doneo leadove iz kojih je sklopljeno 7 high-ticket ugovora, ukupno vrednih preko 60.000 evra. Stefan je jedan od naših prvih klijenata. Dve godine kasnije i dalje radimo zajedno, a njegov deo posla je i dalje samo da stane pred kameru i deli svoje znanje.</p>
       </div>
     </div>
   </div>
@@ -447,30 +460,14 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
 <section id="dobijas">
   <div class="wrap reveal">
     <div class="head-block">
-      <span class="kicker">ŠTA DOBIJAŠ</span>
-      <h2>Ceo content sistem. Ti deliš znanje pred kamerom, mi vodimo sve ostalo.</h2>
+      <span class="kicker">ŠTA REŠAVAMO</span>
+      <h2>Klijenti nam dolaze sa ista tri problema. Ti deliš znanje pred kamerom, <strong>sve ostalo prelazi na nas.</strong></h2>
     </div>
     <div class="grid4">
-      <div class="dcard"><span class="ic">01</span><h3>Strategija i ideje</h3><p>Uglovi koji te grade kao autoritet u tvojoj niši. Ne random objave, nego plan gde svaki klip ima svoju ulogu.</p></div>
-      <div class="dcard"><span class="ic">02</span><h3>Snimanje i montaža</h3><p>Mi vodimo celu produkciju. Tvoj deo je da staneš pred kameru i podeliš ono što znaš.</p></div>
-      <div class="dcard"><span class="ic">03</span><h3>Svi formati</h3><p>Videi, story sekvence, carousel... Sve povezano u jedan funnel koji vodi ka prodaji.</p></div>
-      <div class="dcard result"><span class="ic">→</span><h3>Rezultat</h3><p>20-50 upita mesečno od ljudi koji te već doživljavaju kao autoritet i spremni su da kupe.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ZAŠTO BAŠ MI -->
-<section id="zasto">
-  <div class="wrap reveal split">
-    <div class="story-visual">
-      <div class="vrow"><span>Prosečan content</span><em>ljudi skroluju dalje</em></div>
-      <div class="vrow win"><span>Content koji gradi autoritet</span><em>ljudi se javljaju</em></div>
-    </div>
-    <div class="bio">
-      <span class="kicker">ZAŠTO BAŠ MI</span>
-      <h2>Content je tvoj lambo.</h2>
-      <p>Zamisli da dolaziš u pun kafić. Jednom dođeš biciklom, drugi put lambom. Isti si čovek, ali te ljudi doživljavaju <strong>potpuno drugačije.</strong></p>
-      <p>Content radi tačno to. Onaj ko te prvi put vidi, zbog kvaliteta oseti <strong>instant poverenje i gleda te kao autoritet.</strong></p>
+      <div class="dcard"><span class="ic">01</span><h3>Manjak vremena</h3><p>Content koji je klijente ranije koštao sate i sate mesečno kod nas traje <strong>tri</strong>. Jedan termin snimanja, materijal za ceo mesec.</p></div>
+      <div class="dcard"><span class="ic">02</span><h3>Smišljanje ideja</h3><p>Prvih par videa testiramo više uglova i gledamo na šta tvoja publika stvarno reaguje. Onda dupliramo ono što radi. Tako je nastalo više desetina viralnih videa.</p></div>
+      <div class="dcard"><span class="ic">03</span><h3>Konzistentnost</h3><p>Plan, snimanje, montaža, objava. Sve ide po rasporedu koji ne zavisi od tvog vremena, pa profil radi i kad ti nisi pri računaru.</p></div>
+      <div class="dcard result"><span class="ic">→</span><h3>Rezultat</h3><p>20-50 upita mesečno od ljudi koji te već doživljavaju kao autoritet. A ti o kontentu ne razmišljaš uopšte.</p></div>
     </div>
   </div>
 </section>
@@ -484,7 +481,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     </div>
     <div class="procs">
       <div class="proc"><div class="num">1</div><h3>Besplatan poziv</h3><p>Analiziramo tvoj profil, ponudu i publiku. Kažemo ti tačno gde gubiš poverenje i gde su najveće prilike.</p></div>
-      <div class="proc"><div class="num">2</div><h3>Content sistem</h3><p>Pravimo plan koji koristi sve što Instagram nudi: klipove, story sekvence, live, carousel, highlights. Sve povezano u jednu priču.</p></div>
+      <div class="proc"><div class="num">2</div><h3>Content sistem</h3><p>Pravimo plan koji koristi sve što Instagram nudi: videe, story sekvence, carousel, trials. Sve povezano u jednu priču.</p></div>
       <div class="proc"><div class="num">3</div><h3>Konzistentna produkcija</h3><p>Preuzimamo snimanje i montažu. Ti se baviš svojim poslom, mi te gradimo kao autoritet iz meseca u mesec.</p></div>
     </div>
   </div>
@@ -543,22 +540,6 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   </div>
 </section>
 
-<!-- BROJEVI (samo pravi) -->
-<section id="brojevi">
-  <div class="wrap reveal">
-    <div class="head-block center">
-      <span class="kicker">Brojevi</span>
-      <h2>Rezultati koje smo doneli klijentima</h2>
-    </div>
-    <div class="stats">
-      <div class="stat"><b>7.000+</b><span>upita za SuperDog edukaciju</span></div>
-      <div class="stat"><b>1.000+</b><span>leadova za RO! Detox</span></div>
-      <div class="stat"><b>7</b><span>klijenata za 7 dana kod Stefana</span></div>
-      <div class="stat"><b>0 din</b><span>uloženo u plaćene reklame</span></div>
-    </div>
-  </div>
-</section>
-
 <!-- BESPLATAN POZIV -->
 <section class="call-sec" id="poziv">
   <div class="wrap reveal">
@@ -591,7 +572,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
         <span class="htag">Ostaje isto</span>
         <h3>Nastaviš sam</h3>
         <div class="li"><span class="mk">✕</span><span>Snimaš kad stigneš, bez sistema iza toga.</span></div>
-        <div class="li"><span class="mk">✕</span><span>Plaćaš reklame koje guraju hladnu publiku koja ti ne veruje.</span></div>
+        <div class="li"><span class="mk">✕</span><span>Reklame guraš na hladnu publiku, pa svaki upit plaćaš skuplje nego što moraš.</span></div>
         <div class="li"><span class="mk">✕</span><span>Gledaš kako te ljudi prate, ali ne kupuju.</span></div>
       </div>
       <div class="bcard go">
