@@ -207,18 +207,40 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   /* DM / message screenshots */
   .pw-msgs{display:flex;flex-direction:column;gap:14px;margin-top:26px}
   .pw-msgs-h{font-size:14px;font-weight:700;color:var(--muted);text-align:center}
-  .dm-row{display:grid;grid-template-columns:1fr;gap:14px}
-  .dm{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 16px 14px;
-    box-shadow:0 4px 16px -10px rgba(16,24,40,.16)}
-  .dm-head{display:flex;align-items:center;gap:9px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--border)}
-  .dm-head .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0e7490);flex-shrink:0}
-  .dm-head .who{font-size:13px;font-weight:700}
-  .dm-head .who span{display:block;font-size:11px;color:var(--faint);font-weight:500}
-  .dm-bubbles{display:flex;flex-direction:column;gap:8px}
-  .bub{max-width:88%;padding:10px 13px;border-radius:15px;font-size:13.5px;line-height:1.45}
-  .bub.in{align-self:flex-start;background:var(--bg);border:1px solid var(--border);border-bottom-left-radius:5px;color:var(--text)}
-  .bub.out{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:5px}
-  .dm-photo-note{font-size:11px;color:var(--faint);text-align:center;margin-top:8px;font-style:italic}
+  /* prava prepiska sa Anom (screenshotovi iz WhatsApp grupe) */
+  .wa-row{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+  .wa{background:#161717;border:1px solid #2b2d2d;border-radius:16px;overflow:hidden;
+      box-shadow:0 10px 30px -14px rgba(15,23,42,.35)}
+  .wa-top{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#202222;border-bottom:1px solid #101111}
+  .wa-top .av{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+              background:linear-gradient(135deg,#f0abfc,#a78bfa 45%,#38bdf8)}
+  .wa-top b{display:block;font-size:14px;font-weight:600;color:#e9edef;letter-spacing:-.01em}
+  .wa-top span{display:block;font-size:11.5px;color:#8b9497}
+  .wa-shot img{width:100%;display:block}
+  .wa-voice-zone{padding:2px 14px 12px;display:flex;flex-direction:column;gap:9px}
+  .wa-b.voice{align-self:flex-start;width:100%;max-width:340px;background:#242626;border-radius:9px;border-top-left-radius:2px;
+        padding:8px 11px 5px;color:#e9edef;box-shadow:0 1px 1px rgba(0,0,0,.25);cursor:pointer}
+  .wa-b audio{display:none}
+  .vn-player{display:flex;align-items:center;gap:10px;padding:2px 0 4px}
+  .vn-play{width:38px;height:38px;flex-shrink:0;border:0;border-radius:50%;background:#00a884;
+           display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;position:relative}
+  .vn-play svg{width:15px;height:15px;fill:#fff}
+  .vn-play .ic-pause{display:none}
+  .wa-b.playing .vn-play .ic-play{display:none}
+  .wa-b.playing .vn-play .ic-pause{display:block}
+  @keyframes vnpulse{0%{box-shadow:0 0 0 0 rgba(0,168,132,.55)}70%{box-shadow:0 0 0 13px rgba(0,168,132,0)}100%{box-shadow:0 0 0 0 rgba(0,168,132,0)}}
+  .wa-b.voice:not(.started) .vn-play{animation:vnpulse 1.8s ease-out infinite}
+  .vn-wave{flex:1;display:flex;align-items:center;gap:2px;height:24px;min-width:0;cursor:pointer}
+  .vn-wave i{flex:1;background:#8696a0;border-radius:2px;transition:background .12s linear}
+  .vn-wave i.on{background:#53bdeb}
+  .vn-time{font-size:11px;color:#8b9497;font-variant-numeric:tabular-nums;flex-shrink:0}
+  .wa-b.voice time{display:block;text-align:right;font-size:10.5px;color:#8b9497;margin-top:2px;letter-spacing:.01em}
+  .vn-hint{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#00a884}
+  .vn-hint::before{content:"";width:7px;height:7px;border-radius:50%;background:#00a884;flex-shrink:0;animation:vnpulse 1.8s ease-out infinite}
+  .wa.played .vn-hint{color:#8b9497}
+  .wa.played .vn-hint::before{animation:none;background:#8b9497}
+  .vn-quote{max-width:640px;margin:12px auto 0;font-size:13.5px;line-height:1.55;color:var(--muted);text-align:center}
+  .vn-quote b{color:var(--text);font-weight:600}
 
   /* call value */
   .call-sec{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -295,7 +317,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     .call-items{display:grid;grid-template-columns:repeat(3,1fr)}
     .binary{display:grid;grid-template-columns:1fr 1fr}
     .pw-clips{grid-template-columns:repeat(4,1fr)}
-    .dm-row{grid-template-columns:1fr 1fr}
+    .wa-row{grid-template-columns:1fr 1fr}
     .case{flex-direction:row}
     .case.rev{flex-direction:row-reverse}
     .head-block.right{align-items:flex-end;text-align:right}
@@ -412,9 +434,8 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     </div>
     <div class="case">
       <div class="case-photo">
-        <!-- <img src="img/case-ana.jpg" width="1000" height="625" loading="lazy" alt="Ana iz Studija lepote Ana u svom salonu"> -->
-        <span class="ph-note">[ ovde ide slika: kadar sa Anom iz salona ili razgovora ]</span>
-        <span class="case-tag">Studio lepote Ana</span>
+        <img src="img/case-ana.jpg" width="1400" height="875" loading="lazy" alt="Snimanje u Aninom salonu: kamera na stativu, zelene stolice i radno mesto Studija lepote Ana">
+        <span class="case-tag">Snimanje u Aninom salonu</span>
       </div>
       <div class="case-body">
         <div class="case-num"><b>2x</b><span>veća zarada, organski, 0 din uloženo u reklame</span></div>
@@ -485,27 +506,42 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     </div>
 
     <div class="pw-msgs">
-      <div class="pw-msgs-h">Poruke koje stižu kad ljudi požele baš tebe</div>
-      <div class="dm-row">
-        <div class="dm">
-          <div class="dm-head"><span class="av"></span><span class="who">Instagram DM<span>[ pravi screenshot poruke ]</span></span></div>
-          <div class="dm-bubbles">
-            <div class="bub in">Gledam vaše videe već mesecima i skupila sam hrabrost 😄</div>
-            <div class="bub in">Hoću baš kod vas da dođem. Jel ima termin sledeće nedelje?</div>
-            <div class="bub out">Ima naravno, javljam vam slobodne termine 🙌</div>
+      <div class="pw-msgs-h">Iz naše prepiske sa Anom, dok su brojke rasle</div>
+      <div class="wa-row">
+        <div class="wa">
+          <div class="wa-top">
+            <span class="av"></span>
+            <span><b>Ana</b><span>dan kad je salon prešao 10.000 pratilaca</span></span>
           </div>
-          <div class="dm-photo-note">ovde ide pravi screenshot poruke mušterije</div>
+          <div class="wa-shot"><img src="img/wa-ana-1.png" loading="lazy" alt="Prepiska sa Anom: Instagram 10.000 pratilaca, Facebook 12.000, prelazimo u petocifreno. Ana odgovara: Bravoooooo"></div>
         </div>
-        <div class="dm">
-          <div class="dm-head"><span class="av"></span><span class="who">Instagram DM<span>[ pravi screenshot poruke ]</span></span></div>
-          <div class="dm-bubbles">
-            <div class="bub in">Ovaj video o farbanju mi je otvorio oči 😅</div>
-            <div class="bub in">Koliko unapred se zakazuje kod vas?</div>
-            <div class="bub out">Šaljem vam sve odmah u poruci 👍</div>
+        <div class="wa" id="waVoice">
+          <div class="wa-top">
+            <span class="av"></span>
+            <span><b>Ana</b><span>veče kad je klip eksplodirao, poslala nam glasovnu</span></span>
           </div>
-          <div class="dm-photo-note">ovde ide pravi screenshot poruke mušterije</div>
+          <div class="wa-shot"><img src="img/wa-ana-2.png" loading="lazy" alt="Prepiska sa Anom: 6000, rastemo fenomenalno. Trenutno Facebook i Instagram imaju preko 13.000 pratilaca"></div>
+          <div class="wa-voice-zone">
+            <div class="wa-b voice" data-dur="16">
+              <div class="vn-player">
+                <button class="vn-play" type="button" aria-label="Pusti Aninu glasovnu poruku">
+                  <svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="ic-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+                <div class="vn-wave" aria-hidden="true"></div>
+                <span class="vn-time">0:16</span>
+              </div>
+              <audio preload="none">
+                <source src="audio/ana-poruka.ogg" type="audio/ogg">
+                <source src="audio/ana-poruka.m4a" type="audio/mp4">
+              </audio>
+              <time>9:52 pm</time>
+            </div>
+            <div class="vn-hint">Pusti glasovnu: 16 sekundi Anine reakcije uživo</div>
+          </div>
         </div>
       </div>
+      <p class="vn-quote"><b>Iz glasovne:</b> „Ja tek sad vidim, čujem telefon, moj telefon je poludeo. Šta se ovo dešava, čoveče? Nemam reči. Ajde neko od vas da odgovara na poruke, ako može.”</p>
     </div>
   </div>
 </section>
@@ -524,7 +560,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
       <div class="call-item"><span class="n">Realna procena</span><h3>Šta tvoj profil realno može</h3><p>Bez naduvanih obećanja. Realno ti kažemo dokle tvoj profil može da dogura i za koliko vremena.</p></div>
     </div>
     <div class="center-cta">
-      <a class="btn" href="https://calendly.com/REPLACE_ME" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty call CTA'});">Zakaži besplatan poziv</a>
+      <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty call CTA'});">Zakaži besplatan poziv</a>
       <span class="small">Bez obaveze · 30 min</span>
     </div>
   </div>
@@ -554,7 +590,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
       </div>
     </div>
     <div class="center-cta">
-      <a class="btn" href="https://calendly.com/REPLACE_ME" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty final CTA'});">Zakaži besplatan poziv</a>
+      <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty final CTA'});">Zakaži besplatan poziv</a>
     </div>
   </div>
 </section>
@@ -584,7 +620,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     <div class="foot-top">
       <h2>Tvoj rad zaslužuje mušterije koje žele baš tebe. Hajde da ih dovedemo.</h2>
       <div class="ft-cta">
-        <a class="btn" href="https://calendly.com/REPLACE_ME" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty footer CTA'});">Zakaži besplatan poziv</a>
+        <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty footer CTA'});">Zakaži besplatan poziv</a>
         <span class="small">Odgovaramo u roku od 24h</span>
       </div>
     </div>
@@ -624,6 +660,55 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   }, {passive:true});
   document.querySelectorAll('.faq details').forEach(function(d){
     d.addEventListener('toggle',function(){ if(d.open){ document.querySelectorAll('.faq details').forEach(function(o){ if(o!==d) o.open=false; }); } });
+  });
+  // glasovna poruka: custom player nad <audio>
+  document.querySelectorAll('.wa-b.voice').forEach(function(vn){
+    var audio = vn.querySelector('audio');
+    var btn   = vn.querySelector('.vn-play');
+    var wave  = vn.querySelector('.vn-wave');
+    var time  = vn.querySelector('.vn-time');
+    if(!audio || !btn || !wave) return;
+    var N = 44, bars = [];
+    for(var i=0;i<N;i++){
+      var b = document.createElement('i');
+      // pseudo-talasna forma, deterministicna da svaki put izgleda isto
+      var h = 22 + Math.round(Math.abs(Math.sin(i*1.7)*Math.cos(i*0.6)) * 78);
+      b.style.height = h + '%';
+      wave.appendChild(b); bars.push(b);
+    }
+    function fmt(s){ s = Math.max(0, Math.floor(s||0)); return Math.floor(s/60) + ':' + ('0' + (s%60)).slice(-2); }
+    function paint(){
+      var p = audio.duration ? audio.currentTime / audio.duration : 0;
+      var k = Math.round(p * N);
+      bars.forEach(function(b,i){ b.classList.toggle('on', i < k); });
+      // dok stoji na pocetku pise ukupno trajanje, kao u WhatsAppu
+      var idle = audio.paused && audio.currentTime === 0;
+      time.textContent = idle ? fmt(audio.duration || +vn.dataset.dur || 0) : fmt(audio.currentTime);
+    }
+    function toggle(){
+      if(audio.paused){
+        // samo jedna poruka svira u isto vreme
+        document.querySelectorAll('.wa-b.voice audio').forEach(function(a){ if(a!==audio) a.pause(); });
+        audio.play().then(function(){
+          vn.classList.add('started');
+          var card = vn.closest('.wa'); if(card) card.classList.add('played');
+          if(window.fbq) fbq('track','ViewContent',{content_name:'Beauty glasovna poruka'});
+        }).catch(function(){ vn.classList.remove('playing'); });
+      } else audio.pause();
+    }
+    // klik bilo gde na baloncic pusta/pauzira (talas ima svoje premotavanje)
+    vn.addEventListener('click', function(e){ if(!wave.contains(e.target)) toggle(); });
+    wave.addEventListener('click', function(e){
+      if(!audio.duration) return;
+      var r = wave.getBoundingClientRect();
+      audio.currentTime = Math.min(audio.duration, Math.max(0, (e.clientX - r.left) / r.width) * audio.duration);
+      paint();
+    });
+    audio.addEventListener('play',  function(){ vn.classList.add('playing'); });
+    audio.addEventListener('pause', function(){ vn.classList.remove('playing'); });
+    audio.addEventListener('ended', function(){ vn.classList.remove('playing'); audio.currentTime = 0; paint(); });
+    audio.addEventListener('timeupdate', paint);
+    audio.addEventListener('loadedmetadata', function(){ time.textContent = fmt(audio.duration); });
   });
   // sticky mobile CTA: scroll listener (pouzdanije od IntersectionObservera)
   (function(){
