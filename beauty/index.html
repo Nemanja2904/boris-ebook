@@ -157,6 +157,8 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
   .case + .case{margin-top:16px}
   .case-photo{position:relative;aspect-ratio:16/10;background:linear-gradient(150deg,#1a2130,#0e7490);overflow:hidden}
   .case-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .case-photo.is-video{aspect-ratio:16/9;background:#000}
+  .case-photo.is-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#000}
   .case-photo .ph-note{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     color:rgba(255,255,255,.75);font-size:12.5px;text-align:center;padding:20px}
   .case-tag{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.95);border-radius:9px;padding:6px 11px;
@@ -323,6 +325,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     .head-block.right{align-items:flex-end;text-align:right}
     .head-block.right h2{margin-left:auto}
     .case-photo{aspect-ratio:auto;width:44%;min-height:320px}
+    .case-photo.is-video{aspect-ratio:16/9;width:52%;min-height:0;align-self:center}
     .case-body{flex:1;padding:32px}
     .foot-grid{flex-direction:row;justify-content:space-between}
     .foot-top{flex-direction:row;justify-content:space-between;align-items:flex-end}
@@ -345,6 +348,7 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
     .head-block{gap:15px;margin-bottom:44px}
     .grid4{grid-template-columns:repeat(4,1fr)}
     .case-photo{width:42%}
+    .case-photo.is-video{width:50%}
   }
 </style>
 </head>
@@ -433,9 +437,10 @@ src="https://www.facebook.com/tr?id=REPLACE_PIXEL_ID&ev=PageView&noscript=1"/></
       <h2>Ana je <span class="blue">duplirala zaradu</span> salona otkad snimamo zajedno.</h2>
     </div>
     <div class="case">
-      <div class="case-photo">
-        <img src="img/case-ana.jpg" width="1400" height="875" loading="lazy" alt="Snimanje u Aninom salonu: kamera na stativu, zelene stolice i radno mesto Studija lepote Ana">
-        <span class="case-tag">Snimanje u Aninom salonu</span>
+      <div class="case-photo is-video">
+        <video src="video/ana-testimonijal.mp4" poster="video/ana-testimonijal-poster.jpg"
+               controls preload="none" playsinline width="1280" height="720"></video>
+        <span class="case-tag">Ana o saradnji</span>
       </div>
       <div class="case-body">
         <div class="case-num"><b>2x</b><span>veća zarada, organski, 0 din uloženo u reklame</span></div>
