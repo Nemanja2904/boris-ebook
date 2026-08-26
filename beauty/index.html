@@ -361,7 +361,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
     <div class="nav-right">
       <a class="nav-link" href="#dokaz">Rezultati</a>
       <a class="nav-link" href="#kako">Kako radimo</a>
-      <a class="btn sm" href="#poziv" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty nav CTA'});">Zakaži poziv →</a>
+      <a class="btn sm" href="#poziv" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty nav CTA'});">Zakaži poziv →</a>
     </div>
   </div>
 </header>
@@ -373,7 +373,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
       <span class="kicker">Za beauty i wellness salone</span>
       <h1>Dovodimo ti nove mušterije koje <span class="blue">ne pitaju za cenu</span></h1>
       <p class="lead">Svima je potrebna nega kose, lica, pa tako i ostatka tela. Ali ljudi ne znaju kako da izaberu pravu osobu za njih. Društvene mreže su pune salona koji se snimaju, ali ističu se oni koji daju najveću vrednost. Ljudi idu kod osobe u koje su stekli poverenje da zna da reši njihov problem.</p>
-      <a class="btn" href="#poziv" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty hero CTA'});">Zakaži besplatan poziv</a>
+      <a class="btn" href="#poziv" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty hero CTA'});">Zakaži besplatan poziv</a>
       <div class="proofstrip">
         <div class="pchip"><b>3x</b><span>veća zarada salona otkad snimamo zajedno</span></div>
         <div class="pchip"><b>Milionski</b><span>pregledi na klipovima naših klijenata</span></div>
@@ -565,7 +565,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
       <div class="call-item"><span class="n">Realna procena</span><h3>Šta tvoj profil realno može</h3><p>Bez naduvanih obećanja. Realno ti kažemo dokle tvoj profil može da dogura i za koliko vremena.</p></div>
     </div>
     <div class="center-cta">
-      <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty call CTA'});">Zakaži besplatan poziv</a>
+      <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty call CTA'});">Zakaži besplatan poziv</a>
       <span class="small">Bez obaveze · 30 min</span>
     </div>
   </div>
@@ -595,7 +595,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
       </div>
     </div>
     <div class="center-cta">
-      <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty final CTA'});">Zakaži besplatan poziv</a>
+      <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty final CTA'});">Zakaži besplatan poziv</a>
     </div>
   </div>
 </section>
@@ -625,7 +625,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
     <div class="foot-top">
       <h2>Tvoj rad zaslužuje mušterije koje žele baš tebe. Hajde da ih dovedemo.</h2>
       <div class="ft-cta">
-        <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty footer CTA'});">Zakaži besplatan poziv</a>
+        <a class="btn" href="https://calendly.com/borisprproj-edgecut/30min" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty footer CTA'});">Zakaži besplatan poziv</a>
         <span class="small">Odgovaramo u roku od 24h</span>
       </div>
     </div>
@@ -647,7 +647,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-cta" id="stickyCta">
-  <a class="btn" href="#poziv" onclick="if(window.fbq)fbq('track','Lead',{content_name:'Beauty sticky CTA'});">Zakaži besplatan poziv →</a>
+  <a class="btn" href="#poziv" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty sticky CTA'});">Zakaži besplatan poziv →</a>
 </div>
 
 <script>
@@ -739,6 +739,21 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
     window.addEventListener('scroll', onScroll, {passive:true});
     window.addEventListener('resize', onScroll, {passive:true});
     update();
+  })();
+
+  // UTM prosledjivanje: reklama -> landing -> Calendly -> hvala stranica.
+  // Calendly nativno prima utm_* i vraca ih na redirect URL, pa konverzija
+  // na /beauty/hvala/ zna iz koje kampanje je dosla.
+  (function(){
+    var src = new URLSearchParams(window.location.search);
+    var pass = new URLSearchParams();
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
+      var v = src.get(k); if(v) pass.set(k, v);
+    });
+    if(!pass.toString()) return;
+    document.querySelectorAll('a[href*="calendly.com"]').forEach(function(a){
+      a.href = a.href + (a.href.indexOf('?') > -1 ? '&' : '?') + pass.toString();
+    });
   })();
 </script>
 

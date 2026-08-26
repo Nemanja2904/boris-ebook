@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4374976512714502');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Poziv je zakazan - Edge Cut</title>
+<meta name="description" content="Poziv je zakazan. Potvrda ti je stigla na mejl.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f8fa;
+    --surface:#ffffff;
+    --border:#e6e8ee;
+    --text:#111827;
+    --muted:#4b5563;
+    --faint:#6b7280;
+    --accent:#0891b2;
+    --accent-dark:#0e7490;
+    --accent-soft:#e6f7fa;
+    --accent-line:#c8ecf4;
+    --dark:#111827;
+    --dark-text:#f3f4f6;
+    --dark-muted:#9ca3af;
+    --dark-border:#293040;
+    --maxw:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    display:flex;flex-direction:column;min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--accent);color:#fff}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;width:100%}
+  .kicker{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.01em}
+  h1,h2,h3{font-weight:800;letter-spacing:-.025em;line-height:1.1}
+  h1{font-size:31px;line-height:1.1}
+  h2{font-size:22px;font-weight:800}
+  h3{font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+  .lead{font-size:16.5px;color:var(--muted);line-height:1.6}
+  .small{font-size:13px;color:var(--faint)}
+  section{padding:44px 18px;position:relative}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;
+    background:var(--accent);color:#fff;border:none;border-radius:12px;padding:16px 26px;cursor:pointer;min-height:52px;
+    transition:background .18s ease, transform .18s ease, box-shadow .2s ease;letter-spacing:-.01em;
+    box-shadow:0 1px 2px rgba(16,24,40,.1);
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn:hover{background:var(--accent-dark);box-shadow:0 6px 16px -6px rgba(8,145,178,.45)}
+  .btn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--border);box-shadow:none}
+  .btn.ghost:hover{background:var(--bg);border-color:var(--accent-line);box-shadow:none}
+
+  header{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:62px;padding:0 16px;max-width:var(--maxw);margin:0 auto}
+  .brand{display:inline-block;font-weight:800;font-size:20px;letter-spacing:-.025em}
+  .brand .sur{color:var(--accent)}
+  .nav .small{display:none}
+
+  /* hero */
+  .hero{padding-top:44px;padding-bottom:40px;background:var(--surface);border-bottom:1px solid var(--border)}
+  .hero-inner{display:flex;flex-direction:column;gap:22px;align-items:flex-start}
+  .check{
+    width:60px;height:60px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--accent-line);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .check svg{width:30px;height:30px;stroke:var(--accent);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .check svg path{stroke-dasharray:32;stroke-dashoffset:32;animation:draw .5s .15s ease forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .hero h1{max-width:640px}
+  .hero .lead{max-width:600px}
+
+  /* booking card */
+  .bcard{
+    background:var(--surface);border:1px solid var(--accent-line);border-radius:16px;padding:20px;
+    display:flex;flex-direction:column;gap:14px;width:100%;max-width:540px;
+    box-shadow:0 10px 30px -18px rgba(16,24,40,.3);
+  }
+  .bcard .bhead{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.02em;text-transform:uppercase}
+  .brow{display:flex;gap:12px;align-items:flex-start;padding-top:14px;border-top:1px solid var(--border)}
+  .brow.first{padding-top:0;border-top:none}
+  .brow .ic{
+    width:34px;height:34px;border-radius:9px;background:var(--bg);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px
+  }
+  .brow .bx{min-width:0;flex:1;display:block}
+  .brow .bl{display:block;font-size:11.5px;color:var(--faint);font-weight:600;letter-spacing:.01em}
+  .brow .bv{display:block;font-size:15.5px;font-weight:700;letter-spacing:-.01em;line-height:1.35;word-break:break-word}
+  .brow .bv.sm2{font-size:14px;font-weight:600;color:var(--muted)}
+
+  /* steps */
+  .steps{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+  .step{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:17px 18px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  .step .n{
+    width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);
+    border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:800;flex-shrink:0;margin-top:1px
+  }
+  .step .sx{display:block}
+  .step .sx p{font-size:14.5px;color:var(--muted);margin-top:3px;line-height:1.55}
+
+  /* prep list */
+  .prep{background:var(--dark);color:var(--dark-text);border-radius:16px;padding:24px 20px;margin-top:26px}
+  .prep h2{color:#fff;font-size:20px}
+  .prep .plead{color:var(--dark-muted);font-size:14.5px;margin-top:8px;line-height:1.6}
+  .plist{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+  .plist li{list-style:none;display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--dark-text);line-height:1.5}
+  .plist li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
+
+  .after{display:flex;flex-direction:column;gap:12px;margin-top:26px;align-items:flex-start}
+
+  footer{margin-top:auto;background:var(--dark);color:var(--dark-muted);padding:26px 18px}
+  .foot{display:flex;flex-direction:column;gap:12px;align-items:flex-start;max-width:var(--maxw);margin:0 auto}
+  .foot .b{font-weight:800;font-size:18px;color:#fff;letter-spacing:-.025em}
+  .foot .b .sur{color:var(--accent)}
+  .foot-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px}
+  .foot-links a:hover{color:#fff}
+  .foot .legal{font-size:12px;color:#6b7280}
+
+  @media (min-width:760px){
+    h1{font-size:44px}
+    h2{font-size:26px}
+    section{padding:60px 24px}
+    .hero{padding-top:64px;padding-bottom:56px}
+    .nav .small{display:block;color:var(--faint)}
+    .steps{flex-direction:row}
+    .step{flex:1}
+    .prep{padding:34px 32px}
+    .after{flex-direction:row;align-items:center;gap:16px}
+    .foot{flex-direction:row;justify-content:space-between;align-items:center}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="/beauty/">Edge <span class="sur">Cut</span></a>
+    <span class="small">Potvrda zakazivanja</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="check">
+      <svg viewBox="0 0 24 24"><path d="M4 12.5l5.2 5.2L20 7"></path></svg>
+    </div>
+    <span class="kicker">Sve je spremno</span>
+    <h1 id="headline">Poziv je zakazan</h1>
+    <p class="lead">Potvrda ti je stigla na mejl, sa linkom za poziv i podsetnikom za kalendar. Ako je ne vidiš za par minuta, proveri promocije i spam.</p>
+
+    <div class="bcard" id="bcard" hidden>
+      <span class="bhead">Detalji termina</span>
+      <div class="brow first" id="rowWhen" hidden>
+        <span class="ic">&#128197;</span>
+        <span class="bx">
+          <span class="bl">Termin</span>
+          <span class="bv" id="vWhen"></span>
+          <span class="bv sm2">po beogradskom vremenu</span>
+        </span>
+      </div>
+      <div class="brow" id="rowWho" hidden>
+        <span class="ic">&#128100;</span>
+        <span class="bx">
+          <span class="bl">Na ime</span>
+          <span class="bv" id="vWho"></span>
+        </span>
+      </div>
+      <div class="brow" id="rowMail" hidden>
+        <span class="ic">&#9993;</span>
+        <span class="bx">
+          <span class="bl">Potvrda poslata na</span>
+          <span class="bv sm2" id="vMail"></span>
+        </span>
+      </div>
+      <div class="brow" id="rowType" hidden>
+        <span class="ic">&#128172;</span>
+        <span class="bx">
+          <span class="bl">Tip poziva</span>
+          <span class="bv sm2" id="vType"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Šta sledi</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        <span class="sx">
+          <h3>Pogledamo tvoj profil</h3>
+          <p>Pre poziva prođemo kroz tvoj Instagram i usluge, da ne trošimo prvih 15 minuta na osnovna pitanja.</p>
+        </span>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <span class="sx">
+          <h3>Pričamo 30 minuta</h3>
+          <p>Kažeš nam gde si sad i šta hoćeš. Mi ti kažemo gde su kod tebe najveće prilike i kako bismo to radili.</p>
+        </span>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <span class="sx">
+          <h3>Odlučuješ bez pritiska</h3>
+          <p>Dobiješ konkretan predlog i realnu procenu. Ako ti se ne uklapa, rastajemo se kao ljudi.</p>
+        </span>
+      </div>
+    </div>
+
+    <div class="prep">
+      <h2>Da poziv ne bude bacanje vremena</h2>
+      <p class="plead">Ništa ne moraš da pripremaš, ali ako imaš pet minuta, ovo nam mnogo pomaže:</p>
+      <ul class="plist">
+        <li>Znaj otprilike odakle ti sad dolaze mušterije (preporuka, Instagram, Google, prolaznici).</li>
+        <li>Imaj u glavi koja ti je usluga najisplativija, a koja ti najviše puni termine.</li>
+        <li>Razmisli koliko novih mušterija mesečno bi ti stvarno promenilo situaciju.</li>
+        <li>Ako si već probala reklame ili nekog za content, reci šta je bilo i zašto nije radilo.</li>
+      </ul>
+    </div>
+
+    <div class="after">
+      <a class="btn" href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Zaprati nas na Instagramu</a>
+      <a class="btn ghost" href="/beauty/">Nazad na stranicu</a>
+    </div>
+    <p class="small" style="margin-top:14px">Treba da pomeriš termin? Iskoristi link za izmenu iz mejla koji ti je stigao.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>
+      <div class="b">Edge <span class="sur">Cut</span></div>
+      <span class="legal">© 2026 Edge Cut. Sva prava zadržana.</span>
+    </div>
+    <div class="foot-links">
+      <a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:boris@edgecut.app">boris@edgecut.app</a>
+      <a href="/beauty/">Landing</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var q = new URLSearchParams(window.location.search);
+  function p(k){ var v = q.get(k); return v ? v.trim() : ''; }
+
+  var DANI = ['nedelja','ponedeljak','utorak','sreda','četvrtak','petak','subota'];
+  var MESECI = ['januar','februar','mart','april','maj','jun','jul','avgust','septembar','oktobar','novembar','decembar'];
+
+  // Calendly salje event_start_time kao ISO sa offsetom, ali format zna da varira
+  // po event type podesavanjima: "2026-09-02T14:30:00+02:00", "2026-09-02 14:30:00 +0200", "...Z".
+  // Normalizujemo sve u ISO pre parsiranja.
+  function normISO(s){
+    s = s.trim().replace(' ', 'T').replace(/\s+/g, '');
+    return s.replace(/([+-])(\d{2})(\d{2})$/, '$1$2:$3');
+  }
+
+  // Prikazujemo uvek u Europe/Belgrade, bez obzira iz koje zone je klijent zakazao.
+  function beograd(iso){
+    var d = new Date(normISO(iso));
+    if (isNaN(d.getTime())) return '';
+    try {
+      var parts = {};
+      new Intl.DateTimeFormat('en-CA', {
+        timeZone:'Europe/Belgrade', year:'numeric', month:'2-digit', day:'2-digit',
+        hour:'2-digit', minute:'2-digit', hour12:false
+      }).formatToParts(d).forEach(function(x){ parts[x.type] = x.value; });
+      var base = new Date(parts.year + '-' + parts.month + '-' + parts.day + 'T00:00:00Z');
+      var dan = DANI[base.getUTCDay()];
+      var mesec = MESECI[parseInt(parts.month, 10) - 1];
+      var sat = parts.hour === '24' ? '00' : parts.hour;
+      return dan + ', ' + parseInt(parts.day, 10) + '. ' + mesec + ' ' + parts.year + '. u ' + sat + ':' + parts.minute;
+    } catch(e){ return ''; }
+  }
+
+  // textContent, nikad innerHTML, URL param je untrusted input
+  function set(rowId, valId, text){
+    if(!text) return false;
+    document.getElementById(valId).textContent = text;
+    document.getElementById(rowId).hidden = false;
+    return true;
+  }
+
+  var ime  = p('invitee_full_name');
+  var mail = p('invitee_email');
+  var kada = p('event_start_time');
+  var tip  = p('event_type_name');
+  var uuid = p('invitee_uuid');
+
+  var any = false;
+  if (kada) any = set('rowWhen','vWhen', beograd(kada)) || any;
+  any = set('rowWho','vWho', ime) || any;
+  any = set('rowMail','vMail', mail) || any;
+  any = set('rowType','vType', tip) || any;
+  if (any) {
+    document.getElementById('bcard').hidden = false;
+    var vidljivi = document.querySelectorAll('#bcard .brow:not([hidden])');
+    if (vidljivi.length) {
+      document.querySelectorAll('#bcard .brow').forEach(function(r){ r.classList.remove('first'); });
+      vidljivi[0].classList.add('first');
+    }
+  }
+
+  if (ime){
+    var prvo = ime.split(' ')[0];
+    document.getElementById('headline').textContent = prvo + ', poziv je zakazan';
+  }
+
+  // ===== META PIXEL: konverzija se broji OVDE, ne na klik CTA-a =====
+  // eventID = invitee_uuid -> refresh stranice se dedupuje, ne racuna se dvaput.
+  var eid = uuid || ('cal_' + mail + '_' + kada);
+  var opts = { eventID: eid };
+  var payload = { content_name:'Beauty besplatan poziv', content_category:'beauty' };
+  // Calendly vraca utm parametre koje smo mu prosledili sa landinga, pa konverzija
+  // u Events Manageru nosi izvor kampanje.
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
+    var v = p(k); if (v) payload[k] = v;
+  });
+  if (window.fbq){
+    fbq('track','Schedule', payload, opts);
+    fbq('track','Lead',     payload, opts);
+  }
+})();
+</script>
+
+</body>
+</html>
