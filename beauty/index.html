@@ -252,6 +252,21 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
   .call-item p{color:var(--muted);font-size:14.5px;line-height:1.55}
   .center-cta{display:flex;flex-direction:column;align-items:center;gap:12px}
 
+  /* inline Calendly */
+  .cal-block{scroll-margin-top:78px;margin-top:8px}
+  .cal-head{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;margin-bottom:16px}
+  .cal-step{font-size:13px;font-weight:700;color:var(--accent)}
+  .cal-shell{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+  .cal-inline{height:760px;transition:height .25s ease}
+  .cal-skeleton{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--faint);font-size:14px;background:var(--surface);z-index:2}
+  .cal-skeleton.done{display:none}
+  .cal-skeleton .spin{width:26px;height:26px;border-radius:50%;border:2.5px solid var(--accent-line);border-top-color:var(--accent);animation:calspin .8s linear infinite}
+  @keyframes calspin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){.cal-skeleton .spin{animation:none}}
+  .cal-fallback{display:block;margin:14px auto 0;text-align:center;font-size:13.5px;color:var(--faint)}
+  .cal-fallback a{color:var(--accent);font-weight:600;text-decoration:underline}
+  @media(min-width:760px){.cal-inline{height:700px}}
+
   /* binary close */
   .close-sec{background:var(--dark);color:var(--dark-text)}
   .close-sec .kicker{color:#67e8f9}
@@ -564,9 +579,16 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
       <div class="call-item"><span class="n">Konkretan plan</span><h3>Šta prvo da promeniš</h3><p>Koji uglovi u tvojoj niši imaju najveći viralni potencijal i gde prvo da usmeriš energiju.</p></div>
       <div class="call-item"><span class="n">Realna procena</span><h3>Šta tvoj profil realno može</h3><p>Bez naduvanih obećanja. Realno ti kažem dokle tvoj profil može da dogura i za koliko vremena.</p></div>
     </div>
-    <div class="center-cta">
-      <a class="btn" href="https://calendly.com/borisprproj/30min" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty call CTA'});">Zakaži besplatan poziv</a>
-      <span class="small">Bez obaveze · 30 min</span>
+    <div class="cal-block" id="zakazi">
+      <div class="cal-head">
+        <span class="cal-step">Izaberi termin</span>
+        <p class="small">Bez obaveze · 30 min · online poziv</p>
+      </div>
+      <div class="cal-shell">
+        <div class="cal-skeleton" id="calSkeleton"><div class="spin"></div><span>Učitavam kalendar…</span></div>
+        <div class="cal-inline" id="calInline"></div>
+      </div>
+      <p class="cal-fallback">Ne učitava se? <a href="https://calendly.com/borisprproj/30min" target="_blank" rel="noopener" id="calDirect">Otvori kalendar u novom tabu</a></p>
     </div>
   </div>
 </section>
@@ -595,7 +617,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
       </div>
     </div>
     <div class="center-cta">
-      <a class="btn" href="https://calendly.com/borisprproj/30min" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty final CTA'});">Zakaži besplatan poziv</a>
+      <a class="btn" href="#zakazi" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty final CTA'});">Zakaži besplatan poziv</a>
     </div>
   </div>
 </section>
@@ -625,7 +647,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
     <div class="foot-top">
       <h2>Tvoj rad zaslužuje mušterije koje žele baš tebe. Hajde da ih dovedemo.</h2>
       <div class="ft-cta">
-        <a class="btn" href="https://calendly.com/borisprproj/30min" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty footer CTA'});">Zakaži besplatan poziv</a>
+        <a class="btn" href="#zakazi" onclick="if(window.fbq)fbq('track','InitiateCheckout',{content_name:'Beauty footer CTA'});">Zakaži besplatan poziv</a>
         <span class="small">Odgovaram u roku od 24h</span>
       </div>
     </div>
@@ -741,18 +763,100 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"/></
     update();
   })();
 
+  // ===== INLINE CALENDLY =====
+  // Kalendar zivi na stranici, korisnik ne odlazi na eksterni link.
   // UTM prosledjivanje: reklama -> landing -> Calendly -> hvala stranica.
   // Calendly nativno prima utm_* i vraca ih na redirect URL, pa konverzija
-  // na /beauty/hvala/ zna iz koje kampanje je dosla.
+  // na /beauty/hvala/ i dalje zna iz koje kampanje je dosla.
   (function(){
+    var HOST = document.getElementById('calInline');
+    if(!HOST) return;
+    var SKEL = document.getElementById('calSkeleton');
+    var BASE = 'https://calendly.com/borisprproj/30min';
+
     var src = new URLSearchParams(window.location.search);
-    var pass = new URLSearchParams();
+    var utm = new URLSearchParams();
     ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
-      var v = src.get(k); if(v) pass.set(k, v);
+      var v = src.get(k); if(v) utm.set(k, v);
     });
-    if(!pass.toString()) return;
-    document.querySelectorAll('a[href*="calendly.com"]').forEach(function(a){
-      a.href = a.href + (a.href.indexOf('?') > -1 ? '&' : '?') + pass.toString();
+
+    var q = new URLSearchParams(utm.toString());
+    q.set('hide_gdpr_banner','1');
+    q.set('hide_landing_page_details','1');
+    q.set('primary_color','0891b2');
+    var url = BASE + '?' + q.toString();
+
+    var direct = document.getElementById('calDirect');
+    if(direct) direct.href = url;
+
+    var started = false;
+    function mount(){
+      if(started) return; started = true;
+      var sc = document.createElement('script');
+      sc.src = 'https://assets.calendly.com/assets/external/widget.js';
+      sc.async = true;
+      sc.onload = function(){
+        if(!window.Calendly) return;
+        window.Calendly.initInlineWidget({ url: url, parentElement: HOST });
+        var f = HOST.querySelector('iframe');
+        if(f) f.addEventListener('load', function(){ if(SKEL) SKEL.classList.add('done'); });
+      };
+      // ako Calendly ne odgovori, skini spinner da ostane vidljiv fallback link
+      setTimeout(function(){ if(SKEL) SKEL.classList.add('done'); }, 10000);
+      document.head.appendChild(sc);
+    }
+
+    // Widget se pali tek kad korisnik dodje blizu sekcije, da ne usporava load.
+    // Scroll listener namerno umesto IntersectionObservera: isti razlog kao kod
+    // sticky CTA-a nize, IO ume da ne opali i onda kalendara nema uopste.
+    function maybeMount(){
+      if(started) return;
+      var top = HOST.getBoundingClientRect().top;
+      if(top < window.innerHeight + 800){ mount(); cleanup(); }
+    }
+    function cleanup(){
+      window.removeEventListener('scroll', maybeMount);
+      window.removeEventListener('resize', maybeMount);
+    }
+    window.addEventListener('scroll', maybeMount, {passive:true});
+    window.addEventListener('resize', maybeMount, {passive:true});
+    maybeMount();
+    // sigurnosna mreza: i ako nista od gornjeg ne opali, kalendar mora da postoji
+    setTimeout(function(){ mount(); cleanup(); }, 4000);
+
+    // klik na CTA odmah pali widget dok stranica skroluje do njega
+    document.querySelectorAll('a[href="#zakazi"]').forEach(function(a){
+      a.addEventListener('click', mount);
+    });
+
+    window.addEventListener('message', function(e){
+      if(String(e.origin).indexOf('calendly.com') === -1) return;
+      var d = e.data; if(!d || typeof d.event !== 'string') return;
+
+      // Calendly sam javlja svoju visinu, pa nema pogadjanja i praznog prostora.
+      // Salje i smece tokom rendera (npr. 2px), pa uzimamo samo realne vrednosti.
+      if(d.event === 'calendly.page_height' && d.payload && d.payload.height){
+        var px = parseInt(d.payload.height, 10);
+        if(px >= 480 && px <= 2000) HOST.style.height = px + 'px';
+      }
+      // bilo koja poruka od Calendlyja znaci da je iframe ziv, skini skeleton
+      if(SKEL) SKEL.classList.add('done');
+      if(d.event !== 'calendly.event_scheduled') return;
+
+      // Termin zakazan. Calendly bi svoj redirect uradio UNUTAR iframe-a, pa bi se
+      // hvala stranica otvorila u okviru od 700px. Zato je hvatamo i vodimo
+      // ceo prozor na nju, sa svim parametrima koje Calendly doda.
+      var t0 = Date.now();
+      (function bounce(){
+        var href = null;
+        try { href = HOST.querySelector('iframe').contentWindow.location.href; } catch(err){}
+        if(href && href.indexOf('calendly.com') === -1){ window.location.href = href; return; }
+        if(Date.now() - t0 > 5000){
+          window.location.href = 'hvala/' + (utm.toString() ? '?' + utm.toString() : '');
+          return;
+        }
+        setTimeout(bounce, 250);
+      })();
     });
   })();
 </script>
