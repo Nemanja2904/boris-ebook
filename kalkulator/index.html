@@ -211,7 +211,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 
 /* ---------- podešavanja ---------- */
 var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3000' : 'https://edgecut.app';
-var CALENDLY_URL = 'https://calendly.com/borisprproj-edgecut/30min';
+var CALENDLY_URL = 'https://calendly.com/borisprproj/besplatna-analiza';
 var STORE_KEY = 'ec_kalk_v1';
 var STORE_TTL = 1000 * 60 * 60 * 24 * 3; // 3 dana
 var RADNI_SATI = 168;
@@ -260,12 +260,13 @@ var Q = [
     title:function(a){return a.ko==='sam'?'Koliko sati nedeljno ti ode na sadržaj?':'Koliko tvojih sati nedeljno ode na sadržaj?';},
     sub:'Ideje, snimanje, montaža, objava, komentari.',
     unit:function(a,v){return v===1?'sat nedeljno':'sati nedeljno';}, step:function(){return 1;}},
-  {id:'satnica', type:'single', title:'Koliko vredi jedan tvoj radni sat?', sub:'Koliko zaradiš za sat rada na svom poslu.', opts:[
+  {id:'satnica', type:'single', show:function(a){return a.ko!=='nista';}, title:'Koliko vredi jedan tvoj radni sat?', sub:'Koliko zaradiš za sat rada na svom poslu.', opts:[
     {v:15, t:'Oko 15 €'}, {v:30, t:'Oko 30 €'}, {v:60, t:'Oko 60 €'}, {v:120, t:'Preko 100 €'}, {v:-1, t:'Ne znam', ghost:1}]},
   {id:'razmisljao', type:'single', show:function(a){return a.ko!=='tim';},
     title:'Da li si razmišljao da sadržaj radi neko umesto tebe?', opts:[
     {v:'odmah', t:'Da, tražim rešenje sada'}, {v:'uskoro', t:'Da, ali još nisam ozbiljno'}, {v:'ne', t:'Ne, hoću da radim sam'}]},
-  {id:'budzet', type:'single', title:'Koliko bi mesečno mogao da uložiš da neko drugi vodi tvoj sadržaj?',
+  // Ko je rekao da hoće sam, ne pita se za budžet (lead je hladan i bez toga).
+  {id:'budzet', type:'single', show:function(a){return a.razmisljao!=='ne';}, title:'Koliko bi mesečno mogao da uložiš da neko drugi vodi tvoj sadržaj?',
     sub:'Da znamo šta ima smisla da ti predložimo.', opts:[
     {v:250, t:'Do 500 €'}, {v:750, t:'500 do 1.000 €'}, {v:1500, t:'1.000 do 2.000 €'}, {v:3000, t:'Preko 2.000 €'}]},
   {id:'poziv', type:'single', title:'Šta hoćeš posle rezultata?', opts:[
@@ -571,42 +572,27 @@ function submit(honeypot){
 }
 
 /* ---------- rezultat ---------- */
-var VERDICT = {
-  obim:{k:'Presuda', c:'var(--bad)', t:'Sam ne stižeš do cilja',
-    p:function(r){ return 'Tvojim sadašnjim videima za cilj ti treba oko <b>'+Math.ceil(r.potrebnoVidea)+' videa mesečno</b>. Sada objavljuješ '+r.videaSada+'.'; }},
-  konverzija:{k:'Presuda', c:'var(--bad)', t:'Videa ti ne fale',
-    p:function(r){ return r.upiti===0
-      ? 'Imaš <b>'+nf(r.pregledi)+' pregleda</b> mesečno i nijedan upit. Videi skupljaju preglede, ali ne dovode ljude koji hoće da kupe.'
-      : 'Istim videima kao sada trebalo bi ti <b>'+nf(Math.ceil(r.potrebnoVidea))+' videa mesečno</b>. Toliko ne snima niko. Rešenje je u tome šta objavljuješ.'; }},
-  zatvaranje:{k:'Presuda', c:'var(--warn)', t:'Upita imaš dovoljno',
-    p:function(){ return 'Od 10 ljudi koji ti se jave, klijent postane jedan ili nijedan. Pre novih videa isplati se da središ razgovor sa onima koji se već javljaju.'; }},
-  nemeri:{k:'Presuda', c:'var(--warn)', t:'Ne znaš šta ti sadržaj vraća',
-    p:function(r){ return 'Ne meriš odakle dolaze upiti, pa ne znaš ni da li se isplati. Ali znamo da ti sadržaj uzima <b>'+dec(r.danaMes,1)+' radnih dana mesečno</b>.'; }},
-  start:{k:'Tvoj početak', c:'var(--accent)', t:'Evo šta ti treba za cilj',
-    p:function(r){ return 'Cilj od '+r.cilj+' '+(r.proizvod?'prodaja':'klijenata')+' mesečno vredi <b>'+eur(r.prihodCilj)+'</b>. Ispod je koliko sadržaja ti za to treba.'; }},
-  isplati:{k:'Presuda', c:'var(--accent)', t:'Isplati ti se',
-    p:function(r){ return 'Sadržaj ti vraća '+(r.povrat!==null?'<b>'+dec(r.povrat,1)+' € na svaki uloženi evro</b>':'više nego što uložiš')+', a obim ti je blizu cilja. Pomoć ti treba tek kad podigneš cilj.'; }},
-  granica:{k:'Presuda', c:'var(--warn)', t:'Stižeš do cilja, ali te to košta više nego što ti vraća',
-    p:function(r){ return 'Obim ti je blizu cilja, a na svaki uloženi evro vraćaš <b>'+dec(r.povrat,2)+' €</b>.'; }}
-};
+// Tekst presude stiže sa servera (r.copy, webapp/src/lib/lead-magnet/copy.ts), isti kao u mejlu.
 
 function result(){
   setProgress(100);
-  var r = S.result, V = VERDICT[r.verdict] || VERDICT.obim, analiza = S.a.poziv && S.a.poziv.v==='analiza';
+  var r = S.result, analiza = S.a.poziv && S.a.poziv.v==='analiza';
+  var TONE = {bad:'var(--bad)', warn:'var(--warn)', good:'var(--accent)'};
+  var C = r.copy || {kicker:'Presuda', title:'Tvoj rezultat', body:'', tone:'good'};
+  var ownHours = r.ownHours !== false;
   var jed = r.proizvod ? 'prodaja' : 'upita';
   var h = '';
 
   h += '<span class="kicker">Tvoj rezultat</span>';
-  h += '<div class="verdict" style="--vc:'+V.c+'"><span class="kicker faint">'+V.k+'</span><h2>'+V.t+'</h2><p>'+V.p(r)+'</p></div>';
+  h += '<div class="verdict" style="--vc:'+(TONE[C.tone]||TONE.good)+'"><span class="kicker faint">'+esc(C.kicker)+'</span><h2>'+esc(C.title)+'</h2>'+(C.body?'<p>'+C.body+'</p>':'')+'</div>';
 
   // Dve strane: sam (tvojim tempom) vs videi koji dovode kupca
-  var sam = r.potrebnoVidea && r.potrebnoVidea > r.saNamaVidea;
-  if (sam || r.verdict==='start' || r.verdict==='konverzija' || r.verdict==='nemeri'){
+  if (r.compare){
     h += '<div class="sec"><span class="kicker">Dva puta do cilja</span><div class="compare">';
     if (r.potrebnoVidea){
-      h += '<div class="cbox"><span class="lbl">Ovako kao sada</span><div class="n">'+(r.potrebnoVidea>999?'999+':nf(Math.ceil(r.potrebnoVidea)))+'</div><div class="d">videa mesečno'+(r.satiZaCilj?', oko '+nf(r.satiZaCilj)+' h tvog vremena':'')+'</div></div>';
+      h += '<div class="cbox"><span class="lbl">Ovako kao sada</span><div class="n">'+(r.potrebnoVidea>999?'999+':nf(Math.ceil(r.potrebnoVidea)))+'</div><div class="d">videa mesečno'+(r.satiZaCilj&&ownHours?', oko '+nf(r.satiZaCilj)+' h tvog vremena':'')+'</div></div>';
     } else {
-      h += '<div class="cbox"><span class="lbl">Ovako kao sada</span><div class="n">?</div><div class="d">'+(r.verdict==='start'?'sada ne objavljuješ':'nijedan video ne dovodi '+jed)+'</div></div>';
+      h += '<div class="cbox"><span class="lbl">Ovako kao sada</span><div class="n">?</div><div class="d">'+(r.verdict==='start'?'sada ne objavljuješ':r.verdict==='nemeri'?'fali ti broj, pa ne znamo':'nijedan video ne dovodi '+jed)+'</div></div>';
     }
     h += '<div class="cbox good"><span class="lbl">Videi za kupce</span><div class="n">'+r.saNamaVidea+'</div><div class="d">videa mesečno, ali svaki da donese oko '+dec(r.upitaPoVideuPotrebno, r.upitaPoVideuPotrebno<10?1:0)+' '+jed+'</div></div>';
     h += '</div>';
@@ -631,13 +617,13 @@ function result(){
   if (r.cenaPoVideu) rows.push(['Jedan video te košta', eur(r.cenaPoVideu), '']);
   rows.push(['Tvoj cilj vredi mesečno', eur(r.prihodCilj), r.cilj+' × '+eur(r.vred)]);
   if (r.potrebniPregledi) rows.push(['Pregleda mesečno za cilj', nf(r.potrebniPregledi), 'sada imaš '+nf(r.pregledi)]);
-  if (r.plafon!==null && r.verdict!=='isplati') rows.push(['Najviše što sam možeš da izvučeš', dec(r.plafon, r.plafon<10?1:0)+' '+(r.proizvod?'prodaja':'klijenata'), 'mesečno, i to kad bi ceo radni mesec radio samo sadržaj']);
+  if (r.plafon!==null && r.verdict!=='isplati' && ownHours) rows.push(['Najviše što sam možeš da izvučeš', dec(r.plafon, r.plafon<10?1:0)+' '+(r.proizvod?'prodaja':'klijenata'), 'mesečno, i to kad bi ceo radni mesec radio samo sadržaj']);
   h += '<div class="sec"><span class="kicker">Tvoji brojevi</span><div class="rows">'+rows.map(function(x){
     return '<div class="row"><span>'+x[0]+(x[2]?'<small>'+x[2]+'</small>':'')+'</span><strong>'+x[1]+'</strong></div>';
   }).join('')+'</div></div>';
 
   // Sati
-  if (r.satiZaCilj && r.verdict!=='isplati'){
+  if (r.satiZaCilj && r.verdict!=='isplati' && ownHours){
     var mx = Math.max(r.satiZaCilj, RADNI_SATI, r.satiMes);
     var b = function(l,v,c){ return '<div class="bar"><div class="t"><span>'+l+'</span><b>'+nf(v)+' h</b></div><div class="track"><i style="width:'+Math.max(2,Math.min(100,v/mx*100))+'%;background:'+c+'"></i></div></div>'; };
     h += '<div class="sec"><span class="kicker">Sati mesečno</span><div class="bars">'+
