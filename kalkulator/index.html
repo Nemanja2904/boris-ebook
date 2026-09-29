@@ -232,7 +232,7 @@ var Q = [
     {v:150, t:'Do 300 €'}, {v:500, t:'300 do 700 €'}, {v:1100, t:'700 do 1.500 €'}, {v:2000, t:'Preko 1.500 €'}]},
   {id:'zadovoljstvo', type:'scale', title:'Koliko si zadovoljan agencijom koja ti radi sadržaj?', show:function(a){return a.ko==='tim';}},
   {id:'cilj', type:'stepper', min:1, max:500,
-    title:function(a){return a.prodaje==='proizvod'?'Koliko prodaja mesečno želiš iz sadržaja?':'Koliko novih klijenata mesečno želiš?';},
+    title:function(a){return a.prodaje==='proizvod'?'Koliko prodaja mesečno želiš iz sadržaja?':'Koliko novih klijenata mesečno želiš iz sadržaja?';},
     unit:function(a,v){return a.prodaje==='proizvod'?'prodaja mesečno':(v===1?'klijent mesečno':'klijenata mesečno');},
     def:function(a){return a.prodaje==='proizvod'?50:5;},
     step:function(a,v){return a.prodaje==='proizvod'&&v>=20?10:1;}},
@@ -253,7 +253,14 @@ var Q = [
     hint:function(a){return a.prodaje==='proizvod'?'Porudžbine koje su došle sa mreža.':'Poruke, pozivi i prijave koji dođu sa mreža.';},
     unknown:function(a){return a.prodaje==='proizvod'?'Ne znam':'Ne merim';},
     unit:function(a){return a.prodaje==='proizvod'?'prodaja mesečno':'upita mesečno';}},
-  {id:'zatvaranje', type:'single', show:function(a){return a.prodaje!=='proizvod';},
+  // Kad je upisao broj upita, pitamo koliko od TIH upita postane klijent (njegov broj u pitanju).
+  {id:'klijenti', type:'stepper', min:0, max:function(a){return a.upiti;},
+    show:function(a){return a.prodaje!=='proizvod' && a.ko!=='nista' && typeof a.upiti==='number' && a.upiti>0;},
+    title:function(a){return 'Koliko od tih '+nf(a.upiti)+' upita mesečno postane klijent?';},
+    sub:'Otprilike je dovoljno.',
+    unit:function(a,v){return v===1?'klijent mesečno':'klijenata mesečno';},
+    def:function(a){return Math.max(1, Math.round(a.upiti*0.2));}, step:function(){return 1;}},
+  {id:'zatvaranje', type:'single', show:function(a){return a.prodaje!=='proizvod' && !(a.ko!=='nista' && typeof a.upiti==='number' && a.upiti>0);},
     title:'Od 10 ljudi koji ti se jave, koliko postane klijent?', opts:[
     {v:0.07, t:'Jedan ili nijedan'}, {v:0.25, t:'2 do 3'}, {v:0.45, t:'4 do 5'}, {v:0.65, t:'Više od 5'}, {v:-1, t:'Ne znam', ghost:1}]},
   {id:'sati', type:'stepper', min:0, max:80, def:6, show:function(a){return a.ko!=='nista';},
@@ -266,7 +273,8 @@ var Q = [
     title:'Da li si razmišljao da sadržaj radi neko umesto tebe?', opts:[
     {v:'odmah', t:'Da, tražim rešenje sada'}, {v:'uskoro', t:'Da, ali još nisam ozbiljno'}, {v:'ne', t:'Ne, hoću da radim sam'}]},
   // Ko je rekao da hoće sam, ne pita se za budžet (lead je hladan i bez toga).
-  {id:'budzet', type:'single', show:function(a){return a.razmisljao!=='ne';}, title:'Koliko bi mesečno mogao da uložiš da neko drugi vodi tvoj sadržaj?',
+  {id:'budzet', type:'single', show:function(a){return a.razmisljao!=='ne';},
+    title:function(a){return a.ko==='tim'?'Koliko bi mesečno mogao da uložiš u sadržaj?':'Koliko bi mesečno mogao da uložiš da neko drugi vodi tvoj sadržaj?';},
     sub:'Da znamo šta ima smisla da ti predložimo.', opts:[
     {v:250, t:'Do 500 €'}, {v:750, t:'500 do 1.000 €'}, {v:1500, t:'1.000 do 2.000 €'}, {v:3000, t:'Preko 2.000 €'}]},
   {id:'poziv', type:'single', title:'Šta hoćeš posle rezultata?', opts:[
@@ -429,12 +437,12 @@ function question(){
       '<div class="fill"></div><div class="dock"><button class="cta" id="next" type="button">Dalje</button></div>');
     var inp = document.getElementById('num'), unit = document.getElementById('unit');
     var set = function(n){
-      n = isNaN(n) ? val(q.def,a) : Math.max(q.min, Math.min(q.max, Math.round(n)));
+      n = isNaN(n) ? val(q.def,a) : Math.max(q.min, Math.min(val(q.max,a), Math.round(n)));
       v = n; inp.value = n; unit.textContent = val(q.unit,a,n);
     };
     document.getElementById('minus').onclick = function(){ set(v - val(q.step,a,v-1)); };
     document.getElementById('plus').onclick = function(){ set(v + val(q.step,a,v)); };
-    inp.oninput = function(){ var n=parseNum(inp.value); if(n!==null){ v=Math.min(q.max,n); unit.textContent=val(q.unit,a,v);} };
+    inp.oninput = function(){ var n=parseNum(inp.value); if(n!==null){ v=Math.min(val(q.max,a),n); unit.textContent=val(q.unit,a,v);} };
     inp.onblur = function(){ set(parseNum(inp.value)); };
     inp.onfocus = function(){ inp.select(); };
     document.getElementById('next').onclick = function(){
