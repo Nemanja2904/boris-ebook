@@ -342,7 +342,25 @@ function eur(n){ return nf(n)+'\u00a0€'; }
 function dec(n,d){ return (Math.round(n*Math.pow(10,d))/Math.pow(10,d)).toLocaleString('sr-RS',{maximumFractionDigits:d}); }
 function parseNum(s){ var d=String(s||'').replace(/[^\d]/g,''); return d ? parseInt(d,10) : null; }
 function setProgress(p){ bar.style.width = Math.max(0,Math.min(100,p))+'%'; }
-function render(html){ view.innerHTML = '<section class="screen">'+html+'</section>'; window.scrollTo(0,0); }
+function render(html){ view.innerHTML = '<section class="screen">'+html+'</section>'; window.scrollTo(0,0); csPage(); }
+
+/* ---------- Contentsquare: svaki ekran kao posebna stranica ---------- */
+// Kviz ne menja URL, pa bi bez ovoga CS sve ekrane video kao jednu stranicu (heatmape preko jedna druge).
+// Prvi ekran ide kao setPath (tag je defer i još nije učitan), svaki sledeći kao trackPageview.
+window._uxa = window._uxa || [];
+var csLast = null;
+function csPath(){
+  if (S.screen==='q' && Q[S.step]) return '/kalkulator/pitanje/'+Q[S.step].id;
+  if (S.screen==='gate') return '/kalkulator/forma';
+  if (S.screen==='result') return '/kalkulator/rezultat';
+  return '/kalkulator/';
+}
+function csPage(path){
+  path = path || csPath();
+  if (path===csLast) return;
+  try{ window._uxa.push([csLast===null?'setPath':'trackPageview', path]); }catch(e){}
+  csLast = path;
+}
 
 /* ---------- ekrani ---------- */
 function go(screen){ S.screen=screen; save(); draw(); }
@@ -668,6 +686,7 @@ function result(){
 var calLoaded = false;
 function openCalendly(){
   track('calendly_open', {step:'rezultat'});
+  csPage('/kalkulator/zakazivanje');
   var c = S.contact || {};
   var url = CALENDLY_URL + (CALENDLY_URL.indexOf('?')>-1?'&':'?') + 'hide_gdpr_banner=1';
   var open = function(){
@@ -687,6 +706,7 @@ window.addEventListener('message', function(e){
   if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled') return;
   var p = e.data.payload || {};
   S.booked = true; save();
+  csPage('/kalkulator/zakazano');
   track('booked', {step:'calendly', value:{event:p.event&&p.event.uri, invitee:p.invitee&&p.invitee.uri}});
   px('track','Schedule',{content_name:'Content kalkulator'},{eventID:S.sid+'-schedule'});
   if (S.screen==='result') setTimeout(result, 600);
