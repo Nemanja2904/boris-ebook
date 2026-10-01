@@ -18,6 +18,8 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- Contentsquare (heatmape i snimci sesija) -->
+<script src="https://t.contentsquare.net/uxa/d4dd194abec74.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#09090b">
 <title>Da li ti se isplati da sadržaj radiš sam? - Edge Cut</title>
@@ -505,14 +507,17 @@ function gate(){
     '<div class="lockcard" aria-hidden="true"><div class="blur">Tebi treba 15 videa</div>'+
       '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 118 0v3" stroke="currentColor" stroke-width="2"/></svg></div>'+
     '<form id="f" novalidate>'+
-      '<div class="field"><label for="ime">Ime</label><input id="ime" autocomplete="given-name" autocapitalize="words" value="'+esc(c.name)+'"></div>'+
-      '<div class="field"><label for="mejl">Mejl</label><input id="mejl" type="email" inputmode="email" autocomplete="email" autocapitalize="off" value="'+esc(c.email)+'"></div>'+
+      '<div class="field"><label for="ime">Ime</label><input id="ime" autocomplete="given-name" autocapitalize="words"></div>'+
+      '<div class="field"><label for="mejl">Mejl</label><input id="mejl" type="email" inputmode="email" autocomplete="email" autocapitalize="off"></div>'+
       '<div class="hp" aria-hidden="true"><label>Sajt<input id="website" tabindex="-1" autocomplete="off"></label></div>'+
       '<p class="note">Rezultat ti stiže i na mejl. <a href="privatnost/" target="_blank" rel="noopener">Privatnost</a></p>'+
       '<p class="err" id="err" hidden></p>'+
       '<div class="dock"><button class="cta" id="send" type="submit">Prikaži rezultat</button></div>'+
     '</form>'
   );
+  // Ime i mejl se upisuju kao svojstvo, ne kao value atribut u HTML-u, da ih snimci sesija (Contentsquare) ne pokupe iz DOM-a.
+  document.getElementById('ime').value = c.name || '';
+  document.getElementById('mejl').value = c.email || '';
   var f = document.getElementById('f');
   var read = function(){
     S.contact = {
