@@ -133,9 +133,8 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   .field input{height:56px;border-radius:12px;background:var(--surface);border:1.5px solid var(--border);padding:0 16px;
     font-size:17px;outline:0;width:100%}
   .field input:focus{border-color:var(--accent)}
-  .check{display:flex;gap:12px;align-items:flex-start;margin-top:18px;color:var(--muted);font-size:14px;line-height:1.45;cursor:pointer}
-  .check input{width:22px;height:22px;margin-top:1px;accent-color:var(--accent);flex:none}
-  .check a{color:var(--text);text-decoration:underline;text-underline-offset:2px}
+  .note{margin-top:14px;color:var(--muted);font-size:14px;line-height:1.45}
+  .note a{color:var(--text);text-decoration:underline;text-underline-offset:2px}
   .err{color:var(--bad);font-size:15px;margin-top:12px}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
   .lockcard{margin-top:22px;border:1px dashed var(--border);border-radius:14px;padding:16px;display:flex;gap:14px;align-items:center}
@@ -271,15 +270,7 @@ var Q = [
     {v:15, t:'Oko 15 €'}, {v:30, t:'Oko 30 €'}, {v:60, t:'Oko 60 €'}, {v:120, t:'Preko 100 €'}, {v:-1, t:'Ne znam', ghost:1}]},
   {id:'razmisljao', type:'single', show:function(a){return a.ko!=='tim';},
     title:'Da li si razmišljao da sadržaj radi neko umesto tebe?', opts:[
-    {v:'odmah', t:'Da, tražim rešenje sada'}, {v:'uskoro', t:'Da, ali još nisam ozbiljno'}, {v:'ne', t:'Ne, hoću da radim sam'}]},
-  // Ko je rekao da hoće sam, ne pita se za budžet (lead je hladan i bez toga).
-  {id:'budzet', type:'single', show:function(a){return a.razmisljao!=='ne';},
-    title:function(a){return a.ko==='tim'?'Koliko bi mesečno mogao da uložiš u sadržaj?':'Koliko bi mesečno mogao da uložiš da neko drugi vodi tvoj sadržaj?';},
-    sub:'Da znamo šta ima smisla da ti predložimo.', opts:[
-    {v:250, t:'Do 500 €'}, {v:750, t:'500 do 1.000 €'}, {v:1500, t:'1.000 do 2.000 €'}, {v:3000, t:'Preko 2.000 €'}]},
-  {id:'poziv', type:'single', title:'Šta hoćeš posle rezultata?', opts:[
-    {v:'analiza', t:'Da prođemo rezultat zajedno', s:'Kratak video poziv sa Borisom'},
-    {v:'rezultat', t:'Samo mi pokaži rezultat'}]}
+    {v:'odmah', t:'Da, tražim rešenje sada'}, {v:'uskoro', t:'Da, ali još nisam ozbiljno'}, {v:'ne', t:'Ne, hoću da radim sam'}]}
 ];
 
 /* ---------- stanje ---------- */
@@ -389,7 +380,7 @@ function hero(){
 }
 
 function question(){
-  var q = Q[S.step]; if (!q){ go('hero'); return; }
+  var q = Q[S.step]; if (!q){ go(S.step>=Q.length?'gate':'hero'); return; }
   var a = vals(), vis = visible(), pos = vis.indexOf(q);
   setProgress(pos/vis.length*100);
   var title = val(q.title,a), sub = val(q.sub,a);
@@ -506,7 +497,7 @@ backBtn.onclick = function(){
 
 function gate(){
   setProgress(100);
-  var c = S.contact||{}, analiza = S.a.poziv && S.a.poziv.v==='analiza';
+  var c = S.contact||{};
   render(
     '<span class="kicker">Gotovo</span>'+
     '<h2>Rezultat je spreman</h2>'+
@@ -516,10 +507,8 @@ function gate(){
     '<form id="f" novalidate>'+
       '<div class="field"><label for="ime">Ime</label><input id="ime" autocomplete="given-name" autocapitalize="words" value="'+esc(c.name)+'"></div>'+
       '<div class="field"><label for="mejl">Mejl</label><input id="mejl" type="email" inputmode="email" autocomplete="email" autocapitalize="off" value="'+esc(c.email)+'"></div>'+
-      '<div class="field"><label for="tel">Telefon'+(analiza?'':' <span>(nije obavezno)</span>')+'</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+381 64 123 4567" value="'+esc(c.phone)+'"></div>'+
-      '<div class="field"><label for="ig">Instagram ili sajt <span>(nije obavezno)</span></label><input id="ig" autocapitalize="off" autocorrect="off" placeholder="@tvojprofil" value="'+esc(c.instagram)+'"></div>'+
       '<div class="hp" aria-hidden="true"><label>Sajt<input id="website" tabindex="-1" autocomplete="off"></label></div>'+
-      '<label class="check"><input type="checkbox" id="ok"'+(c.consent?' checked':'')+'><span>Slažem se da me Edge Cut kontaktira povodom rezultata. <a href="privatnost/" target="_blank" rel="noopener">Privatnost</a></span></label>'+
+      '<p class="note">Rezultat ti stiže i na mejl. <a href="privatnost/" target="_blank" rel="noopener">Privatnost</a></p>'+
       '<p class="err" id="err" hidden></p>'+
       '<div class="dock"><button class="cta" id="send" type="submit">Prikaži rezultat</button></div>'+
     '</form>'
@@ -527,9 +516,7 @@ function gate(){
   var f = document.getElementById('f');
   var read = function(){
     S.contact = {
-      name:document.getElementById('ime').value.trim(), email:document.getElementById('mejl').value.trim(),
-      phone:document.getElementById('tel').value.trim(), instagram:document.getElementById('ig').value.trim(),
-      consent:document.getElementById('ok').checked
+      name:document.getElementById('ime').value.trim(), email:document.getElementById('mejl').value.trim()
     };
     save();
   };
@@ -539,8 +526,6 @@ function gate(){
     var c = S.contact, err = document.getElementById('err'), msg = '';
     if (!c.name) msg = 'Upiši ime.';
     else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email)) msg = 'Proveri mejl.';
-    else if (analiza && c.phone.replace(/\D/g,'').length < 8) msg = 'Upiši broj telefona da bismo mogli da se čujemo.';
-    else if (!c.consent) msg = 'Označi saglasnost.';
     if (msg){ err.textContent = msg; err.hidden = false; return; }
     err.hidden = true;
     submit(document.getElementById('website').value);
@@ -584,7 +569,7 @@ function submit(honeypot){
 
 function result(){
   setProgress(100);
-  var r = S.result, analiza = S.a.poziv && S.a.poziv.v==='analiza';
+  var r = S.result;
   var TONE = {bad:'var(--bad)', warn:'var(--warn)', good:'var(--accent)'};
   var C = r.copy || {kicker:'Presuda', title:'Tvoj rezultat', body:'', tone:'good'};
   var ownHours = r.ownHours !== false;
@@ -654,7 +639,7 @@ function result(){
   if (S.booked){
     h += '<div class="booked"><h3>Termin je zakazan</h3><p class="text" style="margin-top:6px">Potvrda ti stiže na mejl. Vidimo se na pozivu.</p></div>';
   } else {
-    h += '<div class="offer"><h3>'+(analiza?'Izaberi termin':'Hoćeš da ovo prođemo zajedno?')+'</h3>'+
+    h += '<div class="offer"><h3>Hoćeš da ovo prođemo zajedno?</h3>'+
       '<p>Boris prolazi tvoje brojke i kaže ti koji je najbrži potez za tvoj profil. Kratak video poziv, bez obaveze.</p>'+
       '<button class="cta" id="book" type="button">Zakaži poziv</button></div>';
   }
