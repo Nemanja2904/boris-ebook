@@ -113,6 +113,29 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   .done h2{color:var(--text)}
   .done .handle{color:var(--accent)}
 
+  /* popup: na telefonu sheet odozdo, na kompjuteru kartica na sredini */
+  .pop{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;pointer-events:none}
+  .pop[hidden]{display:none}
+  .pop .shade{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;transition:opacity .25s;pointer-events:auto}
+  .pop.soft .shade{display:none}
+  .pop .sheet{position:relative;width:100%;max-width:520px;max-height:92dvh;overflow:auto;pointer-events:auto;
+    background:var(--surface);border:1.5px solid var(--accent-line);border-bottom:0;border-radius:20px 20px 0 0;
+    padding:24px 20px calc(20px + var(--safe-b));transform:translateY(100%);transition:transform .3s ease;
+    box-shadow:0 -20px 60px rgba(0,0,0,.5)}
+  .pop.open .shade{opacity:1}
+  .pop.open .sheet{transform:none}
+  .pop h2{font-size:clamp(24px,6.4vw,30px);margin-top:8px;padding-right:36px}
+  .pop p{color:var(--muted);margin-top:10px;font-size:16px}
+  .pop form{margin-top:16px}
+  .pop .x{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;color:var(--muted);font-size:24px;line-height:1}
+  .pop .no{display:block;width:100%;min-height:48px;margin-top:6px;color:var(--faint);font-size:15px}
+  @media (min-width:700px){
+    .pop{align-items:center}
+    .pop .sheet{border-bottom:1.5px solid var(--accent-line);border-radius:20px;padding:30px 30px 24px;transform:translateY(24px);opacity:0;
+      transition:transform .25s ease,opacity .25s}
+    .pop.open .sheet{opacity:1}
+  }
+
   footer{margin-top:48px;color:var(--faint);font-size:13px;display:flex;gap:14px;flex-wrap:wrap}
   footer a{color:var(--faint)}
 
@@ -172,6 +195,26 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
     <span>Edge Cut · Boris Vasić</span>
     <a href="privatnost/">Privatnost</a>
   </footer>
+</div>
+
+<div class="pop" id="pop" hidden role="dialog" aria-modal="true" aria-labelledby="pop-title">
+  <div class="shade" data-close></div>
+  <div class="sheet" id="pop-body">
+    <button class="x" type="button" data-close aria-label="Zatvori">×</button>
+    <span class="kicker">Besplatno, jedan na jedan</span>
+    <h2 id="pop-title">Želiš besplatnu analizu svog profila?</h2>
+    <p>Pogledam tvoj Instagram, pa 15 minuta pričamo na pozivu. Upiši profil i mejl, javljam ti se u poruci sa @boris.prproj.</p>
+    <form id="pop-form" novalidate>
+      <label for="pop-ig">Tvoj Instagram</label>
+      <div class="igfield"><span>@</span><input id="pop-ig" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="tvojprofil" maxlength="80"></div>
+      <label for="pop-mejl" style="margin-top:12px">Mejl</label>
+      <div class="igfield"><input id="pop-mejl" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="ime@primer.com" maxlength="200"></div>
+      <button class="cta" type="submit">Hoću analizu</button>
+      <p class="err" role="alert"></p>
+      <p class="note">Na mejl ti povremeno šaljem savete o sadržaju. Odjava je jednim klikom, u svakom mejlu. <a href="privatnost/">Privatnost</a></p>
+    </form>
+    <button class="no" type="button" data-close>Ne, hvala</button>
+  </div>
 </div>
 
 <script>
@@ -302,7 +345,7 @@ function tick(){
     if (S.maxPct >= m && !S.sent[m]){
       S.sent[m] = 1;
       track('progress', {step:'video', value:progressValue(m)});
-      if (m === OFFER_PCT) px('trackCustom', 'VideoPonuda');
+      if (m === OFFER_PCT){ px('trackCustom', 'VideoPonuda'); openPop('ponuda'); }
     }
   });
   // Pola videa po stvarno odgledanom vremenu, ne po poziciji (skok na poglavlje se ne računa).
@@ -332,10 +375,15 @@ function onState(e){
     ticking = setInterval(tick, 1000);
   } else {
     if (ticking){ tick(); clearInterval(ticking); ticking = null; }
-    if (st === 2) track('pause', {step:'video', value:progressValue(curPct())});
+    if (st === 2){
+      track('pause', {step:'video', value:progressValue(curPct())});
+      // Kratka pauza (premotavanje, poglavlje) ne otvara popup; čeka se 1,5 s da li video nastavlja.
+      if (S.watched >= 120) setTimeout(function(){ try{ if (player.getPlayerState() === 2) openPop('pauza'); }catch(e){} }, 1500);
+    }
     if (st === 0){
       track('ended', {step:'video', value:progressValue(100)});
-      document.getElementById('analiza').scrollIntoView({behavior:'smooth', block:'start'});
+      if (canPop()) openPop('kraj');
+      else document.getElementById('analiza').scrollIntoView({behavior:'smooth', block:'start'});
     }
   }
 }
@@ -343,13 +391,7 @@ document.addEventListener('visibilitychange', function(){
   if (document.visibilityState === 'hidden') beacon('hidden', {step:'video', value:progressValue(S.maxPct)});
 });
 
-/* ---------- forma ---------- */
-var form = document.getElementById('form');
-var ig = document.getElementById('ig');
-var err = document.getElementById('err');
-var btn = document.getElementById('send');
-var mejl = document.getElementById('mejl');
-
+/* ---------- forma (na stranici i u popupu, ista logika) ---------- */
 function normalize(v){
   v = String(v||'').trim();
   var m = v.match(/instagram\.com\/([^\/?#\s]+)/i);
@@ -358,50 +400,100 @@ function normalize(v){
 }
 function valid(h){ return /^[a-z0-9._]{1,30}$/.test(h) && !/^\.|\.$|\.\./.test(h); }
 
-function formFocus(){
+function formFocus(via){
   if (S.form) return;
   S.form = true; save();
-  track('form_focus', {step:'forma', value:progressValue(S.maxPct)});
+  track('form_focus', {step:'forma', value:Object.assign(progressValue(S.maxPct), {via:via})});
   px('trackCustom', 'FormaStart');
 }
-ig.addEventListener('focus', formFocus);
-mejl.addEventListener('focus', formFocus);
-ig.addEventListener('input', function(){ err.textContent = ''; });
-mejl.addEventListener('input', function(){ err.textContent = ''; });
 
-form.addEventListener('submit', function(e){
-  e.preventDefault();
-  var h = normalize(ig.value);
-  if (!valid(h)){ err.textContent = 'Upiši samo korisničko ime sa Instagrama, na primer tvojprofil.'; ig.focus(); return; }
-  var em = String(mejl.value||'').trim().toLowerCase();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ err.textContent = 'Proveri mejl.'; mejl.focus(); return; }
-  btn.disabled = true; btn.textContent = 'Šaljem...';
-  var body = {sid:S.sid, magnet:'video', instagram:h, email:em, website:document.getElementById('website').value||'',
-    ms:Date.now()-T0, fbp:cookie('_fbp'), fbc:cookie('_fbc')};
-  queue.then(function(){ return send('/api/public/lm/submit', body); })
-    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
-    .then(function(x){
-      if (!x.ok || !x.j.ok) throw new Error((x.j && x.j.error) || 'Nije poslato, probaj ponovo.');
-      if (!S.done) px('track', 'Lead', {content_name:'Video 80k leadova'}, {eventID:S.sid});
-      S.done = x.j.instagram || h; save();
-      thanks();
-    })
-    .catch(function(ex){
-      err.textContent = ex && ex.message && ex.message.length < 140 ? ex.message : 'Nije poslato, probaj ponovo.';
-      btn.disabled = false; btn.textContent = 'Hoću analizu';
-    });
-});
+function bindForm(form, via, onDone){
+  var ig = form.querySelector('input[type="text"]');
+  var mejl = form.querySelector('input[type="email"]');
+  var err = form.querySelector('.err');
+  var btn = form.querySelector('button[type="submit"]');
+  [ig, mejl].forEach(function(el){
+    el.addEventListener('focus', function(){ formFocus(via); });
+    el.addEventListener('input', function(){ err.textContent = ''; });
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var h = normalize(ig.value);
+    if (!valid(h)){ err.textContent = 'Upiši samo korisničko ime sa Instagrama, na primer tvojprofil.'; ig.focus(); return; }
+    var em = String(mejl.value||'').trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ err.textContent = 'Proveri mejl.'; mejl.focus(); return; }
+    btn.disabled = true; btn.textContent = 'Šaljem...';
+    var body = {sid:S.sid, magnet:'video', via:via, instagram:h, email:em, website:document.getElementById('website').value||'',
+      ms:Date.now()-T0, fbp:cookie('_fbp'), fbc:cookie('_fbc')};
+    queue.then(function(){ return send('/api/public/lm/submit', body); })
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+      .then(function(x){
+        if (!x.ok || !x.j.ok) throw new Error((x.j && x.j.error) || 'Nije poslato, probaj ponovo.');
+        if (!S.done) px('track', 'Lead', {content_name:'Video 80k leadova'}, {eventID:S.sid});
+        S.done = x.j.instagram || h; save();
+        thanks();
+        if (onDone) onDone();
+      })
+      .catch(function(ex){
+        err.textContent = ex && ex.message && ex.message.length < 140 ? ex.message : 'Nije poslato, probaj ponovo.';
+        btn.disabled = false; btn.textContent = 'Hoću analizu';
+      });
+  });
+}
 
-function thanks(){
+function doneHtml(){
   var h = String(S.done).replace(/[^a-z0-9._]/g,'');
-  document.getElementById('offer-body').innerHTML =
-    '<div class="done"><span class="kicker">Primljeno</span>'+
+  return '<div class="done"><span class="kicker">Primljeno</span>'+
     '<h2 style="margin-top:10px">Javljam ti se u poruci, <span class="handle">@'+h+'</span></h2>'+
-    '<p>Pišem ti sa <b>@boris.prproj</b> i tamo dogovaramo termin za poziv. Ako ne vidiš poruku u inboxu, pogledaj zahteve za poruke.</p>'+
+    '<p>Pišem ti sa <b>@boris.prproj</b> i tamo dogovaramo termin za poziv. Ako ne vidiš poruku u inboxu, pogledaj zahteve za poruke.</p>';
+}
+function thanks(){
+  document.getElementById('offer-body').innerHTML = doneHtml() +
     '<p class="note">Pogrešan profil? <a href="#" id="again">Upiši ponovo</a></p></div>';
   document.getElementById('again').addEventListener('click', function(e){ e.preventDefault(); S.done = null; save(); location.reload(); });
 }
+
+bindForm(document.getElementById('form'), 'stranica');
 if (S.done) thanks();
+
+/* ---------- popup: najviše jednom po posetiocu, nikad posle poslate forme ----------
+   Telefon nema signal za izlazak, pa iskače kad je čovek najtopliji: pauza posle 2 min gledanja,
+   ponuda u videu (15:27, bez zatamnjenja, video ide dalje) i kraj videa. Kompjuter: i kad miš krene ka vrhu prozora. */
+var pop = document.getElementById('pop');
+var popOpen = false;
+function canPop(){ return !S.done && !S.popup && !popOpen; }
+function openPop(trigger){
+  if (!canPop()) return;
+  // Ne preko forme koju već popunjava.
+  var a = document.activeElement;
+  if (a && a.closest && a.closest('#form')) return;
+  S.popup = trigger; save(); popOpen = true;
+  pop.classList.toggle('soft', trigger === 'ponuda');
+  pop.hidden = false;
+  void pop.offsetHeight; // reflow, da animacija krene od zatvorenog stanja
+  pop.classList.add('open');
+  track('popup_show', {step:'popup', value:Object.assign(progressValue(S.maxPct), {trigger:trigger})});
+  px('trackCustom', 'PopupPrikazan', {trigger:trigger});
+}
+function closePop(how){
+  if (!popOpen) return;
+  popOpen = false;
+  pop.classList.remove('open');
+  setTimeout(function(){ pop.hidden = true; }, 300);
+  if (how) track('popup_close', {step:'popup', value:{how:how}});
+}
+pop.addEventListener('click', function(e){ if (e.target.closest('[data-close]')) closePop('zatvorio'); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePop('esc'); });
+bindForm(document.getElementById('pop-form'), 'popup', function(){
+  document.getElementById('pop-body').innerHTML = doneHtml() + '</div><button class="no" type="button" data-close>Zatvori</button>';
+});
+
+// Kompjuter: miš izlazi kroz vrh prozora (ka tabovima ili X), posle bar 8 sekundi na stranici.
+if (window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches){
+  document.addEventListener('mouseout', function(e){
+    if (!e.relatedTarget && e.clientY <= 0 && Date.now() - T0 > 8000) openPop('izlaz');
+  });
+}
 </script>
 </body>
 </html>
