@@ -118,9 +118,6 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 
   @media (min-width:700px){
     .offer{padding:34px 36px}
-    form .row{display:flex;gap:10px;align-items:stretch}
-    form .row .igfield{flex:1}
-    form .row .cta{width:auto;margin-top:0;padding:0 26px;min-height:58px}
   }
 </style>
 </head>
@@ -159,13 +156,14 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
       </ul>
       <form id="form" novalidate>
         <label for="ig">Tvoj Instagram</label>
-        <div class="row">
-          <div class="igfield"><span>@</span><input id="ig" name="ig" type="text" inputmode="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="tvojprofil" maxlength="80"></div>
-          <button class="cta" id="send" type="submit">Hoću analizu</button>
-        </div>
+        <div class="igfield"><span>@</span><input id="ig" name="ig" type="text" inputmode="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="tvojprofil" maxlength="80"></div>
+        <label for="mejl" style="margin-top:14px">Mejl</label>
+        <div class="igfield"><input id="mejl" name="mejl" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="ime@primer.com" maxlength="200"></div>
+        <button class="cta" id="send" type="submit">Hoću analizu</button>
         <div class="hp" aria-hidden="true"><label for="website">Sajt</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
         <p class="err" id="err" role="alert"></p>
-        <p class="note">Javljam ti se u poruci sa <b>@boris.prproj</b>, tamo dogovaramo termin. Profil mora da bude javan da bih mogao da ga pogledam. <a href="privatnost/">Privatnost</a></p>
+        <p class="note">Javljam ti se u poruci sa <b>@boris.prproj</b>, tamo dogovaramo termin. Profil mora da bude javan da bih mogao da ga pogledam.</p>
+        <p class="note">Na mejl ti povremeno šaljem savete o sadržaju. Odjava je jednim klikom, u svakom mejlu. <a href="privatnost/">Privatnost</a></p>
       </form>
     </div>
   </section>
@@ -350,6 +348,7 @@ var form = document.getElementById('form');
 var ig = document.getElementById('ig');
 var err = document.getElementById('err');
 var btn = document.getElementById('send');
+var mejl = document.getElementById('mejl');
 
 function normalize(v){
   v = String(v||'').trim();
@@ -359,20 +358,25 @@ function normalize(v){
 }
 function valid(h){ return /^[a-z0-9._]{1,30}$/.test(h) && !/^\.|\.$|\.\./.test(h); }
 
-ig.addEventListener('focus', function(){
+function formFocus(){
   if (S.form) return;
   S.form = true; save();
   track('form_focus', {step:'forma', value:progressValue(S.maxPct)});
   px('trackCustom', 'FormaStart');
-});
+}
+ig.addEventListener('focus', formFocus);
+mejl.addEventListener('focus', formFocus);
 ig.addEventListener('input', function(){ err.textContent = ''; });
+mejl.addEventListener('input', function(){ err.textContent = ''; });
 
 form.addEventListener('submit', function(e){
   e.preventDefault();
   var h = normalize(ig.value);
   if (!valid(h)){ err.textContent = 'Upiši samo korisničko ime sa Instagrama, na primer tvojprofil.'; ig.focus(); return; }
+  var em = String(mejl.value||'').trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ err.textContent = 'Proveri mejl.'; mejl.focus(); return; }
   btn.disabled = true; btn.textContent = 'Šaljem...';
-  var body = {sid:S.sid, magnet:'video', instagram:h, website:document.getElementById('website').value||'',
+  var body = {sid:S.sid, magnet:'video', instagram:h, email:em, website:document.getElementById('website').value||'',
     ms:Date.now()-T0, fbp:cookie('_fbp'), fbc:cookie('_fbc')};
   queue.then(function(){ return send('/api/public/lm/submit', body); })
     .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
