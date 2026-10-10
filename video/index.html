@@ -78,15 +78,43 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
     border:1.5px solid var(--accent-line);color:var(--accent);font-weight:600;font-size:16px;text-decoration:none}
 
   .section{margin-top:44px}
-  .chapters{list-style:none;margin-top:16px;border-top:1px solid var(--border)}
-  .chapters li{border-bottom:1px solid var(--border)}
-  .chapters button{display:grid;grid-template-columns:62px 1fr;gap:12px;width:100%;padding:13px 2px;text-align:left;font-size:16px;
-    transition:color .15s}
-  .chapters button:hover{color:var(--accent)}
-  .chapters .ts{font-family:var(--mono);font-size:14px;color:var(--accent);padding-top:2px}
-  .chapters .now{color:var(--accent)}
-  .proof{margin-top:16px;color:var(--muted);font-size:15px}
-  .proof b{color:var(--text);font-weight:600}
+  /* tekst videa */
+  .read{margin-top:56px}
+  .read .lead{color:var(--muted);margin-top:12px}
+  .read article{margin-top:8px}
+  .read h3{font-family:var(--display);font-weight:700;font-size:clamp(21px,5.4vw,25px);letter-spacing:-.02em;line-height:1.15;
+    margin-top:40px;text-wrap:balance;scroll-margin-top:16px}
+  .read h3 .n{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--accent);font-weight:500;margin-bottom:8px}
+  .read p{margin-top:14px;color:#dcdce0}
+  .read p b{color:var(--text);font-weight:600}
+  .read ol,.read ul{margin-top:14px;padding-left:0;list-style:none;display:grid;gap:10px;counter-reset:k}
+  .read ol li{display:grid;grid-template-columns:30px 1fr;gap:8px;color:#dcdce0;counter-increment:k}
+  .read ol li::before{content:counter(k);font-family:var(--mono);font-size:14px;color:var(--accent);padding-top:3px}
+  .read ul li{display:flex;gap:10px;color:#dcdce0}
+  .read ul li::before{content:'';flex:none;width:7px;height:7px;border-radius:2px;background:var(--accent);margin-top:10px}
+  .read .stat{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .read .stat div{flex:1 1 140px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
+  .read .stat b{display:block;font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--text)}
+  .read .stat span{font-size:14px;color:var(--muted)}
+  .read .to-form{display:inline-flex;align-items:center;min-height:48px;margin-top:18px;padding:0 18px;border-radius:12px;
+    background:var(--accent);color:#06181a;font-weight:700;text-decoration:none}
+
+  /* rezultati klijenata */
+  .cases{margin-top:64px}
+  .cases .lead{color:var(--muted);margin-top:12px}
+  .case{margin-top:22px;border-radius:18px;overflow:hidden;background:var(--surface);border:1px solid var(--border)}
+  .case img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover}
+  .case .body{padding:20px}
+  .case .num{font-family:var(--display);font-weight:800;font-size:clamp(34px,9vw,44px);letter-spacing:-.03em;line-height:1;color:var(--accent)}
+  .case .what{display:block;color:var(--text);font-weight:600;margin-top:6px}
+  .case .who{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:14px}
+  .case p{color:var(--muted);margin-top:8px;font-size:16px}
+  @media (min-width:700px){
+    .case{display:grid;grid-template-columns:300px 1fr}
+    .case img{height:100%;aspect-ratio:auto}
+    .case .body{padding:26px 28px}
+    .case.noimg{display:block}
+  }
 
   .offer{margin-top:44px;padding:26px 20px;border-radius:18px;background:var(--surface);border:1.5px solid var(--accent-line);
     scroll-margin-top:16px}
@@ -155,15 +183,126 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 
   <div class="player"><div id="yt"></div></div>
   <div class="meta">
-    <p>Na kraju videa nudim besplatnu analizu profila. Prijava je ispod.</p>
-    <a class="jump" href="#analiza">Hoću besplatnu analizu ↓</a>
+    <p>Ne možeš sad da gledaš? <a href="#tekst" style="color:var(--muted)">Ceo video je ispod u tekstu</a></p>
+    <a class="jump" href="#analiza">Hoću besplatnu analizu profila ↓</a>
   </div>
 
-  <section class="section" aria-labelledby="sadrzaj">
-    <h2 id="sadrzaj">Šta je u videu</h2>
-    <ol class="chapters" id="chapters"></ol>
+  <section class="read" aria-labelledby="tekst">
+    <span class="kicker">Ceo video u tekstu</span>
+    <h2 id="tekst" style="margin-top:10px">Ne možeš sad da pustiš zvuk? Sve iz videa je ovde, istim redom.</h2>
+    <p class="lead">Čitanje traje oko 7 minuta.</p>
+
+    <article>
+      <h3 data-read="1"><span class="n">01</span>Šta je lead</h3>
+      <p>Lead je osoba koja je pokazala interesovanje za tvoj proizvod ili uslugu. Javila ti se u poruci ili je ostavila ključnu reč u komentaru. Kad u videu kažem "ako te zanima content, napiši CONTENT u komentaru", svako ko to napiše je lead: ima problem koji ja mogu da rešim i hoće da čuje više.</p>
+      <p>Na profilu SuperDog Akademije (Ivan, online edukacija za pse) to izgleda ovako: video sa letnjim vodičem i video o šetnji psa imaju po nekoliko hiljada komentara, a tu nisu uračunate poruke ni TikTok. Jedan Ivanov video je tako doneo između 7.000 i 8.000 leadova.</p>
+
+      <h3 data-read="2"><span class="n">02</span>Koliko pregleda i pratilaca ti treba za početak</h3>
+      <p>Ako sad imaš 200, 500 ili 2.000 pregleda po klipu, sve ovo i dalje važi. Pratioce gradiš usput, kroz ovo što ću ti pokazati, ali znaj da te mali broj pratilaca koči dok ih ne izgradiš.</p>
+      <p>Isti princip koristim kod svakog klijenta, bez obzira na nišu, na to čime se bavi i kome prodaje:</p>
+      <div class="stat">
+        <div><b>2.500.000</b><span>pregleda na jednom klipu, SuperDog Akademija</span></div>
+        <div><b>907.000</b><span>pregleda na jednom klipu, RO! detox sokovi</span></div>
+        <div><b>906.000</b><span>pregleda na jednom klipu, frizerka Ana</span></div>
+        <div><b>300.000</b><span>pregleda na jednom klipu, veterina Darvin</span></div>
+      </div>
+
+      <h3 data-read="3"><span class="n">03</span>Najveća greška je organski klip koji zvuči kao reklama</h3>
+      <p>Najčešće čujem "algoritam me ne voli". Kad pogledam te profile, klipovi zvuče kao reklame koje bi trebalo da idu na plaćene oglase.</p>
+      <p>Organski sadržaj je tu da ljudima pomogne. Prodaja dolazi posle. U lošim primerima skoro uvek vidim isti kraj: poziv na sajt ili "javi se ako ti treba naša usluga".</p>
+      <p>Probaj ovo odmah: otvori svoj profil, uđi u bilo koji klip i pitaj se zašto bi ga neko gledao. Ako u klipu kažeš "ovaj telefon je najbolji na svetu, ja sam ga ručno pravio", gledalac se pita ko si ti uopšte. Da bi te video kao stručnjaka, treba mu dokaz. Taj dokaz gradiš tako što mu iz klipa u klip daješ nešto korisno. Kad ti poveruje i posle vidi tvoju reklamu, tek tad je spreman da kupi.</p>
+      <p>Rečenice tipa "mi nudimo" i "naša usluga" ne idu u organske klipove.</p>
+
+      <h3 data-read="4"><span class="n">04</span>Organski klip počinje od problema kupca, ne od tvoje usluge</h3>
+      <p>Da bi neko gledao tvoj klip, mora u njemu da prepozna svoj problem ili nešto što ga zanima. Bez toga klip ne ide nikud.</p>
+      <p>Primer: RO! prodaje detox sokove. Tri problema njihovog kupca su mršavljenje, creva i nadutost. Kad god klip govori o nekom od ta tri, ode viralno. Nema tu trika sa algoritmom: pričamo isključivo o problemima koje kupac ima, i to je cela filozofija. Kad ovo primeniš, videćeš skok u pregledima, pratiocima i komentarima.</p>
+
+      <h3 data-read="5"><span class="n">05</span>Loš i dobar organski klip, jedan za drugim</h3>
+      <p><b>Loš:</b> žena u klipu kaže "Moguće je, samo su te ubedili u suprotno". Ko je ne prati nema pojma ko je ona, čime se bavi i o čemu priča. Klip razumeju samo ljudi koji je već znaju i znaju koji problem rešava, pa je ostao na par lajkova. Fali kontekst i fali problem koji gledalac odmah prepozna.</p>
+      <p><b>Dobar:</b> "Top 3 rase pasa koje teško podnose samoću" sa SuperDog profila. Pogađa svakog ko ima psa. Ko radi od 9 do 5, hoće da zna da li njegova rasa teško podnosi samoću i šta da radi s tim. Klip daje vrednost bez ikakvog uslova i ima preko 4.000 lajkova. A ima dosta klipova o psima sa po 1.000 pregleda, pa sama tema nije dovoljna, presudno je koji problem klip rešava.</p>
+
+      <h3 data-read="6"><span class="n">06</span>Jedan besplatan klip sa lead magnetom doneo je preko 1.000 € prodaje</h3>
+      <p>Lead magnet je nešto što daješ besplatno da bi dobio nečiji kontakt i ušao u razgovor sa tom osobom. Posle tu osobu "krčkaš", kao ćevap na roštilju, i često ona postane kupac.</p>
+      <p>Ivan je u klipu pokazao kako da proveriš da li je asfalt prevruć za psa: staviš ruku na beton pet sekundi. Na kraju smo rekli: ako hoćeš besplatan vodič kako da tvoj pas lakše podnese vrućine, napiši LETNJI VODIČ u komentaru. Javilo se preko hiljadu ljudi.</p>
+      <p>U vodiču je bio kod za popust na sve Ivanove kurseve, i otprilike 10% tih ljudi je kupilo kurs. Imali su razlog: već su čitali o svom problemu, vodič im je pomogao, Ivana su pratili od ranije, i popust je samo bio poslednji korak. Taj jedan klip, objavljen uz dobar lead magnet, doneo je preko 1.000 € naplaćene prodaje.</p>
+
+      <h3 data-read="7"><span class="n">07</span>Pregled i lead su dve različite stvari</h3>
+      <p>Ne juri preglede po svaku cenu. Možeš imati milion pregleda, ali pitanje je koliko su od toga leadovi i kakav ti glas taj klip pravi. Šok klipovi za preglede kod većine ljudi izazovu samo kontra reakciju. Drži se svoje niše i onoga u čemu možeš nekome da pomogneš.</p>
+      <p>Klip koji je namenski napravljen da privuče širu publiku treba da ima poziv na akciju. Taj poziv vodi na lead magnet, a lead magnet na formu, landing ili poruku, da bi razgovor išao dalje. Ne mora svaki klip ovako, samo oni koji su pravljeni za domet.</p>
+      <p>Primer sa RO! profila: klip o crevima, pravo u problem kupca. Preko 1.000 komentara na jednoj mreži, plus poruke. U komentarima nema lažnih profila ni trolova. Pišu uglavnom stariji ljudi koji stvarno imaju problem sa crevima, tačno oni kojima RO! pomaže, i to se posle videlo u prodaji.</p>
+
+      <h3 data-read="8"><span class="n">08</span>Šest koraka viralnog klipa</h3>
+      <p>Ovo je okvir po kome pravim klipove za sve klijente koje si video na početku:</p>
+      <ol>
+        <li><span><b>Problem kupca.</b> Pravi problem koji tvoj kupac ima, ne onaj koji ti misliš da ima.</span></li>
+        <li><span><b>Tema.</b> Tema koja ga pogađa baš zbog tog problema.</span></li>
+        <li><span><b>Hook.</b> Prva rečenica zbog koje prestaje da skroluje.</span></li>
+        <li><span><b>Skripta.</b> Tekst koji ga drži u klipu do kraja.</span></li>
+        <li><span><b>Snimak.</b> Lepo snimljen kadar, da ljudi ne odu zbog slike i zvuka.</span></li>
+        <li><span><b>Montaža.</b> Stil montaže koji odgovara publici i tvom načinu pričanja.</span></li>
+      </ol>
+      <p>Kad ovo ispratiš kako treba, viralan klip dođe, posebno ako prodaješ krajnjim kupcima.</p>
+
+      <h3 data-read="9"><span class="n">09</span>Šta da uradiš odmah posle ovoga</h3>
+      <ul>
+        <li><span>Napiši 10 problema svog idealnog kupca.</span></li>
+        <li><span>Izaberi onaj koji izaziva najjaču frustraciju ili želju.</span></li>
+        <li><span>Napravi hook oko tog problema. Najbolje tri verzije.</span></li>
+        <li><span>U samom klipu daj konkretno rešenje.</span></li>
+        <li><span>Na kraju stavi poziv na akciju koji nudi još vrednosti, ne tvoju uslugu.</span></li>
+      </ul>
+
+      <h3 data-read="10"><span class="n">10</span>Pitanja na koja verovatno još nemaš odgovor</h3>
+      <p>Kojih 10 do 30 tema da snimiš ovog meseca, koji hookovi imaju najveću šansu, koji klip vodi na lead magnet i šta da ti bude lead magnet. Kako to da snimiš i montiraš, gde da nađeš dobrog montažera po normalnoj ceni i koji klip da pretvoriš u plaćenu reklamu. Kako da pratiš koliko leadova je stiglo, koliko je kvalifikovano i kome šta da ponudiš.</p>
+      <p>Normalno je da ovo nemaš rešeno. Kao vlasnik biznisa ne treba sve to da nosiš sam, jer te to odvede u burnout ili ti obori rezultate i u sadržaju i u poslu. Zato nudim besplatnu analizu tvog profila: 15 minuta na pozivu, jedan na jedan.</p>
+      <a class="to-form" href="#analiza">Hoću besplatnu analizu Instagram profila ↓</a>
+    </article>
   </section>
 
+  <section class="cases" aria-labelledby="rezultati">
+    <span class="kicker">Rezultati klijenata</span>
+    <h2 id="rezultati" style="margin-top:10px">Isti sistem, četiri različita biznisa</h2>
+    <p class="lead">Sve ispod je urađeno organskim sadržajem, bez novca u reklame.</p>
+
+    <div class="case">
+      <img src="img/case-ivan.jpg" width="1000" height="625" loading="lazy" alt="Boris u razgovoru sa Ivanom, osnivačem SuperDog Akademije">
+      <div class="body">
+        <div class="num">7.000+</div>
+        <span class="what">leadova iz jednog videa</span>
+        <span class="who">SuperDog Akademija · online edukacija za pse</span>
+        <p>Ivan prodaje kurseve o šetnji i treningu pasa. Videe smo rotirali na svaka dva dana i merili šta prolazi, dok nisam tačno znao koje poruke pogađaju njegovu publiku. Video koji je bio zbir svega naučenog prešao je 2,5 miliona pregleda i doneo preko 7.000 leadova za njegovu edukaciju.</p>
+      </div>
+    </div>
+
+    <div class="case">
+      <img src="img/case-stefan.jpg" width="1000" height="625" loading="lazy" alt="Boris u razgovoru sa Stefanom Šćirbanom">
+      <div class="body">
+        <div class="num">60.000 €</div>
+        <span class="what">vrednost ugovora za 7 dana</span>
+        <span class="who">Stefan Šćirban · Meta ADS edukator</span>
+        <p>Stefan prodaje kurs i zajednicu za Meta reklame i radi B2B. U jednoj organskoj kampanji od 7 dana sadržaj je doveo leadove iz kojih je sklopljeno 7 high-ticket ugovora, ukupno preko 60.000 €. Radimo zajedno dve godine, a njegov deo posla je i dalje da stane pred kameru i deli znanje.</p>
+      </div>
+    </div>
+
+    <div class="case">
+      <img src="img/case-ana.jpg" width="1000" height="625" loading="lazy" alt="Kamera na stativu u Aninom frizerskom salonu">
+      <div class="body">
+        <div class="num">3x</div>
+        <span class="what">veća zarada salona</span>
+        <span class="who">Ana · frizerski salon, Novi Banovci</span>
+        <p>Anu su znale samo njene mušterije. Umesto "pre i posle" frizura snimali smo nju, njene savete i priče iz salona. Klipovi su krenuli da se dele, a u inbox su stizale poruke žena koje su gledale sve njene videe i hoće baš kod nje, a neke zbog termina prelaze i desetine kilometara. Salon danas zarađuje tri puta više nego kad smo počeli.</p>
+      </div>
+    </div>
+
+    <div class="case noimg">
+      <div class="body">
+        <div class="num">2.000+</div>
+        <span class="what">toplih leadova iz jednog novog ugla</span>
+        <span class="who">RO! · detox sokovi</span>
+        <p>RO! sokovi pomažu i kod problema sa crevima, ali nijedan klip to nije spominjao. Svi su pričali o soku. Prvi klip o tome zašto su creva bitna doneo je preko 2.000 toplih leadova.</p>
+      </div>
+    </div>
+  </section>
   <section class="offer" id="analiza" aria-live="polite">
     <div id="offer-body">
       <h2>Besplatna analiza tvog Instagram profila</h2>
@@ -221,17 +360,6 @@ var MILESTONES = [10,20,30,40,50,60,70,80,90,OFFER_PCT,100];
 var STORE_KEY = 'ec_video_v1';
 var STORE_TTL = 1000 * 60 * 60 * 24 * 7; // 7 dana
 
-var CHAPTERS = [
-  [51,  'Šta je lead i kako izgleda na profilima mojih klijenata'],
-  [195, 'Zašto organski video koji zvuči kao reklama ne dovodi upite'],
-  [307, 'Zašto organski video počinje od problema kupca, a ne od tvoje usluge'],
-  [389, 'Loš i dobar organski video, jedan za drugim'],
-  [520, 'Lead magnet koji je iz jednog videa doneo preko 1.000 € prodaje'],
-  [633, 'Zašto milion pregleda ne znači i mnogo upita'],
-  [781, 'Šest koraka viralnog videa, od problema kupca do montaže'],
-  [827, 'Šta da uradiš odmah posle videa'],
-  [927, 'Besplatna analiza tvog profila']
-];
 
 /* ---------- stanje (localStorage, da povratak na stranicu nastavi istu sesiju) ---------- */
 var T0 = Date.now();
@@ -289,23 +417,21 @@ function progressValue(pct){ return {pct:Math.round(pct), watched:Math.round(S.w
 
 track('view', {attr:attribution(), value: resumed ? {resumed:true} : null});
 
-/* ---------- poglavlja ---------- */
-function mmss(s){ return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
-var chEl = document.getElementById('chapters');
-chEl.innerHTML = CHAPTERS.map(function(c,i){
-  return '<li><button type="button" data-t="'+c[0]+'"><span class="ts">'+mmss(c[0])+'</span><span>'+c[1]+'</span></button></li>';
-}).join('');
-chEl.addEventListener('click', function(e){
-  var b = e.target.closest('button[data-t]');
-  if (!b) return;
-  var t = +b.getAttribute('data-t');
-  document.querySelector('.player').scrollIntoView({behavior:'smooth', block:'center'});
-  if (!player || !player.seekTo) return;
-  // Pre prvog puštanja telefon često ne dozvoli play iz stranice: video se namesti na poglavlje, pa krene na prvi tap.
-  if (!S.played) player.cueVideoById({videoId:VIDEO_ID, startSeconds:t});
-  else player.seekTo(t, true);
-  player.playVideo();
-});
+/* ---------- tekst videa: dokle je čitao (najdalja sekcija, jednom po sekciji) ---------- */
+S.read = S.read || 0;
+if ('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var n = +en.target.getAttribute('data-read');
+      io.unobserve(en.target);
+      if (n <= S.read) return;
+      S.read = n; save();
+      track('read', {step:'tekst', value:{sekcija:n}});
+    });
+  }, {rootMargin:'0px 0px -40% 0px'});
+  Array.prototype.forEach.call(document.querySelectorAll('[data-read]'), function(el){ io.observe(el); });
+}
 
 /* ---------- YouTube player i merenje gledanja ---------- */
 var player = null, ticking = null, lastTick = 0;
@@ -349,13 +475,7 @@ function tick(){
     track('progress', {step:'video_pola', value:progressValue(S.maxPct)});
     px('trackCustom', 'Video50');
   }
-  hilite(p);
   save();
-}
-function hilite(p){
-  var t = (p/100)*DURATION, idx = -1;
-  CHAPTERS.forEach(function(c,i){ if (t >= c[0]) idx = i; });
-  Array.prototype.forEach.call(chEl.querySelectorAll('button'), function(b,i){ b.classList.toggle('now', i===idx); });
 }
 function onState(e){
   var st = e.data;
