@@ -80,7 +80,8 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   .section{margin-top:44px}
   /* tekst videa */
   .read{margin-top:56px}
-  .read .lead{color:var(--muted);margin-top:12px}
+  .read h2.center,.cases h2.center{text-align:center;max-width:560px;margin:0 auto}
+  .read .small{font-size:14px;color:var(--faint);margin-top:10px}
   .read article{margin-top:8px}
   .read h3{font-family:var(--display);font-weight:700;font-size:clamp(21px,5.4vw,25px);letter-spacing:-.02em;line-height:1.15;
     margin-top:40px;text-wrap:balance;scroll-margin-top:16px}
@@ -96,12 +97,11 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   .read .stat div{flex:1 1 140px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
   .read .stat b{display:block;font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--text)}
   .read .stat span{font-size:14px;color:var(--muted)}
-  .read .to-form{display:inline-flex;align-items:center;min-height:48px;margin-top:18px;padding:0 18px;border-radius:12px;
+  .read .to-form{display:flex;align-items:center;justify-content:center;text-align:center;width:100%;min-height:54px;margin-top:18px;padding:8px 18px;border-radius:14px;
     background:var(--accent);color:#06181a;font-weight:700;text-decoration:none}
 
   /* rezultati klijenata */
   .cases{margin-top:64px}
-  .cases .lead{color:var(--muted);margin-top:12px}
   .case{margin-top:22px;border-radius:18px;overflow:hidden;background:var(--surface);border:1px solid var(--border)}
   .case img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover}
   .case .body{padding:20px}
@@ -188,89 +188,61 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   </div>
 
   <section class="read" aria-labelledby="tekst">
-    <span class="kicker">Ceo video u tekstu</span>
-    <h2 id="tekst" style="margin-top:10px">Ne možeš sad da pustiš zvuk? Sve iz videa je ovde, istim redom.</h2>
-    <p class="lead">Čitanje traje oko 7 minuta.</p>
+    <h2 id="tekst" class="center">Ne možeš sad da pustiš zvuk? Sve iz videa je ovde, istim redom.</h2>
 
     <article>
       <h3 data-read="1"><span class="n">01</span>Šta je lead</h3>
-      <p>Lead je osoba koja je pokazala interesovanje za tvoj proizvod ili uslugu. Javila ti se u poruci ili je ostavila ključnu reč u komentaru. Kad u videu kažem "ako te zanima content, napiši CONTENT u komentaru", svako ko to napiše je lead: ima problem koji ja mogu da rešim i hoće da čuje više.</p>
-      <p>Na profilu SuperDog Akademije (Ivan, online edukacija za pse) to izgleda ovako: video sa letnjim vodičem i video o šetnji psa imaju po nekoliko hiljada komentara, a tu nisu uračunate poruke ni TikTok. Jedan Ivanov video je tako doneo između 7.000 i 8.000 leadova.</p>
+      <p>Osoba koja se javila u poruci ili ostavila ključnu reč u komentaru, jer ima problem koji rešavaš. Jedan Ivanov video (SuperDog Akademija, edukacija za pse) doneo je između 7.000 i 8.000 leadova.</p>
 
-      <h3 data-read="2"><span class="n">02</span>Koliko pregleda i pratilaca ti treba za početak</h3>
-      <p>Ako sad imaš 200, 500 ili 2.000 pregleda po klipu, sve ovo i dalje važi. Pratioce gradiš usput, kroz ovo što ću ti pokazati, ali znaj da te mali broj pratilaca koči dok ih ne izgradiš.</p>
-      <p>Isti princip koristim kod svakog klijenta, bez obzira na nišu, na to čime se bavi i kome prodaje:</p>
+      <h3 data-read="2"><span class="n">02</span>Najveća greška je klip koji zvuči kao reklama</h3>
+      <p>Organski klip je tu da pomogne, prodaja dolazi posle. "Mi nudimo" i "naša usluga" ne idu u njega.</p>
+      <p>Otvori bilo koji svoj klip i pitaj se zašto bi ga neko gledao.</p>
+
+      <h3 data-read="3"><span class="n">03</span>Klip počinje od problema kupca</h3>
+      <p>RO! prodaje detox sokove. Njihov kupac ima tri problema: mršavljenje, creva i nadutost. Svaki klip o nekom od ta tri ode viralno.</p>
+      <p>Ivanov klip "Top 3 rase pasa koje teško podnose samoću" pogodio je svakog ko ima psa i radi od 9 do 5 i dobio preko 4.000 lajkova.</p>
       <div class="stat">
-        <div><b>2.500.000</b><span>pregleda na jednom klipu, SuperDog Akademija</span></div>
-        <div><b>907.000</b><span>pregleda na jednom klipu, RO! detox sokovi</span></div>
-        <div><b>906.000</b><span>pregleda na jednom klipu, frizerka Ana</span></div>
-        <div><b>300.000</b><span>pregleda na jednom klipu, veterina Darvin</span></div>
+        <div><b>2.500.000</b><span>pregleda, SuperDog</span></div>
+        <div><b>907.000</b><span>pregleda, RO!</span></div>
+        <div><b>906.000</b><span>pregleda, frizerka Ana</span></div>
+        <div><b>300.000</b><span>pregleda, veterina Darvin</span></div>
       </div>
+      <p class="small">Po jedan klip, isti princip u četiri niše.</p>
 
-      <h3 data-read="3"><span class="n">03</span>Najveća greška je organski klip koji zvuči kao reklama</h3>
-      <p>Najčešće čujem "algoritam me ne voli". Kad pogledam te profile, klipovi zvuče kao reklame koje bi trebalo da idu na plaćene oglase.</p>
-      <p>Organski sadržaj je tu da ljudima pomogne. Prodaja dolazi posle. U lošim primerima skoro uvek vidim isti kraj: poziv na sajt ili "javi se ako ti treba naša usluga".</p>
-      <p>Probaj ovo odmah: otvori svoj profil, uđi u bilo koji klip i pitaj se zašto bi ga neko gledao. Ako u klipu kažeš "ovaj telefon je najbolji na svetu, ja sam ga ručno pravio", gledalac se pita ko si ti uopšte. Da bi te video kao stručnjaka, treba mu dokaz. Taj dokaz gradiš tako što mu iz klipa u klip daješ nešto korisno. Kad ti poveruje i posle vidi tvoju reklamu, tek tad je spreman da kupi.</p>
-      <p>Rečenice tipa "mi nudimo" i "naša usluga" ne idu u organske klipove.</p>
+      <h3 data-read="4"><span class="n">04</span>Jedan klip sa lead magnetom, preko 1.000 € prodaje</h3>
+      <p>Ivan je pokazao kako da proveriš da li je asfalt prevruć za psa, pa ponudio besplatan letnji vodič za reč u komentaru. Javilo se preko hiljadu ljudi.</p>
+      <p>U vodiču je bio kod za popust na kurseve. Kupilo je oko 10% njih.</p>
 
-      <h3 data-read="4"><span class="n">04</span>Organski klip počinje od problema kupca, ne od tvoje usluge</h3>
-      <p>Da bi neko gledao tvoj klip, mora u njemu da prepozna svoj problem ili nešto što ga zanima. Bez toga klip ne ide nikud.</p>
-      <p>Primer: RO! prodaje detox sokove. Tri problema njihovog kupca su mršavljenje, creva i nadutost. Kad god klip govori o nekom od ta tri, ode viralno. Nema tu trika sa algoritmom: pričamo isključivo o problemima koje kupac ima, i to je cela filozofija. Kad ovo primeniš, videćeš skok u pregledima, pratiocima i komentarima.</p>
+      <h3 data-read="5"><span class="n">05</span>Pregled nije isto što i lead</h3>
+      <p>Milion pregleda ne znači ništa ako među gledaocima nema kupaca. Klip za širu publiku zato ima poziv na lead magnet, a lead magnet vodi na formu ili u poruke.</p>
 
-      <h3 data-read="5"><span class="n">05</span>Loš i dobar organski klip, jedan za drugim</h3>
-      <p><b>Loš:</b> žena u klipu kaže "Moguće je, samo su te ubedili u suprotno". Ko je ne prati nema pojma ko je ona, čime se bavi i o čemu priča. Klip razumeju samo ljudi koji je već znaju i znaju koji problem rešava, pa je ostao na par lajkova. Fali kontekst i fali problem koji gledalac odmah prepozna.</p>
-      <p><b>Dobar:</b> "Top 3 rase pasa koje teško podnose samoću" sa SuperDog profila. Pogađa svakog ko ima psa. Ko radi od 9 do 5, hoće da zna da li njegova rasa teško podnosi samoću i šta da radi s tim. Klip daje vrednost bez ikakvog uslova i ima preko 4.000 lajkova. A ima dosta klipova o psima sa po 1.000 pregleda, pa sama tema nije dovoljna, presudno je koji problem klip rešava.</p>
-
-      <h3 data-read="6"><span class="n">06</span>Jedan besplatan klip sa lead magnetom doneo je preko 1.000 € prodaje</h3>
-      <p>Lead magnet je nešto što daješ besplatno da bi dobio nečiji kontakt i ušao u razgovor sa tom osobom. Posle tu osobu "krčkaš", kao ćevap na roštilju, i često ona postane kupac.</p>
-      <p>Ivan je u klipu pokazao kako da proveriš da li je asfalt prevruć za psa: staviš ruku na beton pet sekundi. Na kraju smo rekli: ako hoćeš besplatan vodič kako da tvoj pas lakše podnese vrućine, napiši LETNJI VODIČ u komentaru. Javilo se preko hiljadu ljudi.</p>
-      <p>U vodiču je bio kod za popust na sve Ivanove kurseve, i otprilike 10% tih ljudi je kupilo kurs. Imali su razlog: već su čitali o svom problemu, vodič im je pomogao, Ivana su pratili od ranije, i popust je samo bio poslednji korak. Taj jedan klip, objavljen uz dobar lead magnet, doneo je preko 1.000 € naplaćene prodaje.</p>
-
-      <h3 data-read="7"><span class="n">07</span>Pregled i lead su dve različite stvari</h3>
-      <p>Ne juri preglede po svaku cenu. Možeš imati milion pregleda, ali pitanje je koliko su od toga leadovi i kakav ti glas taj klip pravi. Šok klipovi za preglede kod većine ljudi izazovu samo kontra reakciju. Drži se svoje niše i onoga u čemu možeš nekome da pomogneš.</p>
-      <p>Klip koji je namenski napravljen da privuče širu publiku treba da ima poziv na akciju. Taj poziv vodi na lead magnet, a lead magnet na formu, landing ili poruku, da bi razgovor išao dalje. Ne mora svaki klip ovako, samo oni koji su pravljeni za domet.</p>
-      <p>Primer sa RO! profila: klip o crevima, pravo u problem kupca. Preko 1.000 komentara na jednoj mreži, plus poruke. U komentarima nema lažnih profila ni trolova. Pišu uglavnom stariji ljudi koji stvarno imaju problem sa crevima, tačno oni kojima RO! pomaže, i to se posle videlo u prodaji.</p>
-
-      <h3 data-read="8"><span class="n">08</span>Šest koraka viralnog klipa</h3>
-      <p>Ovo je okvir po kome pravim klipove za sve klijente koje si video na početku:</p>
+      <h3 data-read="6"><span class="n">06</span>Šest koraka viralnog klipa</h3>
       <ol>
-        <li><span><b>Problem kupca.</b> Pravi problem koji tvoj kupac ima, ne onaj koji ti misliš da ima.</span></li>
-        <li><span><b>Tema.</b> Tema koja ga pogađa baš zbog tog problema.</span></li>
-        <li><span><b>Hook.</b> Prva rečenica zbog koje prestaje da skroluje.</span></li>
-        <li><span><b>Skripta.</b> Tekst koji ga drži u klipu do kraja.</span></li>
-        <li><span><b>Snimak.</b> Lepo snimljen kadar, da ljudi ne odu zbog slike i zvuka.</span></li>
-        <li><span><b>Montaža.</b> Stil montaže koji odgovara publici i tvom načinu pričanja.</span></li>
+        <li><span>Problem kupca</span></li>
+        <li><span>Tema koja ga pogađa</span></li>
+        <li><span>Hook koji zaustavlja skrolovanje</span></li>
+        <li><span>Skripta koja drži do kraja</span></li>
+        <li><span>Lepo snimljen kadar</span></li>
+        <li><span>Montaža u stilu tvoje publike</span></li>
       </ol>
-      <p>Kad ovo ispratiš kako treba, viralan klip dođe, posebno ako prodaješ krajnjim kupcima.</p>
+      <p>Kreni danas: napiši 10 problema svog kupca, izaberi onaj koji najviše boli i napravi tri hooka oko njega.</p>
 
-      <h3 data-read="9"><span class="n">09</span>Šta da uradiš odmah posle ovoga</h3>
-      <ul>
-        <li><span>Napiši 10 problema svog idealnog kupca.</span></li>
-        <li><span>Izaberi onaj koji izaziva najjaču frustraciju ili želju.</span></li>
-        <li><span>Napravi hook oko tog problema. Najbolje tri verzije.</span></li>
-        <li><span>U samom klipu daj konkretno rešenje.</span></li>
-        <li><span>Na kraju stavi poziv na akciju koji nudi još vrednosti, ne tvoju uslugu.</span></li>
-      </ul>
-
-      <h3 data-read="10"><span class="n">10</span>Pitanja na koja verovatno još nemaš odgovor</h3>
-      <p>Kojih 10 do 30 tema da snimiš ovog meseca, koji hookovi imaju najveću šansu, koji klip vodi na lead magnet i šta da ti bude lead magnet. Kako to da snimiš i montiraš, gde da nađeš dobrog montažera po normalnoj ceni i koji klip da pretvoriš u plaćenu reklamu. Kako da pratiš koliko leadova je stiglo, koliko je kvalifikovano i kome šta da ponudiš.</p>
-      <p>Normalno je da ovo nemaš rešeno. Kao vlasnik biznisa ne treba sve to da nosiš sam, jer te to odvede u burnout ili ti obori rezultate i u sadržaju i u poslu. Zato nudim besplatnu analizu tvog profila: 15 minuta na pozivu, jedan na jedan.</p>
-      <a class="to-form" href="#analiza">Hoću besplatnu analizu Instagram profila ↓</a>
+      <h3 data-read="7"><span class="n">07</span>Ostatak prolazimo zajedno</h3>
+      <p>Teme za ceo mesec, lead magnet, snimanje, montaža, praćenje leadova. To je mnogo za nekog ko vodi biznis, zato nudim besplatnu analizu tvog profila, 15 minuta na pozivu.</p>
+      <a class="to-form" href="#analiza">Hoću besplatnu analizu profila ↓</a>
     </article>
   </section>
 
   <section class="cases" aria-labelledby="rezultati">
-    <span class="kicker">Rezultati klijenata</span>
-    <h2 id="rezultati" style="margin-top:10px">Isti sistem, četiri različita biznisa</h2>
-    <p class="lead">Sve ispod je urađeno organskim sadržajem, bez novca u reklame.</p>
+    <h2 id="rezultati" class="center">Rezultati klijenata, bez novca u reklame</h2>
 
     <div class="case">
       <img src="img/case-ivan.jpg" width="1000" height="625" loading="lazy" alt="Boris u razgovoru sa Ivanom, osnivačem SuperDog Akademije">
       <div class="body">
         <div class="num">7.000+</div>
         <span class="what">leadova iz jednog videa</span>
-        <span class="who">SuperDog Akademija · online edukacija za pse</span>
-        <p>Ivan prodaje kurseve o šetnji i treningu pasa. Videe smo rotirali na svaka dva dana i merili šta prolazi, dok nisam tačno znao koje poruke pogađaju njegovu publiku. Video koji je bio zbir svega naučenog prešao je 2,5 miliona pregleda i doneo preko 7.000 leadova za njegovu edukaciju.</p>
+        <span class="who">SuperDog Akademija · edukacija za pse</span>
+        <p>Videe sam rotirao na svaka dva dana i merio šta prolazi. Najbolji od tih klipova prešao je 2,5 miliona pregleda.</p>
       </div>
     </div>
 
@@ -280,7 +252,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
         <div class="num">60.000 €</div>
         <span class="what">vrednost ugovora za 7 dana</span>
         <span class="who">Stefan Šćirban · Meta ADS edukator</span>
-        <p>Stefan prodaje kurs i zajednicu za Meta reklame i radi B2B. U jednoj organskoj kampanji od 7 dana sadržaj je doveo leadove iz kojih je sklopljeno 7 high-ticket ugovora, ukupno preko 60.000 €. Radimo zajedno dve godine, a njegov deo posla je i dalje da stane pred kameru i deli znanje.</p>
+        <p>Organska kampanja od 7 dana dovela je leadove iz kojih je sklopljeno 7 high-ticket ugovora.</p>
       </div>
     </div>
 
@@ -290,19 +262,20 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
         <div class="num">3x</div>
         <span class="what">veća zarada salona</span>
         <span class="who">Ana · frizerski salon, Novi Banovci</span>
-        <p>Anu su znale samo njene mušterije. Umesto "pre i posle" frizura snimali smo nju, njene savete i priče iz salona. Klipovi su krenuli da se dele, a u inbox su stizale poruke žena koje su gledale sve njene videe i hoće baš kod nje, a neke zbog termina prelaze i desetine kilometara. Salon danas zarađuje tri puta više nego kad smo počeli.</p>
+        <p>Umesto "pre i posle" frizura snimao sam nju i njene savete. Sad joj pišu žene koje hoće baš kod nje.</p>
       </div>
     </div>
 
     <div class="case noimg">
       <div class="body">
         <div class="num">2.000+</div>
-        <span class="what">toplih leadova iz jednog novog ugla</span>
+        <span class="what">toplih leadova iz jednog klipa</span>
         <span class="who">RO! · detox sokovi</span>
-        <p>RO! sokovi pomažu i kod problema sa crevima, ali nijedan klip to nije spominjao. Svi su pričali o soku. Prvi klip o tome zašto su creva bitna doneo je preko 2.000 toplih leadova.</p>
+        <p>Svi klipovi su pričali o soku. Prvi klip o crevima doneo je preko 2.000 toplih leadova.</p>
       </div>
     </div>
   </section>
+
   <section class="offer" id="analiza" aria-live="polite">
     <div id="offer-body">
       <h2>Besplatna analiza tvog Instagram profila</h2>
