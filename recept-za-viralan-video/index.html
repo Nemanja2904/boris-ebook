@@ -13,6 +13,7 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '4374976512714502');
+fbq('optOut', '4374976512714502', 'ESTRuleEngine');
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
@@ -21,620 +22,408 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recept za smišljanje viralnog videa - Boris Vasić</title>
-<meta name="description" content="Tačan sistem kako da smisliš ideju za video koji ode viralno. Priručnik Borisa Vasića, osnivača agencije Edge Cut. 29€.">
-<meta property="og:title" content="Recept za smišljanje viralnog videa - Boris Vasić">
-<meta property="og:description" content="Sistem za smišljanje ideja koje odu viralno. Bez teorije, bez izgovora oko opreme.">
+<title>Recept za smišljanje viralnog videa · Boris Vasić</title>
+<meta name="description" content="PDF priručnik u pet koraka po kojima Boris Vasić smišlja klipove za klijente. 7 €.">
+<meta property="og:title" content="Recept za smišljanje viralnog videa · Boris Vasić">
+<meta property="og:description" content="PDF priručnik u pet koraka po kojima smišljam klipove za klijente. 7 €.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://borisprproj.com/recept-za-viralan-video/assets/korica.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<script src="/shop/track.js" defer></script>
 <style>
   :root{
-    --bg:#09090b;
-    --surface:#101013;
-    --elevated:#18181b;
-    --border:#29292e;
-    --accent:#11c7d4;
-    --accent-soft:rgba(17,199,212,.12);
-    --accent-line:rgba(17,199,212,.35);
-    --text:#fafafa;
-    --muted:#a4a4ad;
-    --faint:#66666e;
-    --display:'Bricolage Grotesque',sans-serif;
-    --body:'Hanken Grotesk',sans-serif;
-    --mono:'JetBrains Mono',monospace;
-    --maxw:1140px;
+    --bg:#09090b; --card:#131316; --line:#26262b;
+    --text:#fafafa; --muted:#a4a4ad; --faint:#76767e;
+    --brand:#11c7d4;   /* tirkizna: istaknute reči, brojke, kvačice, oznake */
+    --buy:#ffd60a;     /* žuta: samo kupovina i cena */
+    --display:'Bricolage Grotesque',sans-serif; --body:'Hanken Grotesk',sans-serif;
+    --maxw:1120px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    background:var(--bg);color:var(--text);font-family:var(--body);
-    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
-  }
-  /* grain overlay */
-  body::before{
-    content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.05;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  a{color:inherit;text-decoration:none}
-  ::selection{background:var(--accent);color:var(--bg)}
-
-  .wrap{max-width:var(--maxw);margin:0 auto;width:100%}
-  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:500}
-  .kicker.faint{color:var(--faint)}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;font-variant-numeric:tabular-nums}
+  a{color:inherit}
+  img{display:block;max-width:100%;height:auto}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
   h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.02}
-  h2{font-size:clamp(30px,4.6vw,48px);font-weight:700;letter-spacing:-.025em}
-  h3{font-size:21px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
-  .lead{font-size:clamp(17px,2vw,19px);color:var(--muted);line-height:1.6}
+  h2{font-size:clamp(32px,4.4vw,52px);max-width:820px}
+  .t{color:var(--brand)}
+  section{padding:96px 0;border-top:1px solid var(--line)}
+  .tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--brand)}
+  .lines p+p{margin-top:6px}
   .muted{color:var(--muted)}
-  .mono{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.02em}
-  .mono.faint{font-size:12px;color:var(--faint)}
-  section{padding:100px 24px;position:relative}
 
-  /* buttons */
-  .btn{
-    display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:700;font-size:16px;
-    background:var(--accent);color:#06181a;border:none;border-radius:10px;padding:16px 30px;cursor:pointer;
-    transition:transform .18s ease, box-shadow .25s ease, filter .2s ease;letter-spacing:-.01em;
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 0 40px -6px var(--accent);filter:brightness(1.06)}
-  .btn.sm{padding:11px 20px;font-size:15px}
-  .btn.full{width:100%;justify-content:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--buy);color:#0a0a0a;
+    font-family:var(--body);font-weight:800;font-size:18px;letter-spacing:-.01em;text-decoration:none;
+    border-radius:10px;padding:18px 32px;transition:transform .15s ease-out,filter .15s ease-out;cursor:pointer;white-space:nowrap}
+  .btn:hover{filter:brightness(1.06)}
+  .btn:active{transform:scale(.97)}
+  .btn.sm{padding:10px 18px;font-size:15px;border-radius:8px}
 
-  /* header */
-  header{
-    position:sticky;top:0;z-index:50;background:rgba(9,9,11,.78);backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border);
-  }
-  .nav{display:flex;align-items:center;justify-content:space-between;height:74px;padding:0 24px;max-width:var(--maxw);margin:0 auto}
-  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em}
-  .dot{width:9px;height:9px;border-radius:2px;background:var(--accent)}
-  .nav-right{display:flex;align-items:center;gap:20px}
-  .nav-price{font-family:var(--mono);font-size:13px;color:var(--muted)}
+  header{position:sticky;top:0;z-index:40;background:rgba(9,9,11,.94);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .brand span{color:var(--muted);font-weight:600}
 
-  /* hero */
-  .hero{padding-top:96px;padding-bottom:90px;overflow:clip}
-  .hero-glow{position:absolute;width:760px;height:760px;top:-260px;left:5%;border-radius:50%;
-    background:radial-gradient(circle,rgba(17,199,212,.18),transparent 62%);pointer-events:none;z-index:0}
-  .hero-inner{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:center;position:relative;z-index:2}
-  .hero h1{font-size:clamp(44px,7vw,78px);line-height:.98}
-  .hero h1 .teal{color:var(--accent)}
-  .hero-left{display:flex;flex-direction:column;gap:26px;align-items:flex-start}
-  .hero-left .lead{max-width:520px}
-  .cta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-  .trust{display:flex;gap:22px;flex-wrap:wrap}
-  .trust span{font-family:var(--mono);font-size:13px;color:var(--muted)}
-  .trust b{color:var(--accent);font-weight:500;margin-right:6px}
+  html.js .rv{opacity:0;transform:translateY(16px);transition:opacity .45s ease-out,transform .45s ease-out}
+  html.js .rv.in{opacity:1;transform:none}
+  html.js .rv.d1{transition-delay:.07s} html.js .rv.d2{transition-delay:.14s} html.js .rv.d3{transition-delay:.21s} html.js .rv.d4{transition-delay:.28s}
 
-  /* reel frame */
-  .reel{aspect-ratio:9/16;background:var(--surface);border:1px solid var(--accent-line);border-radius:22px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;
-    box-shadow:0 0 60px -20px var(--accent-line)}
-  .reel .play{width:64px;height:64px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--accent-line);
-    display:flex;align-items:center;justify-content:center}
-  .reel .play::after{content:'';border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent var(--accent);margin-left:3px}
-  .reel-tag{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.02em}
-  .hero-right{display:flex;flex-direction:column;gap:14px;align-items:center}
-  .hero-right .cap{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.02em}
-  .cover-frame{width:100%;background:transparent}
-  .cover-frame img{display:block;width:100%;height:auto;transform:scale(1.18);transform-origin:center}
-  @media(max-width:880px){.cover-frame img{transform:scale(1.1)}}
+  /* ---------- 1. proizvod ---------- */
+  .prod{padding:56px 0 72px;border-top:0}
+  .prod-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+  .shot{position:relative}
+  .cover{border-radius:6px;box-shadow:0 40px 70px -30px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.06)}
+  .prod-art .cover{width:78%;margin:0 auto}
+  .duo{position:relative}
+  .duo .cover{width:66%}
+  .phone{position:absolute;right:0;bottom:-4%;width:40%;background:#1b1b1f;border-radius:30px;padding:8px;box-shadow:0 34px 60px -26px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.06)}
+  .phone img{border-radius:23px}
+  .prod h1{font-size:clamp(40px,5vw,64px);margin-top:12px}
+  .prod .what{margin-top:18px;font-size:clamp(17px,1.6vw,20px);color:var(--text);max-width:560px}
+  .checks{list-style:none;margin-top:22px;display:grid;gap:10px}
+  .checks li{position:relative;padding-left:32px;font-weight:600;line-height:1.4}
+  .checks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--brand)}
+  .checks li::after{content:'';position:absolute;left:7px;top:6px;width:8px;height:5px;border-left:2.5px solid #06181a;border-bottom:2.5px solid #06181a;transform:rotate(-45deg)}
+  .buy{margin-top:28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .pr{display:flex;align-items:center;gap:12px;flex-wrap:wrap;line-height:1}
+  .pr s{font-family:var(--display);font-weight:700;font-size:26px;color:var(--faint);text-decoration-thickness:3px}
+  .was{display:flex;flex-direction:column;gap:4px;line-height:1}
+  .was .reg{font-family:var(--display);font-weight:700;font-size:26px;color:var(--faint)}
+  .offer .was .reg{font-size:34px}
+  .sticky .tt .rs{display:block;font-size:11px;color:var(--faint)}
+  .sticky .tt>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
+  .sticky .tt b{line-height:1.1}
+  .was small{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .pr b{font-family:var(--display);font-weight:800;font-size:60px;letter-spacing:-.04em;color:var(--buy)}
+  .chip{display:inline-block;background:var(--buy);color:#0a0a0a;font-weight:800;font-size:14px;border-radius:6px;padding:6px 10px;line-height:1.1;white-space:nowrap}
+  .deliv{margin-top:14px;font-size:14px;color:var(--muted)}
 
-  /* strip */
-  .strip{background:var(--accent);border-top:2px solid var(--bg);border-bottom:2px solid var(--bg);
-    padding:13px 0;overflow:hidden}
-  .strip-inner{display:flex;width:max-content;align-items:center;animation:strip-scroll 18s linear infinite}
-  .strip-group{display:flex;gap:28px;align-items:center;padding-right:28px}
-  .strip span{font-family:var(--display);font-weight:800;font-size:18px;color:var(--bg);letter-spacing:.05em;white-space:nowrap;text-transform:uppercase}
-  .strip .sep{color:var(--bg);opacity:.45;font-weight:700}
-  @keyframes strip-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @media (prefers-reduced-motion:reduce){.strip-inner{animation:none}}
+  /* ---------- 2. traka dokaza ---------- */
+  .strip{padding:40px 0}
+  .strip-in{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+  .si{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center}
+  .si img{width:56px;aspect-ratio:9/14;object-fit:cover;object-position:top;border-radius:8px}
+  .si b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.03em;line-height:1;color:var(--brand)}
+  .si span{display:block;margin-top:4px;font-size:13px;color:var(--muted);line-height:1.35}
 
-  .head-block{display:flex;flex-direction:column;gap:18px;align-items:flex-start;margin-bottom:52px}
-  .head-block h2{max-width:760px}
-  .head-block .lead{max-width:640px}
+  /* ---------- 3. šta rešava ---------- */
+  .cards{margin-top:44px;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+  .card{grid-column:span 2;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 26px}
+  .cards .card:nth-child(4){grid-column:2/span 2}
+  .cards .card:nth-child(5){grid-column:4/span 2}
+  .card .q{color:var(--muted);font-size:16px;line-height:1.45}
+  .card .q::before{content:'';display:block;width:28px;height:3px;background:var(--brand);margin-bottom:16px}
+  .card .a{margin-top:12px;font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.015em;line-height:1.28}
 
-  /* cards grid */
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .card{background:var(--elevated);border:1px solid var(--border);border-radius:16px;padding:28px;
-    display:flex;flex-direction:column;gap:14px;transition:border-color .2s ease, transform .2s ease}
-  .card:hover{border-color:var(--accent-line);transform:translateY(-3px)}
-  .card .bar{width:32px;height:3px;background:var(--accent);border-radius:2px}
-  .card .chlabel{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
-  .card p{color:var(--muted);font-size:15px;line-height:1.65}
+  /* ---------- 4. šta dobijaš ---------- */
+  .get-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:64px;align-items:start;margin-top:40px}
+  .get-what{font-size:19px}
+  .get-what p{color:var(--text)}
+  .steps{list-style:none;border-top:1px solid var(--line)}
+  .steps li{display:grid;grid-template-columns:52px 1fr;gap:2px 12px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .steps .n{font-family:var(--display);font-weight:800;font-size:24px;color:var(--brand);line-height:1.15;grid-row:span 2}
+  .steps h3{font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+  .steps p{color:var(--muted);font-size:16px}
+  .steps-end{margin-top:16px;color:var(--muted);font-size:16px}
 
-  /* outcome */
-  .outcome{background:var(--surface);border-left:2px solid var(--accent);border-radius:0 14px 14px 0;
-    padding:30px 32px;display:flex;flex-direction:column;gap:14px;margin-top:24px}
-  .outcome .row{display:flex;gap:14px;align-items:flex-start}
-  .outcome .arr{color:var(--accent);font-family:var(--mono);font-size:18px;line-height:1.4}
-  .outcome .row span{color:var(--text);font-weight:500}
-  .center-cta{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:36px}
+  /* ---------- 5. za koga ---------- */
+  .who-grid{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .who{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 28px}
+  .who h3{font-size:24px;display:flex;align-items:center;gap:12px}
+  .who h3 i{width:28px;height:28px;border-radius:50%;flex:none;position:relative}
+  .who.yes h3 i{background:var(--brand)}
+  .who.yes h3 i::after{content:'';position:absolute;left:9px;top:8px;width:9px;height:5px;border-left:2.5px solid #06181a;border-bottom:2.5px solid #06181a;transform:rotate(-45deg)}
+  .who.no h3 i{border:2px solid var(--faint)}
+  .who.no h3 i::before,.who.no h3 i::after{content:'';position:absolute;left:6px;right:6px;top:11px;height:2px;background:var(--faint);transform:rotate(45deg)}
+  .who.no h3 i::after{transform:rotate(-45deg)}
+  .who ul{list-style:none;margin-top:18px}
+  .who li{padding:14px 0;border-top:1px solid var(--line)}
+  .who li p:first-child{font-weight:600}
+  .who li p+p{color:var(--muted);margin-top:4px}
 
-  /* proof */
-  .proof-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
-  .tcol{display:flex;flex-direction:column;gap:16px}
-  .testi{background:var(--elevated);border:1px solid var(--border);border-radius:14px;padding:26px;
-    display:flex;flex-direction:column;gap:14px}
-  .testi.accent{border:1px solid var(--border);border-left:2px solid var(--accent)}
-  .testi q{font-weight:500;font-size:16px;line-height:1.55;quotes:"„" "”"}
-  .testi .who{font-family:var(--mono);font-size:12px;color:var(--faint)}
-  .rcol{display:flex;flex-direction:column;gap:16px}
-  .rcol .reel{aspect-ratio:auto;height:300px;box-shadow:none}
+  /* ---------- 6. rezultati ---------- */
+  .res-grid{margin-top:44px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+  .res{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none}
+  .res .th{position:relative;aspect-ratio:9/12;overflow:hidden;background:#1b1b1f;display:block}
+  .res .th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+  .res .th img.st{object-position:78% 50%}
+  .res .body{padding:20px 20px 22px}
+  .res .num{display:block;font-family:var(--display);font-weight:800;font-size:clamp(34px,3.4vw,44px);letter-spacing:-.035em;line-height:1;color:var(--brand)}
+  .res h3{margin-top:8px;font-family:var(--body);font-size:16px;font-weight:700;letter-spacing:0;line-height:1.35}
+  .res .lines{margin-top:8px;color:var(--muted);font-size:15px}
+  .res .who-l{margin-top:10px;font-size:13px;color:var(--faint);line-height:1.4}
+  .res .who-l a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--faint)}
 
-  /* boris */
-  .split{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:start}
-  .bio{display:flex;flex-direction:column;gap:20px;align-items:flex-start}
-  .bio p{color:var(--muted);line-height:1.7}
-  .bside{display:flex;flex-direction:column;gap:16px}
-  .portrait{height:440px;background:var(--surface);border:1px solid var(--accent-line);border-radius:20px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .stat{background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:18px;
-    display:flex;flex-direction:column;gap:8px}
-  .stat b{font-family:var(--display);font-size:34px;font-weight:800;color:var(--accent);letter-spacing:-.02em;line-height:1}
-  .stat span{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.4}
+  /* ---------- 7. boris ---------- */
+  .boris-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center}
+  .boris figure{margin:0}
+  .boris img{width:100%;border-radius:14px}
+  .boris figcaption{margin-top:10px;font-size:13px;color:var(--faint)}
+  .boris .lines{margin-top:22px;font-size:19px}
+  .boris .lines p+p{margin-top:10px;color:var(--muted)}
 
-  /* sales2 */
-  .sales{background:var(--surface)}
-  .sales .wrap{max-width:920px}
-  .stack-card{background:var(--elevated);border:1px solid var(--border);border-radius:18px;padding:40px;
-    display:flex;flex-direction:column;gap:22px}
-  .stack-card .bar{width:40px;height:3px;background:var(--accent);border-radius:2px}
-  .vlist{display:flex;flex-direction:column;gap:16px}
-  .vlist .row{display:flex;gap:14px;align-items:flex-start}
-  .vlist .chk{color:var(--accent);font-family:var(--mono);font-size:18px;line-height:1.4}
-  .vlist .row b{font-weight:600;display:block;margin-bottom:2px}
-  .vlist .row p{color:var(--muted);font-size:15px;line-height:1.55}
-  .divider{height:1px;background:var(--border)}
-  .buy{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-  .price{font-family:var(--display);font-weight:800;font-size:clamp(56px,8vw,84px);letter-spacing:-.04em;line-height:.9}
-  .buy .pwrap{display:flex;flex-direction:column;gap:6px}
-  .buy .bwrap{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
-  .tags{display:flex;gap:14px;flex-wrap:wrap}
-  .tags span{font-family:var(--mono);font-size:13px;color:var(--muted)}
-  .tags .sep{color:var(--accent)}
+  /* ---------- 8. cena ---------- */
+  .offer{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:48px;display:grid;grid-template-columns:200px 1fr 1fr;gap:44px;align-items:center}
+  .offer .mini{width:100%}
+  .offer h2{font-size:clamp(28px,3vw,38px)}
+  .offer ul{list-style:none;margin-top:20px}
+  .offer li{position:relative;padding:10px 0 10px 30px;border-top:1px solid var(--line)}
+  .offer li::before{content:'';position:absolute;left:0;top:13px;width:20px;height:20px;border-radius:50%;background:var(--brand)}
+  .offer li::after{content:'';position:absolute;left:6px;top:18px;width:7px;height:4px;border-left:2.5px solid #06181a;border-bottom:2.5px solid #06181a;transform:rotate(-45deg)}
+  .offer .pr b{font-size:clamp(76px,8vw,104px)}
+  .offer .pr s{font-size:34px}
+  .offer .chip{font-size:16px}
+  .offer .btn{margin-top:24px;width:100%}
+  .offer .deliv{margin-top:14px}
+  .offer .duo-mini{position:relative}
+  .offer .duo-mini .cover{width:84%}
+  .offer .duo-mini .phone{width:52%;right:-6%;bottom:-8%;border-radius:20px;padding:5px}
+  .offer .duo-mini .phone img{border-radius:15px}
 
-  /* collab form */
-  .form{background:var(--elevated);border:1px solid var(--border);border-radius:18px;padding:32px;
-    display:flex;flex-direction:column;gap:18px}
-  .field{display:flex;flex-direction:column;gap:8px}
-  .field label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  .field input,.field textarea{background:var(--surface);border:1px solid var(--border);border-radius:10px;
-    padding:14px 16px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none;transition:border-color .2s}
-  .field input::placeholder,.field textarea::placeholder{color:var(--muted)}
-  .field input:focus,.field textarea:focus{border-color:var(--accent-line)}
-  .field textarea{min-height:104px;resize:vertical}
-  .accent-quote{border-left:2px solid var(--accent);padding-left:18px;color:var(--muted);line-height:1.7}
-
-  /* faq */
-  .faq{max-width:860px;margin:0 auto}
-  .faq details{background:var(--elevated);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;
-    overflow:hidden;transition:border-color .2s}
-  .faq details[open]{border-color:var(--accent-line)}
-  .faq summary{list-style:none;cursor:pointer;padding:24px 26px;display:flex;justify-content:space-between;
-    align-items:center;gap:20px;font-family:var(--display);font-weight:600;font-size:18px}
+  /* ---------- 9. pitanja ---------- */
+  .faq{max-width:820px}
+  .faq h2{margin-bottom:28px}
+  .faq details{border-top:1px solid var(--line)}
+  .faq details:last-of-type{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em;line-height:1.3}
   .faq summary::-webkit-details-marker{display:none}
-  .faq summary .ic{color:var(--accent);font-family:var(--mono);font-size:22px;transition:transform .2s;line-height:1}
-  .faq details[open] summary .ic{transform:rotate(45deg)}
-  .faq .ans{padding:0 26px 24px;color:var(--muted);line-height:1.7}
-  .faq-contact{margin-top:24px;font-family:var(--mono);font-size:13px;color:var(--faint);text-align:center}
-  .faq-contact a{color:var(--accent)}
+  .faq summary::after{content:'+';position:absolute;right:4px;top:18px;font-size:26px;font-weight:500;color:var(--brand);transition:transform .2s ease-out}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq .ans{padding:0 0 24px;color:var(--muted)}
+  footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:14px;color:var(--faint)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--muted)}
 
-  /* footer */
-  footer{border-top:1px solid var(--accent-line);padding:90px 24px 40px}
-  .foot-top{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:64px}
-  .foot-top h2{max-width:560px;font-size:clamp(28px,3.6vw,40px)}
-  .foot-top .ft-cta{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:32px;padding-bottom:40px;border-bottom:1px solid var(--border)}
-  .foot-brand .b{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:18px;margin-bottom:8px}
-  .foot-tag{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
-  .foot-brand p{color:var(--muted);font-size:14px;line-height:1.6;max-width:300px}
-  .fcol h4{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;margin-bottom:16px;font-weight:500}
-  .fcol a{display:block;color:var(--muted);font-size:15px;margin-bottom:10px;transition:color .2s}
-  .fcol a:hover{color:var(--accent)}
-  .foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:24px}
-  .foot-bottom .legal{font-size:13px;color:var(--faint)}
-  .foot-bottom a{font-family:var(--mono);font-size:13px;color:var(--muted)}
-  .foot-bottom a:hover{color:var(--accent)}
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(9,9,11,.97);border-top:1px solid var(--line);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:none;align-items:center;justify-content:space-between;gap:12px;
+    transform:translateY(110%);transition:transform .22s ease-out}
+  .sticky.on{transform:none}
+  .sticky .tt{font-size:13px;line-height:1.25;color:var(--muted);min-width:0}
+  .sticky .tt b{display:block;font-family:var(--display);font-size:22px;color:var(--buy);letter-spacing:-.02em}
+  .sticky .tt s{color:var(--faint);font-size:14px;font-weight:600;margin-right:6px}
+  .sticky .btn{padding:13px 20px;font-size:16px;white-space:nowrap;flex:none}
 
-  /* reveal animation - only when JS active, so no-JS keeps content visible */
-  html.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease}
-  html.js .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){html.js .reveal{opacity:1;transform:none;transition:none}}
-
-  /* responsive */
-  @media(max-width:880px){
-    section{padding:72px 20px}
-    .hero-inner{grid-template-columns:1fr;gap:40px}
-    .hero-right{display:none}
-    .grid3{grid-template-columns:1fr}
-    .proof-cols{grid-template-columns:1fr}
-    .split{grid-template-columns:1fr;gap:40px}
-    .bside{order:-1}
-    .stack-card{padding:28px}
-    .buy{flex-direction:column;align-items:flex-start}
-    .buy .bwrap{align-items:flex-start;width:100%}
-    .collab-grid{grid-template-columns:1fr!important}
-    .foot-grid{grid-template-columns:1fr 1fr;gap:28px}
-    .foot-brand{grid-column:1/-1}
+  @media(max-width:900px){
+    section{padding:64px 0}
+    .prod-grid,.get-grid,.boris-grid{grid-template-columns:1fr;gap:36px}
+    .cards{grid-template-columns:1fr 1fr}
+    .card,.cards .card:nth-child(4),.cards .card:nth-child(5){grid-column:auto}
+    .res-grid{grid-template-columns:1fr 1fr}
+    .offer{grid-template-columns:1fr;padding:32px 24px;gap:28px}
+    .offer .art-col{max-width:220px}
+    .strip-in{grid-template-columns:1fr 1fr;gap:18px}
   }
-  @media(max-width:520px){
-    .stats{grid-template-columns:1fr}
-    .foot-grid{grid-template-columns:1fr}
-    .nav-price{display:none}
+  @media(max-width:760px){
+    .wrap{padding:0 16px}
+    header{position:static}
+    .nav{height:50px}
+    .nav .btn{display:none}
+    .prod{padding:16px 0 44px}
+    .prod-art{display:none}
+    .prod-top{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:center}
+    .prod h1{font-size:29px;margin-top:6px}
+    .tag{font-size:11.5px}
+    .prod .what{margin-top:12px;font-size:16px;line-height:1.45}
+    .checks{margin-top:14px;gap:7px}
+    .checks li{font-size:15px;padding-left:28px}
+    .checks li::before{width:19px;height:19px}
+    .checks li::after{left:6px;top:5px;width:7px;height:4px}
+    .buy{margin-top:16px;gap:12px}
+    .pr b{font-size:46px}
+    .pr s{font-size:21px}
+    .buy .btn{width:100%}
+    .btn{white-space:normal;text-align:center;line-height:1.25}
+    .offer{padding:26px 18px}
+    .deliv{margin-top:10px;font-size:13px}
+    .cards{grid-template-columns:1fr;gap:12px;margin-top:28px}
+    .card{padding:22px 20px}
+    .card .a{font-size:19px}
+    .who-grid{grid-template-columns:1fr}
+    .res-grid{grid-template-columns:1fr;gap:14px}
+    .res{display:grid;grid-template-columns:112px 1fr}
+    .res .th{aspect-ratio:auto;height:100%;min-height:170px}
+    .res .body{padding:16px}
+    .strip-in{grid-template-columns:1fr 1fr;gap:16px 12px}
+    .si{grid-template-columns:44px 1fr;gap:10px}
+    .si img{width:44px}
+    .si b{font-size:24px}
+    .sticky{display:flex}
+    footer{padding-bottom:110px}
   }
-
-  /* ===== navbar refinement ===== */
-  .brand{display:inline-block;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.025em;transition:opacity .2s ease}
-  .foot-brand .b{display:inline-block;gap:0}
-  .brand .sur{color:var(--accent)}
-  .brand:hover{opacity:.85}
-  .nav-right{gap:28px}
-  .nav-link{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
-    transition:color .2s ease;position:relative;padding:4px 0}
-  .nav-link:hover{color:var(--text)}
-  .nav-link::after{content:'';position:absolute;left:0;right:100%;bottom:-2px;height:1px;background:var(--accent);transition:right .25s ease}
-  .nav-link:hover::after{right:0}
-  @media(max-width:600px){.nav-link{display:none}}
-
-  /* ===== stepper (5 koraka kao povezana staza) ===== */
-  .steps{position:relative;margin-top:8px}
-  .steps-track{position:absolute;top:31px;left:10%;right:10%;height:2px;background:var(--border);border-radius:2px;overflow:hidden;z-index:1}
-  .steps-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:2px;
-    background:linear-gradient(90deg,var(--accent),#5ee9f2);box-shadow:0 0 14px var(--accent-line);
-    transition:width 2.8s cubic-bezier(.45,0,.15,1)}
-  .steps.run .steps-fill{width:100%}
-  .steps-row{display:grid;grid-template-columns:repeat(5,1fr);position:relative;z-index:2}
-  .step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:0 12px}
-  .step-node{width:62px;height:62px;border-radius:50%;background:var(--surface);border:2px solid var(--border);
-    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:21px;color:var(--faint);
-    transition:border-color .5s ease,color .5s ease,background .5s ease,box-shadow .5s ease,transform .5s ease}
-  .steps.run .step-node{border-color:var(--accent);color:var(--accent);background:#0c2429;box-shadow:0 0 26px -6px var(--accent-line);transform:translateY(-2px)}
-  .steps.run .step:nth-child(1) .step-node{transition-delay:.25s}
-  .steps.run .step:nth-child(2) .step-node{transition-delay:.8s}
-  .steps.run .step:nth-child(3) .step-node{transition-delay:1.35s}
-  .steps.run .step:nth-child(4) .step-node{transition-delay:1.9s}
-  .steps.run .step:nth-child(5) .step-node{transition-delay:2.45s}
-  .step-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
-  .step-title{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.25;color:var(--text);max-width:172px}
-
-  /* ===== proof — zbijena galerija klipova (9:16) ===== */
-  .clip-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;max-width:1080px;margin:0 auto}
-  .clip{display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform .25s ease;min-width:0}
-  .clip:hover{transform:translateY(-4px)}
-  .clip-media{position:relative;aspect-ratio:9/16;border-radius:14px;overflow:hidden;
-    border:1px solid var(--accent-line);box-shadow:0 0 52px -18px var(--accent-line);background:var(--surface)}
-  .clip:hover .clip-media{border-color:var(--accent);box-shadow:0 0 64px -12px var(--accent-line)}
-  .clip-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-  .clip-badge{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--display);font-weight:800;font-size:17px;color:var(--text);
-    background:rgba(9,9,11,.62);backdrop-filter:blur(4px);border:1px solid var(--accent-line);border-radius:10px;padding:3px 10px;letter-spacing:-.01em}
-  .clip-who{font-family:var(--mono);font-size:12px;color:var(--accent);display:flex;align-items:center;justify-content:center;gap:5px;
-    min-width:0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .arrr{opacity:.7}
-
-  /* ===== sales kompaktan (sve vidljivo u jednom screenshot-u) ===== */
-  .sales{padding-top:84px;padding-bottom:84px}
-  .sales .head-block{margin-bottom:32px;gap:14px}
-  .sales .stack-card{padding:38px;gap:22px}
-  .stack-title{font-family:var(--display);font-weight:700;font-size:clamp(25px,3.6vw,34px);letter-spacing:-.025em;line-height:1.05;margin-top:-6px}
-  .stack-card>.kicker{margin-bottom:-14px}
-  .sales .vlist{gap:13px;margin-top:4px}
-  .sales .vlist .row{align-items:center}
-  .sales .vlist .row b{font-weight:600;font-size:16.5px;letter-spacing:-.01em}
-  .sales .buy .price{line-height:.9}
-
-  /* stepper -> vertikalna staza (posle base pravila da override radi) */
-  @media(max-width:880px){
-    .steps-row{grid-template-columns:1fr;gap:26px}
-    .steps-track{top:0;bottom:0;left:31px;right:auto;width:2px;height:auto}
-    .steps-fill{left:0;top:0;width:2px;height:0;transition:height 2.8s cubic-bezier(.45,0,.15,1)}
-    .steps.run .steps-fill{width:2px;height:100%}
-    .step{flex-direction:row;align-items:center;text-align:left;gap:18px;padding:0}
-    .step-title{max-width:none}
-  }
-  @media(max-width:520px){
-    .clip-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;max-width:360px}
-    .clip-badge{font-size:14px;padding:3px 8px;top:7px;left:7px}
-    .clip-who{font-size:11px}
-    .step-node{width:54px;height:54px;font-size:19px}
-    .steps-track{left:27px}
+  @media(min-width:761px){ .sm-only{display:none} }
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important}
+    html{scroll-behavior:auto}
+    html.js .rv{opacity:1;transform:none}
   }
 </style>
 </head>
-<body class="">
+<body data-p="recept">
 
-<!-- HEADER -->
 <header>
-  <div class="nav">
-    <a class="brand" href="https://borisprproj.com">Boris <span class="sur">Vasić</span></a>
-    <div class="nav-right">
-      <a class="nav-link" href="#sadrzaj">PRIRUČNIK</a>
-      <a class="nav-link" href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Saradnja</a>
-      <a class="btn sm" href="#kupovina">Preuzmi →</a>
-    </div>
+  <div class="wrap nav">
+    <span class="brand">Boris Vasić <span>· Edge Cut</span></span>
+    <a class="btn sm" href="/kupi/?p=recept" data-cta="nav">Kupi priručnik za 7 €</a>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-glow"></div>
-  <div class="wrap hero-inner">
-    <div class="hero-left">
-      <span class="kicker">PRIRUČNIK</span>
-      <h1><span data-e="">Recept za smišljanje</span><br><span class="teal" data-e="">viralnog videa</span></h1>
-      <p class="lead">Korak-po-korak sistem za dolazak do ideje koja donosi preglede.</p>
-      <div class="cta-row">
-        <a class="btn" href="#kupovina">PREUZMI ZA 29€</a>
+<main>
+<section class="prod" id="top" data-section="hero">
+  <div class="wrap prod-grid">
+    <div class="prod-art"><div class="shot"><img class="cover" src="assets/korica.jpg" alt="Korica priručnika Recept za smišljanje viralnog videa" width="620" height="877"></div></div>
+    <div>
+      <div class="prod-top">
+        <div class="sm-only"><img class="cover" src="assets/korica.jpg" alt="" width="620" height="877"></div>
+        <div><p class="tag">PDF priručnik · 5 koraka</p><h1>Recept za smišljanje viralnog videa</h1></div>
       </div>
-    </div>
-    <div class="hero-right">
-      <div class="cover-frame">
-        <img src="assets/boris-cover.png" alt="Boris Vasić" loading="eager">
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VALUE -->
-<section id="sadrzaj">
-  <div class="wrap reveal">
-    <div class="head-block">
-      <span class="kicker">Šta te čeka</span>
-      <h2>Naučiću te kako da za bilo koju nišu smisliš ideju koja ide viralno</h2>
-      <p class="lead">Većina misli da na viralnost utiču kvalitet kamere i montaža… a istina je skroz suprotna.<br><br>U ovom vodiču nalazi se 5 koraka koje ja koristim da bih generisao milionske preglede svojim klijentima.</p>
-    </div>
-    <div class="steps">
-      <div class="steps-track"><div class="steps-fill"></div></div>
-      <div class="steps-row">
-        <div class="step"><div class="step-node">01</div><div class="step-title">Korak 1</div></div>
-        <div class="step"><div class="step-node">02</div><div class="step-title">Korak 2</div></div>
-        <div class="step"><div class="step-node">03</div><div class="step-title">Korak 3</div></div>
-        <div class="step"><div class="step-node">04</div><div class="step-title">Korak 4</div></div>
-        <div class="step"><div class="step-node">05</div><div class="step-title">Korak 5</div></div>
-      </div>
-    </div>
-    <div class="outcome">
-      <span class="kicker">Nakon ovih 5 koraka</span>
-      <div class="row"><span class="arr">→</span><span>Imaćeš sve potrebne informacije da smisliš video vredan tuđe pažnje.</span></div>
-      <div class="row"><span class="arr">→</span><span>Moći ćeš da napišeš hook koji zaustavlja scroll.</span></div>
-      <div class="row"><span class="arr">→</span><span>Imaćeš sistem koji možeš da ponoviš koliko god puta hoćeš.</span></div>
-    </div>
-    <div class="center-cta">
-      <a class="btn" href="#kupovina">Priručnik te čeka 29€</a>
-    </div>
-  </div>
-</section>
-
-<!-- PROOF -->
-<section id="dokaz">
-  <div class="wrap reveal">
-    <div class="head-block">
-      <span class="kicker">PROOF</span>
-      <h2>Ne moraš da mi veruješ. <br>Pogledaj i uveri se.</h2>
-      <p class="lead">Ovim sistemom generisao sam stotine viralnih videa za klijente.</p>
-    </div>
-    <div class="clip-grid">
-      <a class="clip" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">
-        <div class="clip-media"><span class="clip-badge">1M+</span><img src="assets/proof-ivan.png" alt="Ivan reel — 1M+ pregleda" loading="lazy"></div>
-        <span class="clip-who">@superdog.akademija <span class="arrr">↗</span></span>
-      </a>
-      <a class="clip" href="https://instagram.com/studiolepoteana" target="_blank" rel="noopener">
-        <div class="clip-media"><span class="clip-badge">2.2M</span><img src="assets/proof-ana.png" alt="Ana reel — 2.2M pregleda" loading="lazy"></div>
-        <span class="clip-who">@studiolepoteana <span class="arrr">↗</span></span>
-      </a>
-      <a class="clip" href="https://instagram.com/ro.surovo.zdravo" target="_blank" rel="noopener">
-        <div class="clip-media"><span class="clip-badge">1.2M</span><img src="assets/proof-ro.png" alt="Veljko reel — 1.2M pregleda" loading="lazy"></div>
-        <span class="clip-who">@ro.surovo.zdravo <span class="arrr">↗</span></span>
-      </a>
-      <a class="clip" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">
-        <div class="clip-media"><span class="clip-badge">946k</span><img src="assets/proof-superdog.png" alt="SuperDog reel — 946k pregleda" loading="lazy"></div>
-        <span class="clip-who">@superdog.akademija <span class="arrr">↗</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- SALES 2 -->
-<section class="sales" id="kupovina">
-  <div class="wrap reveal">
-    <div class="stack-card">
-      <span class="kicker">UZMI PRIRUČNIK</span>
-      <h2 class="stack-title">Sve što dobiješ za 29€</h2>
-      <div class="vlist">
-        <div class="row"><span class="chk">✓</span><b>Ceo sistem u 5 koraka</b></div>
-        <div class="row"><span class="chk">✓</span><b>Više načina da dođeš do ideje</b></div>
-        <div class="row"><span class="chk">✓</span><b>Pravi format za pravu poruku</b></div>
-        <div class="row"><span class="chk">✓</span><b>Hook koji zaustavi scroll u prve 2 sekunde</b></div>
-      </div>
-      <div class="divider"></div>
+      <div class="what lines"><p>Pet koraka po kojima smišljam klipove za klijente.</p><p>Iz tog postupka su izašli klipovi sa <span class="t">2,2 miliona</span>, <span class="t">1,2 miliona</span> i <span class="t">milion</span> pregleda.</p></div>
+      <ul class="checks"><li>Priručnik radi i kad snimaš telefonom i kad imaš malo pratilaca</li><li>PDF pročitaš za petnaestak minuta, a koristiš ga za svaki sledeći klip</li><li>PDF stiže odmah na mejl</li></ul>
       <div class="buy">
-        <div class="pwrap"><span class="price">29€</span><span class="mono faint">jednom. pristup ostaje zauvek.</span></div>
-        <div class="bwrap"><a class="btn" href="https://buy.stripe.com/3cI6oA2uO6mm5KLfKJ5wI0h" onclick="if(window.fbq)fbq('track','InitiateCheckout',{value:29,currency:'EUR',content_name:'Recept za viralni video'});">Uzmi priručnik - 29€</a></div>
+        <div class="pr"><span class="was"><small>redovna cena</small><s>29 €</s></span><b>7 €</b><span class="chip">Štediš 22 €</span></div>
+        <a class="btn" href="/kupi/?p=recept" data-cta="hero">Kupi priručnik za 7 €</a>
       </div>
+      <p class="deliv">Plaćaš jednom, karticom, bez pretplate.</p>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="pitanja">
-  <div class="wrap reveal">
-    <div class="head-block" style="align-items:center;text-align:center">
-      <span class="kicker">FAQ</span>
-      <h2>Par bitnih pitanja</h2>
-    </div>
-    <div class="faq">
-      <details open=""><summary><span class="q-text">Kako dobijam priručnik posle kupovine?</span><span class="ic">+</span></summary><div class="ans">Odmah. Čim plaćanje prođe, link za skidanje ti stigne na mejl - bez čekanja. <br>Ako ne stigne za par minuta, proveri spam. Ako ni tamo nema, javi se i sredimo za minut.</div></details>
-      <details><summary><span class="q-text">U kom je formatu?</span><span class="ic">+</span></summary><div class="ans">PDF. Otvaraš ga na telefonu, laptopu, tabletu - gde god. Skineš jednom i tvoj je. Čitaš kad hoćeš, koliko god puta, i bez interneta.</div></details>
-      <details><summary><span class="q-text">Za koga je namenjen?</span><span class="ic">+</span></summary><div class="ans">Namenjen je za svakoga ko snima sadržaj za društvene mreže a ima problem kako da dođe do ideja koje zapravo idu viralno. Mogu da ga koriste i ljudi koji tek počinju da snimaju i oni koji su već jako dugo u tome.</div></details>
-      <details><summary><span class="q-text">Kako se plaća?</span><span class="ic">+</span></summary><div class="ans">Karticom, online, za par klikova. Transakcija je sigurna, bez pretplate i bez skrivenih troškova. Platiš 29€ jednom i gotovo.</div></details>
-      <details><summary><span class="q-text">Gde mogu da te kontaktiram?</span><span class="ic">+</span></summary><div class="ans">Možeš mi pisati na mejlu, a možeš da mi se javiš i putem instagrama na @boris.prproj. Odgovaram svima.</div></details>
-    </div>
-    <p class="faq-contact">Imaš još neko pitanje? <a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Piši nam na Instagram.</a></p>
-  </div>
+<section class="strip" data-section="dokazi">
+  <div class="wrap strip-in"><div class="si"><img src="assets/proof-ana.png" alt="Klip frizerskog salona sa 2,2 miliona pregleda" width="285" height="441" loading="lazy"><div><b>2,2 mil.</b><span>pregleda, frizerski salon</span></div></div><div class="si"><img src="assets/proof-ro.png" alt="Klip RO! detox sokova sa 1,2 miliona pregleda" width="163" height="286" loading="lazy"><div><b>1,2 mil.</b><span>pregleda, detox sokovi</span></div></div><div class="si"><img src="assets/proof-ivan.png" alt="Klip SuperDog Akademije sa milion pregleda" width="284" height="440" loading="lazy"><div><b>1 mil.</b><span>pregleda, škola za pse</span></div></div><div class="si"><img src="assets/proof-superdog.png" alt="Klip SuperDog Akademije sa 946.000 pregleda" width="283" height="438" loading="lazy"><div><b>946.000</b><span>pregleda, škola za pse</span></div></div></div>
 </section>
 
-<!-- FOOTER -->
-<footer>
+<section data-section="resava">
   <div class="wrap">
-    <div class="foot-top">
-      <h2>Tvoj sledeći video može biti viralan.</h2>
-      <div class="ft-cta">
-        <a class="btn" href="#kupovina">Preuzmi priručnik - 29€</a>
-        <span class="mono faint">Pristup odmah nakon kupovine</span>
-      </div>
-    </div>
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <div class="b">Boris <span class="sur">Vasić</span></div>
-        <div class="foot-tag">EDGECUT MEDIA</div>
-      </div>
-      <div class="fcol"><h4>Priručnik</h4><a href="#sadrzaj">Šta te čeka</a><a href="#dokaz">Proof</a><a href="#kupovina">Kupovina</a><a href="#pitanja">FAQ</a></div>
-      <div class="fcol"><h4>Kontakt</h4><a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">Instagram - @boris.prproj</a><a href="mailto:boris@edgecut.app">Email - boris@edgecut.app</a></div>
-    </div>
-    <div class="foot-bottom">
-      <span class="legal">© 2026 Boris Vasić · Edge Cut. Sva prava zadržana.</span>
-      <a href="#top">Nazad na vrh ↑</a>
+    <h2 class="rv">Šta ti ovaj priručnik <span class="t">rešava</span></h2>
+    <div class="cards"><div class="card rv d0"><p class="q">„Sedneš da snimaš i ne znaš o čemu.”</p><p class="a">Teme vadiš iz problema, strahova i želja svog kupca, pa ne zavisiš od inspiracije.</p></div><div class="card rv d1"><p class="q">„Objaviš klip i dobiješ 200 pregleda.”</p><p class="a">Pre nego što upališ kameru, proveriš šta gledalac ima od tog klipa i da li ideja vredi snimanja.</p></div><div class="card rv d2"><p class="q">„Imaš temu, a ne znaš kako da je snimiš.”</p><p class="a">Šest formata, a uz svaki piše kad najbolje radi, pa znaš koji ide uz koju temu.</p></div><div class="card rv d3"><p class="q">„Ljudi odu posle prve dve sekunde.”</p><p class="a">Za isti klip napišeš tri do pet hookova i probaš ih na ljudima koji te ne prate, pre nego što ga vide tvoji pratioci.</p></div><div class="card rv d4"><p class="q">„Misliš da ti treba bolja kamera.”</p><p class="a">Klip o problemu koji ima mnogo ljudi ode daleko i kad je snimljen telefonom.</p></div></div>
+  </div>
+</section>
+
+<section id="sadrzaj" data-section="sadrzaj">
+  <div class="wrap">
+    <h2 class="rv">Šta <span class="t">dobijaš</span></h2>
+    <div class="get-grid">
+      <div class="get-what lines rv"><p>PDF od 8 strana.</p><p>Otvaraš ga na telefonu ili kompjuteru, a kad ga preuzmeš, čitaš ga i bez interneta.</p><p>Na kraju je ceo recept na jednoj strani, da ga imaš pred sobom za svaki sledeći klip.</p></div>
+      <div class="rv d1"><ol class="steps"><li><span class="n">01</span><h3>Analiza usluge i ciljne grupe</h3><p>Na papiru imaš ko je tvoj kupac i šta ga muči.</p></li><li><span class="n">02</span><h3>Smišljanje konkretne ideje</h3><p>Biraš jedan od tri načina da dođeš do ideje, a jedan radi i za nove profile.</p></li><li><span class="n">03</span><h3>Pitanje koje sve menja</h3><p>Pre snimanja proveriš šta gledalac ima od tog klipa.</p></li><li><span class="n">04</span><h3>Izbor formata</h3><p>Uz svaki od šest formata piše kad najbolje radi, pa temu spojiš sa formatom.</p></li><li><span class="n">05</span><h3>Kreiranje hooka</h3><p>Hookove probaš na Trial Reels pre nego što klip vide pratioci.</p></li></ol></div>
     </div>
   </div>
+</section>
+
+<section data-section="za-koga">
+  <div class="wrap">
+    <h2 class="rv">Za koga je <span class="t">priručnik</span></h2>
+    <div class="who-grid">
+      <div class="who yes rv"><h3><i></i>Jeste za tebe ako</h3><ul><li><p>Sam snimaš klipove za svoj posao.</p><p>Salon, teretana, ordinacija, radionica ili kurs.</p></li><li><p>Pregledi ti ne rastu.</p><p>Važi i ako tek počinješ i ako snimaš godinama.</p></li></ul></div>
+      <div class="who no rv d1"><h3><i></i>Nije za tebe ako</h3><ul><li><p>Tražiš nekog da ti snima i montira.</p><p>Posao po priručniku radiš ti.</p></li><li><p>Montažer si i tražiš trikove za edit.</p><p>O montaži u priručniku nema ni reči.</p></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section data-section="rezultati">
+  <div class="wrap">
+    <h2 class="rv">Klipovi koje sam smislio za klijente iz <span class="t">tri različita posla</span></h2>
+    <div class="res-grid"><div class="res rv d0"><a class="th" href="https://instagram.com/studiolepoteana" target="_blank" rel="noopener"><img src="assets/proof-ana.png" alt="Klip frizerskog salona sa 2,2 miliona pregleda" width="285" height="441" loading="lazy"></a><div class="body"><span class="num"><span data-to="2.2" data-dec="1">2,2</span> mil.</span><h3>pregleda na jednom klipu</h3><div class="lines"></div><p class="who-l">Ana, frizerski salon · <a href="https://instagram.com/studiolepoteana" target="_blank" rel="noopener">@studiolepoteana</a></p></div></div><div class="res rv d1"><a class="th" href="https://instagram.com/ro.surovo.zdravo" target="_blank" rel="noopener"><img src="assets/proof-ro.png" alt="Klip RO! detox sokova sa 1,2 miliona pregleda" width="163" height="286" loading="lazy"></a><div class="body"><span class="num"><span data-to="1.2" data-dec="1">1,2</span> mil.</span><h3>pregleda na jednom klipu</h3><div class="lines"></div><p class="who-l">RO!, detox sokovi · <a href="https://instagram.com/ro.surovo.zdravo" target="_blank" rel="noopener">@ro.surovo.zdravo</a></p></div></div><div class="res rv d2"><a class="th" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener"><img src="assets/proof-ivan.png" alt="Klip SuperDog Akademije sa milion pregleda" width="284" height="440" loading="lazy"></a><div class="body"><span class="num">1 mil.</span><h3>pregleda na jednom klipu</h3><div class="lines"></div><p class="who-l">Ivan, škola za pse · <a href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">@superdog.akademija</a></p></div></div><div class="res rv d3"><a class="th" href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener"><img src="assets/proof-superdog.png" alt="Klip SuperDog Akademije sa 946.000 pregleda" width="283" height="438" loading="lazy"></a><div class="body"><span class="num"><span data-to="946000" data-dec="0">946.000</span></span><h3>pregleda na drugom klipu</h3><div class="lines"></div><p class="who-l">Ivan, škola za pse · <a href="https://instagram.com/superdog.akademija" target="_blank" rel="noopener">@superdog.akademija</a></p></div></div></div>
+  </div>
+</section>
+
+<section class="boris" data-section="boris">
+  <div class="wrap boris-grid">
+    <figure class="rv"><img src="assets/case-ivan.jpg" alt="Boris Vasić u razgovoru sa Ivanom iz SuperDog Akademije" width="1000" height="625" loading="lazy"><figcaption>Sa Ivanom iz SuperDog Akademije</figcaption></figure>
+    <div class="rv d1"><h2>Ja sam Boris Vasić i vodim agenciju <span class="t">Edge Cut</span></h2><div class="lines"><p>Smišljam teme i hookove za klijente, od frizerskog salona u Novim Banovcima do škole za pse u Hrvatskoj.</p><p>Ovaj priručnik je postupak koji prođem svaki put kad smišljam klip za novog klijenta.</p></div></div>
+  </div>
+</section>
+
+<section id="kupovina" data-section="cena">
+  <div class="wrap">
+    <div class="offer rv">
+      <div class="art-col"><img class="cover mini" src="assets/korica.jpg" alt="" width="620" height="877" loading="lazy"></div>
+      <div><p class="tag">PDF priručnik</p><h2 style="margin-top:8px">Recept za smišljanje viralnog videa</h2><ul><li>Pet koraka, od analize kupca do hooka</li><li>Primeri hookova koje dopuniš svojom nišom</li><li>Ceo recept na jednoj strani</li></ul></div>
+      <div>
+        <div class="pr"><span class="was"><small>redovna cena</small><s>29 €</s></span><b>7 €</b><span class="chip">Štediš 22 €</span></div>
+        <a class="btn" href="/kupi/?p=recept" data-cta="cena">Kupi priručnik za 7 €</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pitanja" data-section="pitanja">
+  <div class="wrap"><div class="faq"><h2>Pitanja pre kupovine</h2><details open><summary>Kada dobijam priručnik?</summary><div class="ans lines"><p>Odmah posle plaćanja.</p><p>Link za preuzimanje se otvori na ekranu i stigne ti na mejl.</p><p>Ako mejl ne vidiš za par minuta, pogledaj u spamu.</p></div></details><details><summary>U kom formatu je priručnik?</summary><div class="ans lines"><p>PDF od 8 strana, za telefon i kompjuter.</p></div></details><details><summary>Kako se plaća?</summary><div class="ans lines"><p>Karticom, na sledećoj strani.</p><p>Cena je u evrima.</p></div></details><details><summary>Da li radi ako imam malo pratilaca?</summary><div class="ans lines"><p>Radi.</p><p>Jedan od tri načina za smišljanje ideje u koraku 2 je pravljen baš za nove profile.</p></div></details><details><summary>Imam pitanje koje nije ovde</summary><div class="ans lines"><p>Piši mi na Instagramu, <a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">@boris.prproj</a>.</p></div></details></div></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Boris Vasić · Edge Cut</span><span><a href="mailto:boris@edgecut.app">boris@edgecut.app</a></span></div>
 </footer>
 
+<div class="sticky" id="sticky" aria-hidden="true">
+  <div class="tt"><b><s>29 €</s>7 €</b>Recept za viralan video</div>
+  <a class="btn" href="/kupi/?p=recept" data-cta="sticky" tabindex="-1">Kupi priručnik</a>
+</div>
+
 <script>
-  // scroll reveal
-  const io = new IntersectionObserver((es)=>{
-    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-  // stepper: pokreni animaciju staze kad uđe u vidno polje
-  const stepIO = new IntersectionObserver((es)=>{
-    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('run'); stepIO.unobserve(e.target);} });
-  },{threshold:.45,rootMargin:'0px 0px -12% 0px'});
-  document.querySelectorAll('.steps').forEach(el=>stepIO.observe(el));
-  // accordion: close others on open
-  document.querySelectorAll('.faq details').forEach(d=>{
-    d.addEventListener('toggle',()=>{ if(d.open){ document.querySelectorAll('.faq details').forEach(o=>{ if(o!==d) o.open=false; }); } });
-  });
-</script>
-
-<!-- ===== EDIT MODE — copy editor. Aktiviraj otvaranjem URL-a sa ?edit (npr. borisprproj.com/recept-za-viralan-video/?edit) ===== -->
-<style id="edit-css">
-  body.editmode .reveal{opacity:1 !important;transform:none !important}
-  body.editmode [data-edit-on]{
-    outline:1px dashed var(--accent-line);outline-offset:3px;border-radius:4px;
-    cursor:text;transition:outline-color .15s ease, background .15s ease;
-  }
-  body.editmode [data-edit-on]:hover{outline-color:var(--accent);background:var(--accent-soft)}
-  body.editmode [data-edit-on]:focus{outline:2px solid var(--accent);background:rgba(17,199,212,.06)}
-  #edit-bar{
-    position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9999;
-    display:flex;align-items:center;gap:14px;padding:12px 16px;
-    background:rgba(16,16,19,.94);backdrop-filter:blur(12px);
-    border:1px solid var(--accent-line);border-radius:14px;
-    box-shadow:0 16px 50px -12px rgba(0,0,0,.7);font-family:var(--mono);
-  }
-  #edit-bar .lbl{font-size:12px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;font-weight:500}
-  #edit-bar .st{font-size:12px;color:var(--muted);min-width:90px}
-  #edit-bar button{
-    font-family:var(--body);font-weight:700;font-size:14px;border:none;cursor:pointer;
-    border-radius:9px;padding:9px 16px;transition:filter .15s ease, transform .15s ease;
-  }
-  #edit-bar button:hover{transform:translateY(-1px)}
-  #edit-bar .save{background:var(--accent);color:#06181a}
-  #edit-bar .reset{background:var(--elevated);color:var(--muted);border:1px solid var(--border)}
-  @media(max-width:520px){#edit-bar{left:12px;right:12px;transform:none;flex-wrap:wrap;justify-content:center;gap:10px}}
-</style>
-<script id="edit-script">
 (function(){
-  var params = new URLSearchParams(location.search);
-  if(!params.has('edit')) return;                 // tajni mod — radi samo sa ?edit u URL-u
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var STORE = 'boris-edit-recept-v2';
-  var SEL = [
-    '[data-e]','.lead','.kicker','.chlabel','h2','h3',
-    '.brand','.nav-link',
-    '.step-label','.step-title',
-    '.outcome .row span:not(.arr)','.center-cta .mono',
-    '.proof-quote','.proof-who','.proof-metric',
-    '.vlist .row b','.vlist .row p',
-    '.price','.pwrap .mono','.bwrap .mono',
-    '.faq summary .q-text','.faq .ans',
-    'footer h2','.foot-tag','.foot-brand p','.fcol h4','.fcol a',
-    '.foot-bottom .legal','.btn'
-  ].join(',');
-
-  var els = Array.prototype.slice.call(document.querySelectorAll(SEL));
-  els = els.filter(function(el,i){ return els.indexOf(el)===i; });   // dedup
-
-  els.forEach(function(el){
-    el.setAttribute('data-edit-on','');
-    el.setAttribute('contenteditable','true');
-    el.setAttribute('spellcheck','false');
-  });
-  document.body.classList.add('editmode');
-
-  // restore prethodnih izmena iz localStorage (po redosledu elemenata)
-  try{
-    var saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-    if(saved){ els.forEach(function(el,i){ if(saved[i] != null) el.innerHTML = saved[i]; }); }
-  }catch(e){}
-
-  // u edit modu linkovi/dugmad ne navigiraju
-  document.addEventListener('click', function(e){
-    if(!document.body.classList.contains('editmode')) return;
-    var hit = e.target.closest('a, button.btn');
-    if(hit) e.preventDefault();
-  }, true);
-
-  function snapshot(){ var m={}; els.forEach(function(el,i){ m[i]=el.innerHTML; }); return m; }
-  function persist(){ try{ localStorage.setItem(STORE, JSON.stringify(snapshot())); }catch(e){} }
-  function status(t){ var s=document.getElementById('edit-st'); if(s) s.textContent=t; }
-
-  document.addEventListener('input', function(e){
-    if(e.target && e.target.hasAttribute && e.target.hasAttribute('data-edit-on')) status('Nesačuvano…');
+  // utm parametri i fbclid iz adrese idu dalje na checkout
+  var src = new URLSearchParams(location.search);
+  var keep = [];
+  src.forEach(function(v,k){ if(/^utm_/i.test(k) || k==='fbclid') keep.push([k,v]); });
+  document.querySelectorAll('a[href^="/kupi/"]').forEach(function(a){
+    var u = new URL(a.getAttribute('href'), location.origin);
+    keep.forEach(function(kv){ if(!u.searchParams.has(kv[0])) u.searchParams.set(kv[0], kv[1]); });
+    a.setAttribute('href', u.pathname + u.search);
+    a.addEventListener('click', function(){ window.shopTrack && window.shopTrack('cta_click', a.getAttribute('data-cta') || 'ostalo'); });
   });
 
-  function cleanHTML(){
-    var clone = document.documentElement.cloneNode(true);
-    Array.prototype.forEach.call(clone.querySelectorAll('[data-edit-on]'), function(el){
-      el.removeAttribute('data-edit-on');
-      el.removeAttribute('contenteditable');
-      el.removeAttribute('spellcheck');
-    });
-    var bar = clone.querySelector('#edit-bar'); if(bar) bar.remove();
-    var bd = clone.querySelector('body'); if(bd) bd.classList.remove('editmode');
-    Array.prototype.forEach.call(clone.querySelectorAll('.reveal.in'), function(el){ el.classList.remove('in'); });
-    return '<!DOCTYPE html>\n' + clone.outerHTML + '\n';
+  // brojanje naviše, jednom
+  function fmt(v, dec){
+    var s = dec ? v.toFixed(dec).replace('.', ',') : Math.round(v).toString();
+    if(!dec) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return s;
+  }
+  function count(el){
+    var to = parseFloat(el.getAttribute('data-to')), dec = +el.getAttribute('data-dec') || 0;
+    if(isNaN(to) || reduce) return;
+    var t0 = null, dur = 1100;
+    function step(t){ if(!t0) t0 = t; var p = Math.min(1,(t-t0)/dur); var e = 1-Math.pow(1-p,3);
+      el.textContent = fmt(to*e, dec); if(p<1) requestAnimationFrame(step); else el.textContent = fmt(to, dec); }
+    el.textContent = fmt(0, dec); requestAnimationFrame(step);
   }
 
-  function download(){
-    var blob = new Blob([cleanHTML()], {type:'text/html;charset=utf-8'});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = 'index.html';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+  // ulazak sekcija, jednom
+  var rv = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(!e.isIntersecting) return; e.target.classList.add('in');
+        e.target.querySelectorAll('[data-to]').forEach(count); io.unobserve(e.target); });
+    },{threshold:.15, rootMargin:'0px 0px -6% 0px'});
+    rv.forEach(function(el){ io.observe(el); });
+  } else { rv.forEach(function(el){ el.classList.add('in'); }); }
+
+  // lepljiva traka: posle prvog ekrana, sklanja se kod bloka cene
+  var sticky = document.getElementById('sticky');
+  var heroBtn = document.querySelector('[data-cta="hero"]');
+  var blockers = [document.getElementById('kupovina')];
+  function upd(){
+    var vh = window.innerHeight;
+    var heroOut = heroBtn.getBoundingClientRect().bottom < 0;
+    var blocked = blockers.some(function(el){ var r = el.getBoundingClientRect(); return r.top < vh && r.bottom > 0; });
+    var on = heroOut && !blocked;
+    if(sticky.classList.contains('on') === on) return;
+    sticky.classList.toggle('on', on);
+    sticky.setAttribute('aria-hidden', on ? 'false' : 'true');
+    sticky.querySelector('a').tabIndex = on ? 0 : -1;
   }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
 
-  var bar = document.createElement('div');
-  bar.id = 'edit-bar';
-  bar.innerHTML =
-    '<span class="lbl">Edit mode</span>'+
-    '<span class="st" id="edit-st">Spremno</span>'+
-    '<button class="save" id="edit-save">Sačuvaj</button>'+
-    '<button class="reset" id="edit-reset">Poništi sve</button>';
-  document.body.appendChild(bar);
-
-  document.getElementById('edit-save').addEventListener('click', function(){
-    persist(); download(); status('Sačuvano ✓ (index.html skinut)');
-  });
-  document.getElementById('edit-reset').addEventListener('click', function(){
-    if(!confirm('Vrati sav tekst na original i obriši lokalne izmene?')) return;
-    try{ localStorage.removeItem(STORE); }catch(e){}
-    location.reload();
-  });
+  // pitanja: otvoreno jedno po jedno
+  var ds = document.querySelectorAll('.faq details');
+  ds.forEach(function(d){ d.addEventListener('toggle', function(){ if(d.open) ds.forEach(function(o){ if(o!==d) o.open=false; }); }); });
 })();
 </script>
-
-
 </body></html>

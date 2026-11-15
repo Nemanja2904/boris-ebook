@@ -1,0 +1,149 @@
+/* Checkout i hvala strana Borisovog shopa. Paleta low ticket (15.11.2026): tamna podloga, tirkizna = brend
+   (oznake, kvačice, "U korpi"), žuta = akcija i cena (dugme Plati, nova cena). Koralne nema. */
+:root{
+  --bg:#09090b;
+  --surface:#131316;
+  --elevated:#131316;
+  --border:#26262b;
+  --border-strong:#34343b;
+  --accent:#11c7d4;
+  --accent-ink:#06181a;
+  --accent-soft:rgba(17,199,212,.10);
+  --accent-line:rgba(17,199,212,.45);
+  --action:#ffd60a;
+  --action-ink:#0b0b0d;
+  --text:#fafafa;
+  --muted:#a4a4ad;
+  --faint:#6b6b74;
+  --danger:#ff5c5c;
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+
+.top{display:flex;align-items:center;justify-content:space-between;max-width:1040px;margin:0 auto;padding:18px 16px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text);text-decoration:none}
+.brand i{width:8px;height:8px;border-radius:2px;background:var(--accent);display:block}
+.secure{font-family:var(--mono);font-size:12px;color:var(--faint);display:flex;align-items:center;gap:6px}
+
+.wrap{max-width:1040px;margin:0 auto;padding:4px 16px calc(48px + env(safe-area-inset-bottom,0px))}
+
+/* checkout raspored: telefon jedna kolona, komp dve (pregled levo, plaćanje desno) */
+.co{display:grid;gap:22px;grid-template-areas:"product" "bump" "total" "email" "pay"}
+.a-product{grid-area:product}.a-email{grid-area:email}.a-bump{grid-area:bump}.a-total{grid-area:total}.a-pay{grid-area:pay}
+@media(min-width:900px){
+  .co{grid-template-columns:minmax(0,1fr) minmax(0,440px);column-gap:56px;row-gap:24px;align-items:start;
+      grid-template-areas:"product email" "bump pay" "total pay" ". pay"}
+  .a-pay{position:sticky;top:20px}
+}
+
+.product{display:flex;gap:16px;align-items:center}
+.cover{width:88px;height:112px;flex:none;border-radius:8px;overflow:hidden;background:var(--elevated);border:1px solid var(--border);position:relative}
+.cover img{width:100%;height:100%;object-fit:cover;object-position:46% 18%;display:block}
+.cover.type{display:flex;flex-direction:column;justify-content:space-between;padding:10px 9px;background:#f4f4f2;color:#111}
+.cover.type b{font-family:var(--display);font-weight:800;font-size:13.5px;line-height:1.05;letter-spacing:-.02em}
+.cover.type span{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#0b8f99}
+.p-kind{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.02em}
+.p-name{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.12;letter-spacing:-.02em;margin-top:3px}
+.p-price{margin-top:8px;font-size:18px;font-weight:700;display:flex;gap:10px;align-items:baseline;color:var(--action)}
+.p-price s{color:var(--faint);font-weight:500;font-size:16px}
+.p-note.muted-note{color:var(--muted)}
+.p-note{margin-top:4px;font-size:13.5px;color:var(--accent)}
+@media(min-width:900px){.cover{width:120px;height:152px}.p-name{font-size:28px}}
+
+label.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
+.input{width:100%;background:var(--elevated);border:1px solid var(--border-strong);border-radius:10px;padding:14px 14px;font:inherit;font-size:16px;color:var(--text);outline:none}
+.input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.input.err{border-color:var(--danger)}
+.help{margin-top:7px;font-size:13.5px;color:var(--faint)}
+.field-err{margin-top:7px;font-size:13.5px;color:var(--danger)}
+
+/* komplet od dva dela (doplata) */
+.kit{border:1px solid var(--border-strong);border-radius:14px;padding:16px;background:var(--surface)}
+.kit-head{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.015em;line-height:1.2;margin-bottom:12px}
+.part{display:flex;gap:12px;align-items:center;border-radius:10px;padding:10px;margin-top:8px}
+.part .cover{width:46px;height:58px;border-radius:6px}
+.part .cover.type{padding:4px}
+.part .cover.type b{font-size:6.5px;line-height:1.08}
+.part .cover.type span{font-size:5px}
+.part.on{border:1.5px solid var(--accent-line);background:var(--accent-soft)}
+.part.off{border:1.5px dashed var(--border-strong)}
+.part.off .cover{opacity:.45;filter:grayscale(1)}
+.part-txt{min-width:0}
+.part-no{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+.part-name{font-weight:700;font-size:15px;line-height:1.25;margin-top:1px}
+.part-st{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:13px;font-weight:600}
+.part.on .part-st{color:var(--accent)}
+.part.off .part-st{color:var(--faint)}
+.btn-add{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;margin-top:12px;background:var(--accent);color:var(--accent-ink);border:none;border-radius:10px;padding:15px 18px;font-weight:700;font-size:17px;cursor:pointer;transition:filter .15s}
+.btn-add:hover{filter:brightness(.92)}
+.btn-add s{color:rgba(6,24,26,.55);font-weight:500;font-size:15px}
+/* Hvala strana: dodavanje je tu samo plaćanje (druga šansa), pa je žuto kao Plati. */
+.btn-add.pay{background:var(--action);color:var(--action-ink)}
+.btn-add.pay s{color:rgba(11,11,13,.5)}
+.price-new{color:var(--action)}
+.btn-add[disabled]{opacity:.6;cursor:default}
+.kit-done{margin-top:12px;font-weight:600;font-size:15px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.kit-remove{background:none;border:none;color:var(--faint);font-size:13.5px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
+.kit-prices{margin-top:12px;font-size:13px;color:var(--muted)}
+.kit-row{display:flex;flex-wrap:nowrap;align-items:baseline;justify-content:space-between;gap:8px;white-space:nowrap}
+.kit-prices s{color:var(--faint)}
+.kit-prices .last{color:var(--text)}
+.kit-prices b{color:var(--action);font-family:var(--display);font-size:20px;font-weight:800;letter-spacing:-.01em}
+.kit-why{margin-top:12px;font-size:14px;color:var(--muted);line-height:1.5}
+.spin.dark{border-color:rgba(0,0,0,.2);border-top-color:var(--accent-ink)}
+.missing{margin-top:8px;font-size:13.5px;color:var(--muted)}
+
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--border);padding-top:16px}
+.total .lines{font-size:14px;color:var(--muted)}
+.total .lines div{display:flex;justify-content:space-between;gap:16px}
+.total .lines div span:last-child{white-space:nowrap}
+.total-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;font-weight:700;font-size:18px}
+.total-row b{font-family:var(--display);font-size:26px;letter-spacing:-.02em;color:var(--action)}
+
+.pay-el{min-height:120px}
+.pay-skel{border:1px solid var(--border);border-radius:10px;height:150px;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:14px}
+.btn{display:flex;width:100%;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:17px;letter-spacing:-.01em;background:var(--action);color:var(--action-ink);border:none;border-radius:10px;padding:17px 22px;cursor:pointer;margin-top:18px;transition:filter .15s,transform .15s}
+.btn:hover{filter:brightness(1.07)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.55;cursor:default;filter:none;transform:none}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--border-strong);font-weight:600;font-size:15px;padding:13px 18px}
+.spin{width:18px;height:18px;border:2px solid rgba(11,11,13,.3);border-top-color:var(--action-ink);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pay-err{margin-top:12px;font-size:14.5px;color:var(--danger)}
+.fine{margin-top:14px;font-size:13.5px;color:var(--muted)}
+.fine.small{font-size:12.5px;color:var(--faint);margin-top:8px}
+.fine a{color:var(--muted)}
+
+.notice{border:1px solid var(--border-strong);border-radius:10px;padding:12px 14px;font-size:14.5px;color:var(--muted);margin-bottom:18px}
+
+/* hvala */
+.thanks{max-width:600px;margin:0 auto}
+.thanks h1{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.05;letter-spacing:-.03em}
+.thanks .lead{margin-top:10px;color:var(--muted)}
+.links{margin-top:26px;display:grid;gap:12px}
+.link{display:flex;align-items:center;gap:14px;border:1px solid var(--border);border-radius:12px;padding:14px;text-decoration:none;color:var(--text);background:var(--surface)}
+.link .cover{width:56px;height:72px}
+.link .cover.type{padding:5px}
+.link .cover.type b{font-size:8px;line-height:1.08}
+.link .cover.type span{font-size:6px}
+.link .l-name{font-weight:700;line-height:1.25}
+.pdf-link{display:inline-block;margin:8px 0 0 4px;font-size:14.5px;font-weight:600;color:var(--accent);text-underline-offset:3px}
+.link .l-act{margin-top:4px;color:var(--accent);font-weight:600;font-size:15px}
+.wait{margin-top:26px;display:flex;align-items:center;gap:12px;color:var(--muted)}
+.wait .spin{border-color:rgba(255,255,255,.18);border-top-color:var(--accent)}
+.second{margin-top:34px;border-top:1px solid var(--border);padding-top:26px}
+.second h2{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.15}
+.second p{margin-top:10px;color:var(--muted)}
+.clock{font-family:var(--mono);font-size:13px;color:var(--accent);margin-top:12px}
+.no{display:block;margin:12px auto 0;background:none;border:none;color:var(--faint);font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ok{margin-top:18px;color:var(--accent);font-weight:600}
+@media(min-width:900px){.thanks h1{font-size:44px}}
+.cover img[src*="korica"]{object-position:center top}
+.kit-done s{color:var(--faint);font-weight:500}

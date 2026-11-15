@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#09090b">
+<title>Kontent mašina za besplatne upite · interaktivni priručnik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark:#09090b; --dark-2:#18181b; --dark-line:#29292e; --dark-muted:#a4a4ad;
+  --paper:#ffffff; --ink:#0d1117; --text:#252a31; --muted:#58606c; --faint:#8a919c;
+  --line:#dde1e6; --gray:#f4f5f7; --tint:#eef8f9; --tint-line:#c9e4e8;
+  --accent:#11c7d4; --accent-ink:#077a83; --on-accent:#06181a;
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --bar:52px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:calc(var(--bar) + 16px)}
+body{background:var(--paper);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* traka na vrhu */
+.bar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fafafa}
+.bar-in{display:flex;align-items:center;gap:12px;height:var(--bar);max-width:1120px;margin:0 auto;padding:0 16px}
+.bar-name{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bar-name .full{display:none}
+@media (min-width:640px){.bar-name .full{display:inline}.bar-name .short{display:none}}
+.bar-step{flex:none;display:flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--dark-line);color:#fafafa;font-size:15px;white-space:nowrap}
+.bar-step b{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}
+.bar-step::after{content:'';width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);margin-left:2px}
+.saved{margin-left:auto;font-size:13px;color:var(--dark-muted);white-space:nowrap;transition:opacity .4s}
+@media (max-width:399px){.bar-step .kw{display:none}}
+.saved:empty{opacity:0}
+.prog{height:3px;background:var(--dark-2)}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+
+/* naslovna */
+.cover{background:var(--dark);color:#fafafa;padding:36px 16px 44px}
+.cover-in{max-width:760px;margin:0 auto}
+.cover .by{color:var(--dark-muted);font-size:15px}
+.cover h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,10vw,64px);line-height:1;letter-spacing:-.035em;margin-top:10px;text-wrap:balance}
+.cover .sub{font-family:var(--display);font-weight:600;font-size:clamp(19px,4.8vw,24px);line-height:1.3;letter-spacing:-.015em;color:#fafafa;margin-top:14px;max-width:34ch;text-wrap:balance}
+.cover p.i{color:#d6d6db;margin-top:16px;max-width:60ch}
+.cover #intro{margin-top:22px;padding-top:2px}
+.cover .start{display:inline-flex;align-items:center;justify-content:center;min-height:52px;margin-top:26px;padding:0 22px;border-radius:12px;background:var(--accent);color:var(--on-accent);font-weight:700;text-decoration:none}
+.cover .local{margin-top:14px;font-size:14px;color:var(--dark-muted)}
+
+/* raspored */
+.layout{max-width:1120px;margin:0 auto}
+.nav{display:none;position:fixed;z-index:25;top:calc(var(--bar) + 3px);left:0;right:0;max-height:calc(100dvh - var(--bar) - 3px);overflow:auto;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 18px 40px rgba(0,0,0,.18);padding:8px 8px 14px}
+.nav.open{display:block}
+.nav ol{list-style:none}
+.nav a{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:6px;min-height:46px;padding:6px 10px;border-radius:10px;text-decoration:none;color:var(--text);font-size:15px;line-height:1.3}
+.nav a .n{font-family:var(--mono);font-size:13px;color:var(--faint);font-variant-numeric:tabular-nums}
+.nav a .pc{font-family:var(--mono);font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.nav a .pc.ok{color:var(--accent-ink)}
+.nav a.on{background:var(--gray);color:var(--ink);font-weight:600}
+.nav a.on .n{color:var(--accent-ink)}
+.nav .print{display:flex;width:100%;align-items:center;justify-content:center;min-height:46px;margin-top:10px;border-radius:10px;border:1.5px solid var(--line);font-weight:600;font-size:15px;color:var(--ink)}
+main{padding:0 16px 48px;min-width:0}
+
+/* korak */
+.step{padding-top:44px;max-width:760px;margin:0 auto}
+.step h2{font-family:var(--display);font-weight:800;font-size:clamp(27px,6.6vw,38px);line-height:1.08;letter-spacing:-.03em;color:var(--ink);text-wrap:balance}
+.step h2 .num{color:var(--accent-ink);margin-right:.18em}
+.prose{margin-top:18px;max-width:64ch}
+.prose p,.ex p{margin-top:14px}
+.prose p:first-child{margin-top:0}
+.prose ul{margin-top:14px;list-style:none;display:grid;gap:10px}
+.prose ul li{position:relative;padding-left:20px}
+.prose ul li::before{content:'';position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.ex{margin-top:26px;max-width:64ch;padding:16px 18px;background:var(--gray);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;font-size:16px}
+.ex .ex-l{font-weight:700;color:var(--ink);margin-top:0}
+.ex p:nth-child(2){margin-top:6px}
+
+/* deo za popunjavanje */
+.fill{margin:30px -16px 0;padding:24px 16px 28px;background:var(--tint);border-top:1px solid var(--tint-line);border-bottom:1px solid var(--tint-line)}
+.fill h3{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;color:var(--ink)}
+.fld{margin-top:20px}
+.lab{display:block;font-weight:600;color:var(--ink);line-height:1.35}
+.help{font-size:14.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+input[type=text],input[type=date],textarea{display:block;width:100%;min-width:0;margin-top:8px;padding:11px 13px;border-radius:10px;border:1.5px solid #cfd5dc;background:#fff;font-size:17px;line-height:1.45;outline:0;transition:border-color .15s;scroll-margin-top:calc(var(--bar) + 60px);scroll-margin-bottom:120px}
+input[type=text]:focus,input[type=date]:focus,textarea:focus{border-color:var(--accent-ink)}
+textarea{resize:none;min-height:92px;overflow:hidden}
+textarea.short{min-height:0}
+.fld-broj input{max-width:200px;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:16px}
+.pv{display:none}
+.calc{display:block;margin-top:6px;font-family:var(--mono);font-size:22px;color:var(--ink);font-variant-numeric:tabular-nums}
+.calc.none{font-family:var(--body);font-size:15px;color:var(--muted)}
+.cek{display:flex;gap:12px;align-items:flex-start;min-height:44px;padding:9px 0;cursor:pointer;line-height:1.4}
+.cek input,.pick input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:var(--accent-ink);cursor:pointer}
+.cek + .cek{border-top:1px solid var(--tint-line)}
+.fld + .cek,.grp-body > .cek:first-child{margin-top:12px}
+
+/* grupe: klipovi i problemi */
+.grp{margin-top:18px;background:#fff;border:1px solid var(--tint-line);border-radius:12px}
+.grp > summary,.grp-h{display:flex;align-items:center;gap:10px;min-height:52px;padding:10px 16px;cursor:pointer;list-style:none;font-weight:600;color:var(--ink)}
+.grp-h{cursor:default;border-bottom:1px solid var(--tint-line)}
+.grp > summary::-webkit-details-marker{display:none}
+.grp > summary::after{content:'';flex:none;margin-left:auto;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+.grp[open] > summary::after{transform:rotate(-135deg)}
+.grp .gs{font-weight:400;color:var(--muted);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.grp .gn{flex:none}
+.grp-body{padding:0 16px 18px}
+.grp-body > .fld:first-child{margin-top:12px}
+.grp-h .gs.none{color:var(--faint)}
+
+/* lista deset problema */
+.l10{list-style:none;margin-top:10px;display:grid;gap:8px}
+.l10 li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;align-items:center;gap:8px}
+.l10 .n{font-family:var(--mono);font-size:14px;color:var(--faint);text-align:right;font-variant-numeric:tabular-nums}
+.l10 textarea{margin-top:0}
+.pick{display:flex;align-items:center;gap:6px;min-height:44px;padding:0 10px 0 8px;border-radius:10px;border:1.5px solid #cfd5dc;background:#fff;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;user-select:none}
+.pick:has(input:checked){border-color:var(--accent-ink);color:var(--ink);background:#e2f6f8}
+.pick:has(input:disabled){opacity:.45;cursor:default}
+.count{margin-top:10px;font-size:15px;color:var(--muted)}
+.count b{color:var(--ink)}
+
+/* tabele */
+.tbl{margin-top:12px}
+.thead{display:none}
+.trow{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;padding:12px 14px 14px;margin-top:10px;background:#fff;border:1px solid var(--tint-line);border-radius:12px}
+.tc{display:block;min-width:0}
+.tc.wide{grid-column:1 / -1}
+.tc .tl{display:block;font-size:13.5px;font-weight:600;color:var(--muted)}
+.tc input[type=text],.tc input[type=date],.tc textarea{margin-top:4px;padding:9px 11px;font-size:16px}
+.tc.dt{grid-column:1 / -1;padding-right:34px}
+.tc.dt input{max-width:220px}
+.tc.num input{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tc.yn{display:flex;align-items:center;gap:10px;min-height:44px}
+.tc.yn input{width:22px;height:22px;accent-color:var(--accent-ink)}
+.tc.yn .tl{order:2;font-size:15px;color:var(--text)}
+.tdel{position:absolute;top:6px;right:6px;width:36px;height:36px;border-radius:8px;color:var(--faint);font-size:20px;line-height:1}
+.tdel:hover{background:var(--gray);color:var(--ink)}
+.trow .tc:first-child{padding-right:34px}
+.add{margin-top:12px;min-height:46px;padding:0 18px;border-radius:10px;border:1.5px dashed #b9c4cc;background:#fff;font-weight:600;font-size:15px;color:var(--ink)}
+.add:hover{border-color:var(--accent-ink)}
+
+/* dalje */
+.next{margin-top:26px}
+.next a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:12px 18px;border-radius:12px;border:1.5px solid var(--line);text-decoration:none;color:var(--ink);font-weight:600}
+.next a span{color:var(--muted);font-weight:400;font-size:15px}
+.next a::after{content:'';flex:none;width:9px;height:9px;border-right:2px solid var(--accent-ink);border-bottom:2px solid var(--accent-ink);transform:rotate(-45deg)}
+.endsec .prose{margin-top:14px}
+.printrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.printbtn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:10px 22px;text-align:center;line-height:1.3;border-radius:12px;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:17px;text-decoration:none}
+.printbtn[hidden],.print[hidden],.printnote[hidden]{display:none}
+.printrow a.printbtn:not([hidden]) + .printbtn{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.nav a.print{text-decoration:none;background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+@media (max-width:479px){.printrow .printbtn{width:100%}}
+.printnote{margin-top:10px;font-size:14.5px;color:var(--muted);max-width:60ch}
+footer{max-width:760px;margin:56px auto 0;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--faint)}
+
+@media (min-width:640px){
+  body{font-size:18px}
+  .cover{padding:56px 24px 60px}
+  main{padding:0 24px 64px}
+  .fill{margin:34px 0 0;padding:26px 26px 30px;border:1px solid var(--tint-line);border-radius:14px}
+  .tbl:not(.many) .thead{display:grid;gap:8px;padding:0 4px 6px;font-size:13.5px;font-weight:600;color:var(--muted);grid-template-columns:var(--cols)}
+  .tbl:not(.many) .trow{grid-template-columns:var(--cols);gap:8px;align-items:center;padding:0;margin-top:6px;background:none;border:0;border-radius:0}
+  .tbl:not(.many) .tc.wide{grid-column:auto}
+  .tbl:not(.many) .tc .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .tbl:not(.many) .tc input[type=text],.tbl:not(.many) .tc input[type=date],.tbl:not(.many) .tc textarea{margin-top:0}
+  .tbl:not(.many) .tc.dt{grid-column:auto;padding-right:0}
+  .tbl.many .tc.dt{grid-column:1 / 3;padding-right:0}
+  .tbl:not(.many) .tc.yn{justify-content:center}
+  .tbl:not(.many) .tdel{position:static;width:36px;height:40px}
+  .tbl:not(.many) .trow .tc:first-child{padding-right:0}
+  .tbl.many .trow{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tbl.many .tc.wide{grid-column:3 / -1;padding-right:34px}
+}
+@media (min-width:1100px){
+  .bar-step{display:none}
+  .layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;padding:0 24px}
+  .nav{display:block;position:sticky;top:calc(var(--bar) + 3px);align-self:start;max-height:calc(100vh - var(--bar) - 3px);box-shadow:none;border:0;padding:28px 0 20px;background:none}
+  main{padding:0 0 72px}
+  .step,footer{max-width:860px;margin-left:0}
+  .cover-in{max-width:1120px;padding-left:274px}
+  .tbl.many .thead{display:grid;gap:8px;padding:0 4px 6px;font-size:13.5px;font-weight:600;color:var(--muted);grid-template-columns:var(--cols)}
+  .tbl.many .trow{grid-template-columns:var(--cols);gap:8px;align-items:center;padding:0;margin-top:6px;background:none;border:0;border-radius:0}
+  .tbl.many .tc.wide{grid-column:auto;padding-right:0}
+  .tbl.many .tc .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .tbl.many .tc input[type=text],.tbl.many .tc input[type=date],.tbl.many .tc textarea{margin-top:0}
+  .tbl.many .tc.dt{grid-column:auto}
+  .tbl.many .tc.yn{justify-content:center}
+  .tbl.many .tdel{position:static;width:36px;height:40px}
+  .tbl.many .trow .tc:first-child{padding-right:0}
+  .tc.num input{padding-left:9px;padding-right:9px}
+}
+
+/* štampa: A4, popunjeno kao tekst, prazno kao linije */
+@page{size:A4;margin:16mm 15mm}
+@media print{
+  :root{--bar:0px}
+  html,body{background:#fff;font-size:10.5pt;line-height:1.5}
+  .bar,.nav,.next,.add,.tdel,.printbtn,.printnote,.cover .start,.cover .local,.no-print{display:none!important}
+  .layout{display:block;padding:0;max-width:none}
+  main{padding:0}
+  .cover{background:#fff;color:var(--ink);padding:0 0 6mm;border-bottom:1.5pt solid var(--ink)}
+  .cover .by{color:var(--muted)}
+  .cover h1{font-size:30pt}
+  .cover p.i{color:var(--text)}
+  .cover .sub{color:var(--ink);font-size:14pt;max-width:none}
+  .step{padding-top:0;max-width:none;break-before:page}
+  .step h2{font-size:19pt}
+  .prose,.ex{max-width:none}
+  .ex,.fld,.trow,.cek,.l10 li{break-inside:avoid}
+  .fill h3,.grp > summary,.grp-h,.lab,.help{break-after:avoid}
+  details.grp,details.grp > .grp-body{display:block}
+  .ex{background:none;border:1pt solid #c9ced4;border-left:3pt solid var(--accent-ink);font-size:9.5pt}
+  .fill{margin:6mm 0 0;padding:0;background:none;border:0}
+  .fill h3{font-size:13pt;border-bottom:1pt solid var(--ink);padding-bottom:2mm}
+  .help{font-size:8.5pt}
+  input[type=text],input[type=date],textarea{display:none!important}
+  .pv{display:block;margin-top:2mm;white-space:pre-wrap;font-size:10.5pt;color:var(--ink);min-height:1.9em;border-bottom:.6pt solid #8a919c}
+  .pv.empty{--h:1.9em;height:var(--h);border:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent calc(1.9em - .6pt),#8a919c calc(1.9em - .6pt),#8a919c 1.9em)}
+  .pv.lines4.empty{--h:7.6em}
+  .fld-broj .pv{max-width:45mm}
+  .grp{border:0;border-top:1pt solid #c9ced4;border-radius:0;margin-top:5mm}
+  .grp > summary,.grp-h{padding:2mm 0;min-height:0;border:0}
+  .grp > summary::after{display:none}
+  .grp .gs{white-space:normal}
+  .grp-h .gs.none{font-size:0;flex:1;height:1.4em;border-bottom:.6pt solid #8a919c}
+  .grp-body{padding:0}
+  .cek{min-height:0;padding:1.2mm 0}
+  .cek + .cek{border-top:0}
+  .cek input,.pick input,.tc.yn input{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .l10 li{grid-template-columns:6mm minmax(0,1fr) auto}
+  .l10 .pv{margin-top:0}
+  .pick{border:0;min-height:0;padding:0;background:none!important}
+  .thead{display:grid;grid-template-columns:var(--pcols,var(--cols));gap:2mm;font-size:8pt;font-weight:700;color:var(--ink);border-bottom:1pt solid var(--ink);padding:0 0 1mm}
+  .trow{grid-template-columns:var(--pcols,var(--cols));gap:2mm;padding:0;margin:0;border:0;border-bottom:.6pt solid #8a919c;border-radius:0;background:none;min-height:8mm;align-items:end}
+  .tc .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .tc .pv,.tc .pv.empty{border:0;background:none;margin:0;font-size:9pt;min-height:0;height:auto;padding-bottom:1mm}
+  .tc.yn{justify-content:center;min-height:0;padding-bottom:1mm}
+  .tc.wide{grid-column:auto}
+  .trow .tc:first-child{padding-right:0}
+  .tbl .trow,.tbl .thead{grid-template-columns:var(--pcols,var(--cols))!important}
+  .tbl .tc.wide,.tbl .tc.dt{grid-column:auto!important;padding-right:0!important}
+  .calc{font-size:13pt}
+  .calc.none{display:block;height:1.9em;border-bottom:.6pt solid #8a919c;max-width:45mm;font-size:0}
+  footer{margin-top:10mm}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="bar-name"><span class="full" id="barName"></span><span class="short" id="barShort"></span></span>
+    <span class="saved" id="saved" aria-live="polite"></span>
+    <button class="bar-step" id="stepBtn" type="button" aria-expanded="false" aria-controls="nav"><span class="kw">Korak </span><b id="barStep">1</b> od <b id="barTotal">8</b></button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="progFill"></i></div>
+</header>
+
+<section class="cover">
+  <div class="cover-in">
+    <p class="by" id="vrsta">Interaktivni priručnik · Boris Vasić</p>
+    <h1 id="title"></h1>
+    <p class="sub" id="subtitle"></p>
+    <div id="intro"></div>
+    <a class="start" id="startBtn" href="#k1">Kreni od prvog koraka</a>
+    <p class="local" id="localNote" hidden>Ovo je pregled bez ličnog linka: odgovori se čuvaju samo u ovom browseru, na ovom uređaju.</p>
+  </div>
+</section>
+
+<div class="layout">
+  <nav class="nav" id="nav" aria-label="Koraci priručnika">
+    <ol id="navList"></ol>
+    <a class="print" data-pdf hidden>Preuzmi PDF za štampu</a>
+    <button class="print" type="button" data-print>Odštampaj priručnik sa mojim odgovorima</button>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<script>
+/*SADRZAJ*/
+var SADRZAJ = {"title":"Kontent mašina za besplatne upite","subtitle":"Upiti iz klipova koje već objavljuješ, sa 0 € uloženih u reklame.","intro":[{"t":"p","html":"Interaktivni priručnik koji popunjavaš za svoj posao. Ima osam koraka. U svakom prvo pročitaš kako ja to radim sa klijentima, pa upišeš svoje. Odgovori se čuvaju sami dok kucaš, pa možeš da staneš usred koraka i nastaviš sutra."},{"t":"p","html":"Na kraju imaš tri problema svog kupca, devet hookova, jedan lead magnet, poziv koji izgovaraš u klipu, plan za sledećih 30 dana i tabelu u koju upisuješ svaki upit. Priručnik možeš i da odštampaš i popunjavaš olovkom, dugme je na dnu strane."}],"steps":[{"n":1,"title":"Tvoje brojke za poslednjih 30 dana","blocks":[{"t":"p","html":"Pre nego što bilo šta menjaš, upiši gde si sad. Za mesec dana ćeš se vraćati na ove brojke, i bez njih nećeš znati da li je nešto proradilo ili ti se samo čini."},{"t":"p","html":"Lead je osoba koja je pokazala interesovanje za tvoj proizvod ili uslugu: javila ti se u poruci ili je napisala ključnu reč u komentaru. Ako u klipu kažem „ako te zanima sadržaj, pošalji mi reč content u komentar“, svako ko pošalje tu reč je lead. Ima problem koji ja mogu da rešim i hoće da čuje više."},{"t":"p","html":"Lajk i pregled ne broje se kao lead. Milion pregleda ne znači ništa ako među gledaocima nema ljudi koji bi kupili od tebe. Klip „Kako Instagram zna o čemu razmišljaš“ skupio je između 200.000 i 300.000 pregleda, a javljali su se uglavnom stariji ljudi uplašeni da su im hakovali telefon. Za takve preglede ne treba da se boriš."},{"t":"p","html":"Kod Ivana iz SuperDog Akademije (uči vlasnike kako da obuče psa) jedan klip je doneo između 7.000 i 8.000 leadova. U to se računaju komentari na Instagramu i Facebooku, poruke, i komentari i poruke na TikToku. Pisali su ljudi koji imaju problem sa psom, jer je klip pričao baš o tom problemu."},{"t":"p","html":"Ako tvoji klipovi sad imaju 200, 500 ili 2.000 pregleda, sve iz ovog priručnika važi i za tebe. Isti princip koristim za svakog klijenta, bez obzira na nišu. Ivanov najbolji klip prešao je 2,5 miliona pregleda, frizerka Ana ima klip sa 906.000, RO! sa 907.000, veterina Darvin sa 300.000."},{"t":"p","html":"Pratioci su bitni, jer bez njih ograničavaš koliko daleko klip može da ode. Ako ih sad nemaš mnogo, nije strašno. Gradiš ih upravo onim što radiš u sledećim koracima."},{"t":"p","html":"Brojke upiši iskreno. Ako nijedan klip nije doneo poruku, upiši nulu. Od nule se najlakše vidi napredak."}],"examples":[],"fields":[{"type":"broj","id":"k1-klipovi","label":"Koliko klipova si objavio u poslednjih 30 dana?"},{"type":"broj","id":"k1-pregledi","label":"Koliko pregleda su ti klipovi skupili ukupno?","help":"Saberi preglede svih klipova iz tog perioda. Broj stoji na svakom klipu u mreži profila."},{"type":"broj","id":"k1-najbolji","label":"Koliko pregleda ima tvoj najbolji klip iz tog perioda?"},{"type":"broj","id":"k1-pratioci","label":"Koliko pratilaca imaš danas?"},{"type":"broj","id":"k1-poruke","label":"Koliko ljudi ti je pisalo u poruci zbog nečeg što si objavio?"},{"type":"broj","id":"k1-kljucna","label":"Koliko komentara sa ključnom reči si dobio?","help":"Ako nijedan klip nije imao ključnu reč, upiši 0."},{"type":"broj","id":"k1-upiti","label":"Koliko ljudi je pitalo za cenu, termin ili kupovinu?"},{"type":"broj","id":"k1-prodaje","label":"Koliko prodaja je došlo od tih upita?"},{"type":"racun","id":"k1-na10k","label":"Upita na 10.000 pregleda","formula":"k1-upiti / k1-pregledi * 10000","help":"Upiti podeljeno sa pregledima, puta 10.000. Primer: tri upita na 6.000 pregleda su pet upita na 10.000 pregleda."},{"type":"dugo","id":"k1-odakle","label":"Koji klipovi su doneli te upite i o čemu su pričali?"}]},{"n":2,"title":"Proveri poslednjih pet klipova","blocks":[{"t":"p","html":"Kad pitam ljude zašto im klipovi imaju po 200 pregleda, skoro svi kažu da ih algoritam ne voli. Ja ih onda pitam zašto bi neko gledao njihov video."},{"t":"p","html":"Najveća greška koju vidim je klip koji zvuči kao reklama. Rečenice „mi nudimo“ i „naša usluga“, poziv na sajt na kraju, „javite se ako vam treba“. To je jezik za plaćeni oglas. Organski klip je tu da pomogne čoveku koji ga gleda. Prvo mu daš nešto korisno, besplatno i bez uslova, i radiš to iz klipa u klip. Tako vremenom stekne poverenje, i kad posle vidi tvoju ponudu, spreman je da kupi. Dok to poverenje ne postoji, svaki prodajni klip ga samo tera dalje."},{"t":"p","html":"Uzmi telefon, otvori svoj profil i uđi u bilo koji klip. Recimo da u njemu pričaš „ovaj telefon je najbolji na svetu, ručno sam ga pravio“. Gledalac koji te ne zna ima jedno pitanje: ko si ti da te slušam kao stručnjaka? Klip mora da mu odgovori jakim dokazom ili korisnom informacijom, inače ga prelista."},{"t":"p","html":"Drugi čest problem je klip koji razume samo onaj ko te već prati. Gledao sam klip u kojem žena u kameru kaže „Moguće je. Samo su vas ubedili u suprotno.“ Ko je ne zna, nema pojma ko je ona, čime se bavi ni šta je to moguće. Takav klip može da pogodi samo ljude koji je već prate i znaju koji problem rešava, i po lajkovima se videlo da nije otišao daleko."},{"t":"p","html":"Uporedi to sa Ivanovim klipom „Top 3 rase pasa koje teško podnose samoću“. Pogađa svakog ko ima psa i radi od 9 do 5, jer taj čovek hoće da zna da li je njegova rasa na listi i kako da se snađe. Klip mu daje odgovor bez ikakvog uslova i ima preko 4.000 lajkova. Tema o psima pomaže, to je tačno, ali ima gomila klipova o psima sa po 1.000 pregleda."},{"t":"p","html":"Prođi poslednjih pet klipova i za svaki čekiraj šta važi. Budi strog prema sebi, niko drugi ovo neće videti. Što više čekiranih polja klip ima, to više liči na oglas, koliko god bio lepo snimljen."}],"examples":[],"fields":[{"type":"kratko","id":"k2-klip","label":"O čemu je klip","per":"klip","help":"Prepiši prvu rečenicu ili tekst sa ekrana."},{"type":"broj","id":"k2-pregledi","label":"Pregledi","per":"klip"},{"type":"cek","id":"k2-nudimo","label":"Kažem „mi nudimo“, „naša usluga“ ili ime proizvoda u prvih par sekundi","per":"klip"},{"type":"cek","id":"k2-cta","label":"Na kraju zovem na sajt, u poruku ili da se jave za uslugu","per":"klip"},{"type":"cek","id":"k2-proizvod","label":"Klip je o mom proizvodu ili usluzi, kupčev problem se ne pominje","per":"klip"},{"type":"cek","id":"k2-kontekst","label":"Neko ko me ne prati ne bi znao o čemu pričam","per":"klip"},{"type":"cek","id":"k2-dokaz","label":"Tvrdim da sam najbolji, a dokaz ne pokazujem","per":"klip"},{"type":"cek","id":"k2-vrednost","label":"Gledalac ne dobija ništa korisno ako ne kupi","per":"klip"},{"type":"dugo","id":"k2-zasto","label":"Zašto bi ovaj klip gledao neko ko te ne zna?","per":"klip"},{"type":"dugo","id":"k2-obrazac","label":"Šta se ponavlja u klipovima sa najmanje pregleda?"}]},{"n":3,"title":"Deset problema tvog kupca","blocks":[{"t":"p","html":"Organski sadržaj počinje od problema kupca. Da bi neko gledao tvoj klip, mora u njemu da prepozna svoj problem ili nešto što ga lično zanima. Bez toga nema ni pregleda ni upita."},{"t":"p","html":"Uzmimo RO!. Prave detoks sokove za mršavljenje, i njihov kupac ima tri velika problema: mršavljenje, creva i nadutost. Kad god klip na njihovom profilu priča o nekom od ta tri, ode viralno. Nisam mađioničar i ne znam nikakve cake algoritma. U tim klipovima se priča isključivo o problemima koje njihov kupac ima."},{"t":"p","html":"Pre toga su svi klipovi pričali o soku. Prvi klip o crevima doneo je preko 2.000 toplih leadova: samo ispod njega preko 1.000 komentara, plus poruke. Kad sam čitao komentare, nije bilo trolova ni lažnih profila. Pisali su uglavnom stariji ljudi koji stvarno imaju problem sa crevima i kojima RO! može da pomogne, i to se posle videlo na prodaji."},{"t":"p","html":"Frizerka Ana iz Novih Banovaca je isti princip u drugoj niši. Umesto „pre i posle“ frizura počeo sam da snimam nju i njene savete. Za deset klipova dobila je 2.000 pratilaca, jedan klip je otišao na 906.000 pregleda, a salon zarađuje tri puta više. Sad joj pišu žene koje hoće baš kod nje."},{"t":"p","html":"Probleme vadiš od ljudi koji ti već pišu: šta pitaju u porukama, šta pitaju pre nego što kupe, šta ih brine posle. Ako nemaš dovoljno poruka, stavi u storiju polje za pitanja i pusti ih da pitaju. Kod Ivana je baš takva storija pokazala da 100 klipova nije odgovorilo na pitanja koja ljudi imaju pre kupovine."},{"t":"p","html":"Napiši deset. Prvih pet ide lako, za poslednjih pet moraćeš da se setiš konkretnih ljudi i šta su ti rekli. Piši onako kako bi kupac to rekao prijatelju, njegovim rečima."},{"t":"p","html":"Onda izaberi tri koja najviše bole. Gledaj gde je najjača frustracija ili najjača želja, ono zbog čega bi neko platio odmah. Ta tri nosiš u sve sledeće korake."}],"examples":[{"title":"RO!","blocks":[{"t":"p","html":"Problemi kupca koje znam iz njihovog profila: mršavljenje, creva, nadutost. Sva tri su izabrana, i sva tri su donela viralne klipove. Najviše leadova doneo je klip o crevima."}]}],"fields":[{"type":"lista10","id":"k3-problemi","label":"Deset problema tvog kupca","help":"Pored tri koja najviše bole stavi kvačicu. Biraš tačno tri."},{"type":"dugo","id":"k3-izvor","label":"Odakle si uzeo ove probleme?","help":"Poruke, komentari, pitanja na pozivima, ono što te pitaju uživo."},{"type":"dugo","id":"k3-zasto","label":"Zašto baš ova tri?"}]},{"n":4,"title":"Za svaki problem jedna tema i tri hooka","blocks":[{"t":"p","html":"Kad imaš tri problema, za svaki praviš temu i tri hooka. Ovo su prva tri od šest koraka po kojima pravim svaki viralan klip: problem kupca, tema koja ga pogađa, hook zbog kog staje sa skrolovanjem, skripta koja ga drži do kraja, lepo snimljen kadar i montaža u stilu publike i tona klijenta. Prva tri radiš ovde, olovkom ili tastaturom. Ako su ona dobra, snimanje i montaža treba samo da ih ne pokvare."},{"t":"p","html":"Problem je širok, a tema je jedan klip. Problem je „pas teško podnosi kad ostane sam kod kuće“. Tema je „Top 3 rase pasa koje teško podnose samoću“. Iz jednog problema možeš da izvučeš deset tema, a ovde ti treba jedna, najjača."},{"t":"p","html":"Za temu biraš i format. Top 3 je jedan. Ostali koje koristim sa klijentima: ovo ili ono („šta je bolje za mršavljenje, pomfrit ili pečeni krompir“), ocena od 1 do 10, istina ili mit, reakcija na viralan klip iz tvoje niše, i običan kadar iz tvog dana sa tekstom preko. Format daje gledaocu do znanja šta dobija ako ostane."},{"t":"p","html":"Hook je prva rečenica ili prvi kadar. Za istu temu napiši tri različita, da posle imaš između čega da biraš ili da ih probaš jedan za drugim. Ako zapneš, ovi kalupi rade kod servisnih biznisa:"},{"t":"ul","items":["„Većina [tvoje zanimanje] ti ovo neće reći.“ Darvin bi rekao: „Većina veterinara ti ovo neće reći o papagajima.“","„Ako se [problem] vuče već mesecima, slušaj.“","„Većina [ljudi kao tvoj kupac] se muči sa [problem] jer…“ Rečenicu ostaviš otvorenu, klip je zatvara.","„Tri načina da [ishod koji kupac hoće].“"]},{"t":"p","html":"Ono što ljudi najčešće preskoče je rešenje u samom klipu. Ivan u klipu o vrućini pokaže kako da proveriš da li je beton prevruć za psa: staviš ruku na njega pet sekundi. Gledalac to može da uradi odmah, napolju, i zato veruje i vodiču koji mu Ivan na kraju ponudi. Klip koji samo najavi da „postoji rešenje“ i pošalje te u poruke za detalje vraća te na grešku iz drugog koraka."},{"t":"p","html":"Zato ispod hookova upisuješ i šta gledalac nauči. Jednu konkretnu stvar koju može da primeni i ako nikad ne kupi od tebe."}],"examples":[{"title":"SuperDog Akademija","blocks":[{"t":"p","html":"Problem: pas teško podnosi kad ostane sam dok vlasnik radi. Tema: „Top 3 rase pasa koje teško podnose samoću“. Format: Top 3. Hook: „Top 3 rase pasa koje teško podnose samoću“, prva rečenica klipa. Gledalac nauči da li je njegova rasa na listi i kako da se snađe. Klip ima preko 4.000 lajkova."}]}],"fields":[{"type":"kratko","id":"k4-tema","label":"Tema klipa","per":"problem"},{"type":"kratko","id":"k4-format","label":"Format","per":"problem","help":"Top 3, ovo ili ono, ocena od 1 do 10, istina ili mit, reakcija, kadar iz dana sa tekstom."},{"type":"kratko","id":"k4-hook1","label":"Hook 1","per":"problem"},{"type":"kratko","id":"k4-hook2","label":"Hook 2","per":"problem"},{"type":"kratko","id":"k4-hook3","label":"Hook 3","per":"problem"},{"type":"dugo","id":"k4-resenje","label":"Šta gledalac nauči u klipu?","per":"problem","help":"Jedna konkretna stvar koju može da uradi odmah."}]},{"n":5,"title":"Šta dobija onaj ko napiše ključnu reč","blocks":[{"t":"p","html":"Lead magnet je nešto što daješ besplatno da bi dobio kontakt čoveka i počeo razgovor sa njim. Posle ga polako grejem, ja volim da kažem da ga krčkam kao ćevap na roštilju, i u većini slučajeva taj čovek posle postane kupac ili klijent."},{"t":"p","html":"Najbolji primer koji imam je Ivanov letnji vodič. Ivan je snimio klip u kojem pokaže kako da proveriš da li je beton prevruć za psa. Na kraju klipa je rekao: ako želiš besplatan vodič kako da se snađeš sa psom po vrućini, pošalji reč „letnji vodič“ u komentar. Javilo se preko hiljadu ljudi."},{"t":"p","html":"U vodiču je bio kod koji na Ivanovom sajtu daje popust na sve njegove kurseve. Oko 10% ljudi koji su preuzeli vodič kupilo je kurs. Taj jedan klip, bez ijednog evra u reklame, doneo je preko 1.000 € naplaćenog novca."},{"t":"p","html":"Kupovali su jer su vodič već pročitali i rešio im je problem koji imaju. Stekli su još više poverenja u Ivana, a mnogi ga prate odranije i znaju njegove klipove. Kad su u vodiču videli popust, nisu imali razlog da ga ne iskoriste."},{"t":"p","html":"RO! radi isto na drugi način. Imaju besplatan kurs o pravljenju detoks soka kod kuće, preuzelo ga je preko 100.000 ljudi. Kad neko pomisli na detoks sok, seti se njih, a ko odustane jer je to svaki dan previše posla, kupi gotov."},{"t":"p","html":"Ivanov vodič odgovara na isti problem kao klip, pas i vrućina, a to je jedan od problema sa liste iz trećeg koraka. Unutra je bio put do kupovine, kod za popust. Bez toga si podelio nešto korisno i tu se priča završava."},{"t":"p","html":"Ključna reč filtrira ljude. Ko je napiše, stvarno ga zanima, a komentari klipu dižu domet. Biraj reč koja je kratka, lako se kuca na telefonu i vezana je za ono što dobija."}],"examples":[{"title":"SuperDog Akademija","blocks":[{"t":"p","html":"Naziv: letnji vodič. Ključna reč: „letnji vodič“. Problem: pas i vrućina. Unutra: kako da se snađeš sa psom po vrućini. Kako ga dobija: pošalje reč u komentar. Put do kupovine: kod za popust na sve kurseve na Ivanovom sajtu."}]}],"fields":[{"type":"kratko","id":"k5-naziv","label":"Kako se zove tvoj lead magnet?"},{"type":"kratko","id":"k5-problem","label":"Na koji od tri problema odgovara?"},{"type":"kratko","id":"k5-rec","label":"Ključna reč koju ljudi pišu u komentar","help":"Kratka, lako se kuca, vezana za ono što dobijaju."},{"type":"dugo","id":"k5-unutra","label":"Šta je unutra?","help":"Nabroj delove: koraci, lista, tabela, kratak video."},{"type":"kratko","id":"k5-oblik","label":"Kako ga šalješ?","help":"PDF u poruci, link do strane, forma, kratak video."},{"type":"dugo","id":"k5-kupovina","label":"Kako vodi ka kupovini?","help":"Kod za popust, ponuda na kraju, poziv na termin."},{"type":"dugo","id":"k5-zasto","label":"Zašto bi ga tvoj kupac hteo i ako od tebe nikad ništa ne kupi?"}]},{"n":6,"title":"Poziv u klipu i prva poruka","blocks":[{"t":"p","html":"Poziv ide samo na klip koji je namenski napravljen da dođe do šire publike. Taj klip ima poziv na lead magnet, lead magnet vodi na formu, stranu ili u poruke, i tako uvodiš čoveka u razgovor. Ostali klipovi samo daju vrednost i grade poverenje."},{"t":"p","html":"U pozivu nudiš još vrednosti, onu iz petog koraka, a svoju uslugu ne pominješ. Ivanov poziv je bio jedna rečenica, imaš je u primeru ispod. Kalup je isti za svaku nišu: ako želiš [šta dobija], napiši [ključna reč] u komentar."},{"t":"p","html":"Poziv izgovaraš na kraju, kad je gledalac već dobio rešenje iz klipa. Tada ima razlog da ti veruje da je i vodič koristan. Napiši poziv onako kako ga izgovaraš, od reči do reči, pa ga skrati za tekst na ekranu."},{"t":"p","html":"Ljudi koji ostave reč čekaju ono što si obećao. Šalji ga brzo, ručno ili preko automatske poruke koja se pokrene na ključnu reč. Ako u poruci pošalješ link i ništa više, propuštaš trenutak kad ti čovek sam piše. Prva poruka zato ima dva dela: ono što si obećao i jedno pitanje o njegovom problemu, na koje može da odgovori u jednom redu."}],"examples":[{"title":"SuperDog Akademija","blocks":[{"t":"p","html":"Poziv u klipu: „Ako želiš besplatan vodič kako da se snađeš sa psom po vrućini, pošalji reč letnji vodič u komentar.“"}]}],"fields":[{"type":"dugo","id":"k6-poziv","label":"Poziv koji izgovaraš u klipu, od reči do reči","help":"Ako želiš [šta dobija], napiši [ključna reč] u komentar."},{"type":"kratko","id":"k6-ekran","label":"Isti poziv kao tekst na ekranu, kraće"},{"type":"dugo","id":"k6-poruka","label":"Prva poruka onome ko napiše ključnu reč","help":"Pozdrav, ono što si obećao sa linkom, jedno pitanje o njegovom problemu."},{"type":"kratko","id":"k6-ko","label":"Ko odgovara na poruke i kad u toku dana?"}]},{"n":7,"title":"Plan za sledećih 30 dana","blocks":[{"t":"p","html":"Upiši broj klipova koji možeš da snimiš i kad imaš gužvu u poslu. Ja ne insistiram na tome da kačiš svaki dan. Pratim preglede i gledam šta se publici sviđa, pa po tome menjam plan. Ko ima kapaciteta, kod mene ide do sedam klipova nedeljno."},{"t":"p","html":"Snimaj sve u jednom danu. Izabereš dan u nedelji, istraživanje uradiš pre, i tog dana snimiš 10 do 20 klipova. Prvih pola sata snimanja je uvek loše, kamera traži zagrevanje kao teretana. Kad se zagreješ, ponovi ono što si snimio na početku, drugi put uvek ispadne bolje."},{"t":"p","html":"Za prodaju su petak i subota uveče najbolji, ljudi su van posla i spremniji da troše. Tu stavi klip sa pozivom na lead magnet. Poziv čekiraj samo kod klipova koji su pravljeni za širu publiku."},{"t":"p","html":"Iz četvrtog koraka već imaš tri teme i devet hookova. Svaku temu možeš da snimiš više puta, svaki put sa drugim hookom, a za ostala mesta uzmeš probleme sa liste od deset i za svaki napraviš temu i hook."},{"t":"p","html":"Ivanove klipove sam rotirao na svaka dva dana i merio šta prolazi. Plan ispod zato nije zakucan. Kad vidiš šta prolazi, menjaš ga."}],"examples":[],"fields":[{"type":"broj","id":"k7-nedeljno","label":"Koliko klipova nedeljno možeš da snimiš i objaviš?"},{"type":"kratko","id":"k7-dan","label":"Dan u nedelji kad snimaš sve klipove"},{"type":"tabela","id":"k7-plan","label":"Klipovi za sledećih 30 dana","cols":[{"name":"Nedelja","type":"broj"},{"name":"Problem","type":"tekst"},{"name":"Tema","type":"tekst"},{"name":"Hook","type":"tekst"},{"name":"Poziv","type":"da/ne"}]},{"type":"dugo","id":"k7-merenje","label":"Kad gledaš šta je prošlo i šta tada menjaš?"}]},{"n":8,"title":"Koji klip je doneo upit","blocks":[{"t":"p","html":"Bez ove tabele za mesec dana nećeš znati koji klip ti je doveo kupca. Pregled nije lead, a lead nije uvek kupac. Tabela ti pokazuje gde ljudi ispadaju."},{"t":"p","html":"Klip upiši isti dan kad ga objaviš. Brojeve dopuni posle dva dana, kad se vidi da li klip prolazi, i opet krajem meseca. Kao upit računaj samo onoga ko je pitao za cenu, termin ili kupovinu. Ostali su leadovi koje tek treba da zagreješ."},{"t":"p","html":"Na kraju meseca uporedi rezultat sa prvim korakom. Ispod tabele vidiš oba broja jedan pored drugog."}],"examples":[],"fields":[{"type":"tabela","id":"k8-upiti","label":"Upiti po klipu","cols":[{"name":"Datum","type":"datum"},{"name":"Klip","type":"tekst"},{"name":"Poziv","type":"da/ne"},{"name":"Pregledi","type":"broj"},{"name":"Ključna reč","type":"broj"},{"name":"Poruke","type":"broj"},{"name":"Upiti","type":"broj"},{"name":"Prodaje","type":"broj"}]},{"type":"racun","id":"k8-pre","label":"Upita na 10.000 pregleda pre (korak 1)","formula":"k1-upiti / k1-pregledi * 10000"},{"type":"racun","id":"k8-sad","label":"Upita na 10.000 pregleda sad","formula":"zbir(k8-upiti,6) / zbir(k8-upiti,3) * 10000"},{"type":"dugo","id":"k8-najbolji","label":"Koji klip je doneo najviše upita i o kom problemu je pričao?"}]}],"end":{"n":null,"title":"Šta sad radiš sa ovim","blocks":[{"t":"p","html":"Ove nedelje snimi prva tri klipa, svaki za drugi problem iz trećeg koraka, i na jedan stavi poziv iz šestog. Kad ih objaviš, upiši ih u tabelu iz osmog koraka."},{"t":"p","html":"Za 30 dana otvori priručnik i uporedi tabelu sa brojkama sa početka. Problem iz klipa koji je doneo najviše upita dobija sledeći mesec više klipova."}],"examples":[],"fields":[]}};
+/*KRAJ_SADRZAJA*/
+</script>
+<script>
+(function(){
+'use strict';
+
+/* Naziv priručnika: menja se samo ovde. Kratki naziv ide u gornju traku na telefonu. */
+var NAZIV = 'Kontent mašina za besplatne upite';
+var NAZIV_KRATKO = 'Kontent mašina';
+var VRSTA = 'Interaktivni priručnik';
+var PODNASLOV = 'Upiti iz klipova koje već objavljuješ, sa 0\u00a0€ uloženih u reklame.';
+
+/* Ista baza API-ja kao boris-landing/kalkulator/index.html */
+var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3000' : 'https://edgecut.app';
+
+var Q = new URLSearchParams(location.search);
+var TOKEN = Q.get('t') || '';
+var REMOTE = !!TOKEN && !Q.has('demo');
+var LS_KEY = 'ec_sveska_v1:' + (REMOTE ? TOKEN : 'demo');
+var KLIPOVA = 5, IZBOR = 3;
+var D = window.SADRZAJ || {steps:[]};
+var STEPS = D.steps || [];
+var TABLE_ROWS = {'k7-plan':4, 'k8-upiti':3};
+var PRINT_ROWS = {'k7-plan':14, 'k8-upiti':14};
+
+/* ---------- lokalno stanje ---------- */
+function loadLocal(){
+  try{
+    var x = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+    if (x && x.a && typeof x.a === 'object') return x;
+  }catch(e){}
+  return {a:{}, dirty:false, server_at:null, last:null, ts:0};
+}
+var st = loadLocal();
+var A = st.a;
+function saveLocal(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(st)); }catch(e){} }
+
+/* ---------- API: sav pristup serveru ide kroz ovu funkciju ---------- */
+function sveskaApi(method, answers, keepalive){
+  var opt = {method:method, cache:'no-store', headers:{}};
+  if (method === 'PUT'){
+    opt.headers['Content-Type'] = 'application/json';
+    opt.body = JSON.stringify({answers:answers});
+    if (keepalive) opt.keepalive = true;
+  }
+  return fetch(API + '/api/public/shop/sveska?t=' + encodeURIComponent(TOKEN), opt).then(function(r){
+    if (method === 'GET' && r.status === 404) return {answers:{}, updated_at:null};
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json().catch(function(){ return {}; });
+  });
+}
+
+var pushTimer = null, retryMs = 0, pushing = false;
+function schedulePush(ms){
+  if (!REMOTE) return;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(push, ms);
+}
+function push(){
+  if (!REMOTE || pushing || !st.dirty) return;
+  pushing = true;
+  var sentTs = st.ts;
+  sveskaApi('PUT', A).then(function(res){
+    pushing = false; retryMs = 0;
+    if (st.ts === sentTs) st.dirty = false;
+    if (res && res.updated_at) st.server_at = res.updated_at;
+    saveLocal();
+    if (st.dirty) schedulePush(1500);
+  }).catch(function(){
+    /* tiho: unos je već sačuvan lokalno, pokušava se ponovo u pozadini */
+    pushing = false;
+    retryMs = Math.min(retryMs ? retryMs * 2 : 5000, 120000);
+    schedulePush(retryMs);
+  });
+}
+function pull(){
+  if (!REMOTE) return;
+  sveskaApi('GET').then(function(res){
+    var srv = (res && res.answers && typeof res.answers === 'object') ? res.answers : {};
+    if (st.dirty){ schedulePush(300); return; }
+    var srvHas = Object.keys(srv).length > 0;
+    if (srvHas && res.updated_at && res.updated_at !== st.server_at){
+      st.a = A = srv;
+      st.server_at = res.updated_at;
+      saveLocal();
+      fillAll();
+    }
+  }).catch(function(){});
+}
+window.addEventListener('online', function(){ retryMs = 0; schedulePush(300); });
+document.addEventListener('visibilitychange', function(){
+  if (document.visibilityState === 'hidden' && REMOTE && st.dirty){
+    sveskaApi('PUT', A, true).catch(function(){});
+  }
+});
+
+/* ---------- pomoćne ---------- */
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function $(s, r){ return (r || document).querySelector(s); }
+function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+function blocks(bs){
+  return (bs || []).map(function(b){
+    return b.t === 'ul' ? '<ul>' + b.items.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>' : '<p>' + b.html + '</p>';
+  }).join('');
+}
+function fid(k){ return 'f_' + k.replace(/[^a-zA-Z0-9]/g, '_'); }
+function num(v){
+  if (v == null || v === '') return NaN;
+  var s = String(v).replace(/\s/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.');
+  return parseFloat(s);
+}
+function list10(){
+  var l = A['k3-problemi'];
+  if (!Array.isArray(l)) l = [];
+  for (var i = 0; i < 10; i++) if (!l[i] || typeof l[i] !== 'object') l[i] = {t:'', x:false};
+  return l;
+}
+function chosen(){
+  var out = [];
+  list10().forEach(function(it, i){ if (it.x) out.push(i); });
+  return out.slice(0, IZBOR);
+}
+
+/* ---------- crtanje polja ---------- */
+function simple(f, key){
+  var id = fid(key);
+  var lab = '<label class="lab" for="' + id + '">' + esc(f.label) + '</label>' + (f.help ? '<p class="help">' + esc(f.help) + '</p>' : '');
+  if (f.type === 'cek'){
+    return '<label class="cek"><input type="checkbox" class="inp" data-k="' + key + '" id="' + id + '"><span>' + esc(f.label) + '</span></label>';
+  }
+  if (f.type === 'broj'){
+    return '<div class="fld fld-broj">' + lab + '<input type="text" class="inp" inputmode="decimal" autocomplete="off" data-k="' + key + '" id="' + id + '"><div class="pv"></div></div>';
+  }
+  if (f.type === 'dugo'){
+    return '<div class="fld">' + lab + '<textarea class="inp" rows="3" data-k="' + key + '" id="' + id + '"></textarea><div class="pv lines4"></div></div>';
+  }
+  if (f.type === 'racun'){
+    return '<div class="fld fld-racun"><p class="lab">' + esc(f.label) + '</p><output class="calc none" data-calc="' + f.id + '">Računa se kad upišeš brojke</output></div>';
+  }
+  if (f.type === 'lista10'){
+    var rows = '';
+    for (var i = 0; i < 10; i++){
+      rows += '<li><span class="n">' + (i + 1) + '</span>' +
+        '<textarea class="inp short" rows="1" data-k="' + f.id + '" data-li="' + i + '" data-part="t" aria-label="Problem ' + (i + 1) + '"></textarea><div class="pv"></div>' +
+        '<label class="pick"><input type="checkbox" class="inp" data-k="' + f.id + '" data-li="' + i + '" data-part="x" aria-label="Izaberi problem ' + (i + 1) + '"><span>Izaberi</span></label></li>';
+    }
+    return '<div class="fld"><p class="lab">' + esc(f.label) + '</p>' + (f.help ? '<p class="help">' + esc(f.help) + '</p>' : '') +
+      '<ol class="l10">' + rows + '</ol><p class="count" data-count="' + f.id + '"></p></div>';
+  }
+  if (f.type === 'tabela'){
+    return '<div class="fld"><p class="lab">' + esc(f.label) + '</p>' + (f.help ? '<p class="help">' + esc(f.help) + '</p>' : '') +
+      '<div class="tbl" data-tbl="' + f.id + '"></div><button type="button" class="add" data-add="' + f.id + '">Dodaj red</button></div>';
+  }
+  return '<div class="fld">' + lab + '<textarea class="inp short" rows="1" data-k="' + key + '" id="' + id + '"></textarea><div class="pv"></div></div>';
+}
+
+var FIELD_BY_ID = {};
+function colTrack(c){ return c.type === 'broj' ? '4.2rem' : c.type === 'datum' ? '8.6rem' : c.type === 'da/ne' ? '4.2rem' : 'minmax(0,1fr)'; }
+function colPrint(c){ return c.type === 'broj' ? '15mm' : c.type === 'datum' ? '19mm' : c.type === 'da/ne' ? '11mm' : 'minmax(0,1fr)'; }
+
+function renderTable(id){
+  var f = FIELD_BY_ID[id], box = $('[data-tbl="' + id + '"]');
+  if (!f || !box) return;
+  var rows = Array.isArray(A[id]) ? A[id] : [];
+  var n = Math.max(rows.length, TABLE_ROWS[id] || 3);
+  var cols = f.cols.map(colTrack).join(' ') + ' 36px';
+  var pcols = f.cols.map(colPrint).join(' ');
+  box.classList.toggle('many', f.cols.length > 6);
+  box.style.setProperty('--cols', cols);
+  box.style.setProperty('--pcols', pcols);
+  var h = '<div class="thead">' + f.cols.map(function(c){ return '<span>' + esc(c.name) + '</span>'; }).join('') + '<span class="no-print"></span></div>';
+  for (var r = 0; r < n; r++) h += rowHTML(f, r, false);
+  box.innerHTML = h;
+  $$('.inp', box).forEach(setValue);
+}
+function rowHTML(f, r, blank){
+  var cells = f.cols.map(function(c, ci){
+    var key = 'data-k="' + f.id + '" data-row="' + r + '" data-col="' + ci + '"';
+    if (blank) key = '';
+    var tl = '<span class="tl">' + esc(c.name) + '</span>';
+    if (c.type === 'da/ne') return '<label class="tc yn"><input type="checkbox" class="inp" ' + key + '>' + tl + '</label>';
+    var cls = c.type === 'broj' ? 'tc num' : c.type === 'datum' ? 'tc dt' : 'tc wide';
+    if (c.type === 'tekst') return '<label class="' + cls + '">' + tl + '<textarea class="inp short" rows="1" ' + key + '></textarea><div class="pv"></div></label>';
+    var type = c.type === 'datum' ? 'date' : 'text';
+    var im = c.type === 'broj' ? ' inputmode="decimal"' : '';
+    return '<label class="' + cls + '">' + tl + '<input type="' + type + '" class="inp"' + im + ' autocomplete="off" ' + key + '><div class="pv"></div></label>';
+  }).join('');
+  return '<div class="trow' + (blank ? ' print-blank' : '') + '" data-r="' + r + '">' + cells + (blank ? '' : '<button type="button" class="tdel" data-del="' + f.id + '" data-r="' + r + '" aria-label="Obriši red">&times;</button>') + '</div>';
+}
+
+function stepHTML(s, i){
+  var h = '<section class="step" id="k' + s.n + '" data-step="' + s.n + '">';
+  h += '<h2><span class="num">' + s.n + '.</span>' + esc(s.title) + '</h2>';
+  h += '<div class="prose">' + blocks(s.blocks) + '</div>';
+  s.examples.forEach(function(e){
+    h += '<aside class="ex"><p class="ex-l">Primer' + (e.title ? ': ' + esc(e.title) : '') + '</p>' + blocks(e.blocks) + '</aside>';
+  });
+  if (s.fields.length){
+    h += '<div class="fill"><h3>Popunjavaš</h3>';
+    var j = 0, fs = s.fields;
+    while (j < fs.length){
+      var f = fs[j];
+      FIELD_BY_ID[f.id] = f;
+      if (f.per){
+        var per = f.per, grp = [];
+        while (j < fs.length && fs[j].per === per){ FIELD_BY_ID[fs[j].id] = fs[j]; grp.push(fs[j]); j++; }
+        h += groupsHTML(per, grp);
+        continue;
+      }
+      h += simple(f, f.id);
+      j++;
+    }
+    h += '</div>';
+  }
+  var nx = STEPS[i + 1];
+  if (nx) h += '<div class="next"><a href="#k' + nx.n + '">Sledeći korak <span>' + esc(nx.title) + '</span></a></div>';
+  return h + '</section>';
+}
+function groupsHTML(per, grp){
+  var n = per === 'klip' ? KLIPOVA : IZBOR, h = '';
+  for (var g = 0; g < n; g++){
+    var body = grp.map(function(f){ return simple(f, f.id + '.' + g); }).join('');
+    if (per === 'klip'){
+      h += '<details class="grp" data-grp="klip" data-g="' + g + '"' + (g === 0 ? ' open' : '') + '><summary><span class="gn">Klip ' + (g + 1) + '</span><span class="gs" data-sum="' + g + '"></span></summary><div class="grp-body">' + body + '</div></details>';
+    } else {
+      h += '<div class="grp" data-grp="problem" data-g="' + g + '"><div class="grp-h"><span class="gn">Problem ' + (g + 1) + '</span><span class="gs" data-ph="' + g + '"></span></div><div class="grp-body">' + body + '</div></div>';
+    }
+  }
+  return h;
+}
+
+function render(){
+  document.title = NAZIV + ' · ' + VRSTA.toLowerCase();
+  $('#vrsta').textContent = VRSTA + ' · Boris Vasić';
+  $('#barName').textContent = NAZIV;
+  $('#barShort').textContent = NAZIV_KRATKO;
+  $('#title').textContent = NAZIV;
+  $('#subtitle').textContent = PODNASLOV;
+  $('#barTotal').textContent = STEPS.length;
+  $('#intro').innerHTML = (D.intro || []).map(function(b){ return b.t === 'p' ? '<p class="i">' + b.html + '</p>' : ''; }).join('');
+  var h = STEPS.map(stepHTML).join('');
+  if (D.end){
+    h += '<section class="step endsec" id="kraj"><h2>' + esc(D.end.title) + '</h2><div class="prose">' + blocks(D.end.blocks) + '</div>' +
+      '<div class="printrow"><a class="printbtn" data-pdf hidden>Preuzmi PDF za štampu</a>' +
+      '<button class="printbtn" type="button" data-print>Odštampaj priručnik sa mojim odgovorima</button></div>' +
+      '<p class="printnote" data-pdf hidden>PDF za štampu je prazan priručnik koji popunjavaš olovkom.</p>' +
+      '<p class="printnote">Kad štampaš sa svojim odgovorima, popunjena polja izlaze kao tekst, a prazna kao linije za pisanje rukom.</p></section>';
+  }
+  h += '<footer>' + esc(NAZIV) + ' · Boris Vasić · Edge Cut</footer>';
+  $('#main').innerHTML = h;
+  $('#navList').innerHTML = STEPS.map(function(s){
+    return '<li><a href="#k' + s.n + '" data-nav="' + s.n + '"><span class="n">' + s.n + '</span><span class="t">' + esc(s.title) + '</span><span class="pc" data-pc="' + s.n + '"></span></a></li>';
+  }).join('');
+  if (!REMOTE) $('#localNote').hidden = false;
+  /* prazan PDF za štampu: samo za kupca sa ličnim linkom; ruta vraća preusmerenje na potpisan link */
+  if (REMOTE) $$('[data-pdf]').forEach(function(el){
+    el.hidden = false;
+    if (el.tagName === 'A') el.href = API + '/api/public/shop/sveska/pdf?t=' + encodeURIComponent(TOKEN);
+  });
+  Object.keys(TABLE_ROWS).forEach(renderTable);
+}
+
+/* ---------- vrednosti ---------- */
+function getValue(el){
+  var k = el.dataset.k;
+  if (!k) return undefined;
+  if (el.dataset.li != null){ var it = list10()[+el.dataset.li]; return el.dataset.part === 'x' ? !!it.x : it.t; }
+  if (el.dataset.row != null){ var rows = A[k]; var row = Array.isArray(rows) && rows[+el.dataset.row]; return row ? row[el.dataset.col] : undefined; }
+  return A[k];
+}
+function setValue(el){
+  var v = getValue(el);
+  if (el.type === 'checkbox') el.checked = !!v;
+  else { el.value = v == null ? '' : v; if (el.tagName === 'TEXTAREA') autosize(el); }
+}
+function autosize(t){
+  var short = t.classList.contains('short');
+  t.style.height = 'auto';
+  var sh = t.scrollHeight;
+  if (!sh) { t.style.height = ''; return; }
+  t.style.height = Math.max(short ? 0 : 92, sh + 3) + 'px';
+}
+
+function fillAll(){
+  Object.keys(TABLE_ROWS).forEach(renderTable);
+  $$('#main .inp').forEach(setValue);
+  refresh();
+}
+
+function onEdit(e){
+  var el = e.target;
+  if (!el.classList || !el.classList.contains('inp') || !el.dataset.k) return;
+  var isBox = el.type === 'checkbox';
+  if (isBox !== (e.type === 'change')) return;
+  var k = el.dataset.k, val = isBox ? el.checked : el.value;
+  if (el.dataset.li != null){
+    var l = list10(), it = l[+el.dataset.li];
+    if (el.dataset.part === 'x'){
+      if (val && chosen().length >= IZBOR){ el.checked = false; return; }
+      it.x = val;
+    } else it.t = val;
+    A[k] = l;
+  } else if (el.dataset.row != null){
+    var rows = Array.isArray(A[k]) ? A[k] : (A[k] = []);
+    var r = +el.dataset.row;
+    while (rows.length <= r) rows.push({});
+    if (val === '' || val === false) delete rows[r][el.dataset.col]; else rows[r][el.dataset.col] = val;
+  } else {
+    if (val === '' || val === false) delete A[k]; else A[k] = val;
+  }
+  if (el.tagName === 'TEXTAREA') autosize(el);
+  changed();
+}
+var savedTimer = null;
+function changed(){
+  st.ts = Date.now();
+  if (REMOTE) st.dirty = true;
+  saveLocal();
+  var s = $('#saved');
+  s.textContent = 'Sačuvano';
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(function(){ s.textContent = ''; }, 2600);
+  schedulePush(1500);
+  refresh();
+}
+
+/* ---------- izvedeno: napredak, računi, naslovi grupa ---------- */
+function filled(f, key){
+  if (f.type === 'lista10') return chosen().length === IZBOR;
+  if (f.type === 'tabela') return Array.isArray(A[key]) && A[key].some(function(r){ return r && Object.keys(r).some(function(c){ return r[c] !== '' && r[c] !== false && r[c] != null; }); });
+  var v = A[key];
+  return typeof v === 'string' ? v.trim() !== '' : !!v;
+}
+function stepProgress(s){
+  var tot = 0, done = 0;
+  s.fields.forEach(function(f){
+    if (f.type === 'racun' || f.type === 'cek') return;
+    var n = f.per === 'klip' ? KLIPOVA : f.per === 'problem' ? IZBOR : 1;
+    for (var i = 0; i < n; i++){
+      var key = f.per ? f.id + '.' + i : f.id;
+      tot++; if (filled(f, key)) done++;
+    }
+  });
+  return [done, tot];
+}
+function sumCol(id, c){
+  var rows = Array.isArray(A[id]) ? A[id] : [], s = 0;
+  rows.forEach(function(r){ var v = num(r && r[c]); if (!isNaN(v)) s += v; });
+  return s;
+}
+function calc(formula){
+  var ok = true;
+  var expr = formula.replace(/zbir\(\s*([a-z0-9-]+)\s*,\s*(\d+)\s*\)/g, function(_, id, c){ return '(' + sumCol(id, +c) + ')'; });
+  expr = expr.replace(/k\d+(?:-[a-z0-9]+)+/g, function(id){ var v = num(A[id]); if (isNaN(v)) ok = false; return '(' + (isNaN(v) ? 0 : v) + ')'; });
+  if (!ok || !/^[\d\s.+\-*/()]+$/.test(expr)) return NaN;
+  try{ var r = Function('return (' + expr + ')')(); return isFinite(r) ? r : NaN; }catch(e){ return NaN; }
+}
+function refresh(){
+  var all = 0, allDone = 0;
+  STEPS.forEach(function(s){
+    var p = stepProgress(s); all += p[1]; allDone += p[0];
+    var el = $('[data-pc="' + s.n + '"]');
+    if (el){ el.textContent = p[1] && p[0] === p[1] ? '✓' : p[0] + '/' + p[1]; el.classList.toggle('ok', p[1] > 0 && p[0] === p[1]); }
+  });
+  $('#progFill').style.width = (all ? Math.round(allDone / all * 100) : 0) + '%';
+  $$('[data-calc]').forEach(function(o){
+    var f = FIELD_BY_ID[o.dataset.calc], v = f ? calc(f.formula) : NaN;
+    o.classList.toggle('none', isNaN(v));
+    o.textContent = isNaN(v) ? 'Računa se kad upišeš brojke' : v.toLocaleString('sr-RS', {maximumFractionDigits:1});
+  });
+  /* lista deset: brojač i zaključavanje četvrtog izbora */
+  var ch = chosen(), full = ch.length >= IZBOR;
+  $$('.l10 input[data-part="x"]').forEach(function(b){ b.disabled = full && !b.checked; });
+  $$('[data-count]').forEach(function(c){
+    c.innerHTML = full ? '<b>Izabrana su tri.</b> Ona idu u četvrti korak.' : 'Izabrano <b>' + ch.length + '</b> od ' + IZBOR + '.';
+  });
+  /* naslovi grupa u četvrtom koraku */
+  var l = list10();
+  $$('[data-ph]').forEach(function(span){
+    var g = +span.dataset.ph, idx = ch[g], t = idx != null ? (l[idx].t || '').trim() : '';
+    span.textContent = idx != null ? (t || 'izabran, bez teksta') : 'izaberi ga u trećem koraku';
+    span.classList.toggle('none', idx == null);
+  });
+  /* sažetak klipova u drugom koraku */
+  $$('[data-sum]').forEach(function(span){
+    var g = span.dataset.sum, t = (A['k2-klip.' + g] || '').trim();
+    var checks = 0;
+    Object.keys(FIELD_BY_ID).forEach(function(id){ var f = FIELD_BY_ID[id]; if (f.type === 'cek' && f.per === 'klip' && A[id + '.' + g]) checks++; });
+    span.textContent = t ? '· ' + t : (checks ? '· čekirano ' + checks : '');
+  });
+}
+
+/* ---------- navigacija i povratak ---------- */
+var nav = $('#nav'), stepBtn = $('#stepBtn');
+function closeNav(){ nav.classList.remove('open'); stepBtn.setAttribute('aria-expanded', 'false'); }
+stepBtn.addEventListener('click', function(e){
+  e.stopPropagation();
+  var open = !nav.classList.contains('open');
+  nav.classList.toggle('open', open);
+  stepBtn.setAttribute('aria-expanded', String(open));
+});
+document.addEventListener('click', function(e){
+  if (nav.classList.contains('open') && !nav.contains(e.target)) closeNav();
+  if (e.target.closest && e.target.closest('#nav a')) closeNav();
+});
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeNav(); });
+
+var current = 1;
+function setCurrent(n){
+  current = n;
+  $('#barStep').textContent = n;
+  $$('[data-nav]').forEach(function(a){ a.classList.toggle('on', +a.dataset.nav === n); });
+}
+function watchSteps(){
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var n = +en.target.dataset.step;
+      if (n){ setCurrent(n); st.last = st.last && st.last.step === n ? st.last : {step:n, key:null}; saveLocal(); }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  $$('.step[data-step]').forEach(function(s){ io.observe(s); });
+}
+document.addEventListener('focusin', function(e){
+  var el = e.target;
+  if (!el.classList || !el.classList.contains('inp') || !el.dataset.k) return;
+  var sec = el.closest('.step');
+  st.last = {step: sec ? +sec.dataset.step : current, key: el.id || null};
+  saveLocal();
+});
+function hasAnswers(){ return Object.keys(A).length > 0; }
+function resume(){
+  var last = st.last;
+  if (!hasAnswers() || !last || !last.step) return;
+  var btn = $('#startBtn');
+  btn.textContent = 'Nastavi gde si stao: korak ' + last.step;
+  btn.href = '#k' + last.step;
+  if (location.hash) return;
+  var target = (last.key && document.getElementById(last.key)) || document.getElementById('k' + last.step);
+  if (!target) return;
+  var det = target.closest('details');
+  if (det) det.open = true;
+  requestAnimationFrame(function(){
+    target.scrollIntoView({block: target.classList.contains('step') ? 'start' : 'center'});
+  });
+}
+
+/* ---------- tabele: dodaj i obriši red ---------- */
+document.addEventListener('click', function(e){
+  var add = e.target.closest && e.target.closest('[data-add]');
+  if (add){
+    var id = add.dataset.add, f = FIELD_BY_ID[id];
+    var rows = Array.isArray(A[id]) ? A[id] : (A[id] = []);
+    var n = Math.max(rows.length, TABLE_ROWS[id] || 3);
+    while (rows.length < n) rows.push({});
+    rows.push({});
+    renderTable(id);
+    changed();
+    var last = $$('[data-tbl="' + id + '"] .trow');
+    last = last[last.length - 1];
+    if (last){ var inp = $('input[type=text],input[type=date]', last); if (inp) inp.focus({preventScroll:false}); }
+    return;
+  }
+  var del = e.target.closest && e.target.closest('[data-del]');
+  if (del){
+    var tid = del.dataset.del, r = +del.dataset.r;
+    var trs = Array.isArray(A[tid]) ? A[tid] : (A[tid] = []);
+    while (trs.length <= r) trs.push({});
+    trs.splice(r, 1);
+    renderTable(tid);
+    changed();
+    return;
+  }
+  if (e.target.closest && e.target.closest('[data-print]')){ closeNav(); preparePrint(); window.print(); }
+});
+
+/* ---------- štampa ---------- */
+var printing = false;
+function preparePrint(){
+  if (printing) return;
+  printing = true;
+  $$('details.grp').forEach(function(d){ d.dataset.wasOpen = d.open ? '1' : ''; d.open = true; });
+  Object.keys(PRINT_ROWS).forEach(function(id){
+    var box = $('[data-tbl="' + id + '"]'), f = FIELD_BY_ID[id];
+    if (!box || !f) return;
+    var have = $$('.trow', box).length;
+    for (var r = have; r < PRINT_ROWS[id]; r++) box.insertAdjacentHTML('beforeend', rowHTML(f, r, true));
+  });
+  $$('.pv').forEach(function(pv){
+    var inp = pv.previousElementSibling;
+    var v = inp && inp.classList.contains('inp') ? inp.value : '';
+    pv.textContent = v;
+    pv.classList.toggle('empty', !v.trim());
+  });
+}
+function afterPrint(){
+  if (!printing) return;
+  printing = false;
+  $$('.print-blank').forEach(function(r){ r.remove(); });
+  $$('details.grp').forEach(function(d){ d.open = d.dataset.wasOpen === '1'; });
+}
+window.addEventListener('beforeprint', preparePrint);
+window.addEventListener('afterprint', afterPrint);
+if (window.matchMedia){
+  var mq = window.matchMedia('print');
+  var onMq = function(m){ if (m.matches) preparePrint(); else afterPrint(); };
+  if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+}
+
+/* ---------- start ---------- */
+render();
+var main = $('#main');
+main.addEventListener('input', onEdit);
+main.addEventListener('change', onEdit);
+fillAll();
+watchSteps();
+resume();
+pull();
+if (REMOTE && st.dirty) schedulePush(800);
+window.addEventListener('resize', function(){ $$('#main textarea').forEach(autosize); });
+main.addEventListener('keydown', function(e){ if (e.key === 'Enter' && e.target.classList && e.target.classList.contains('short')) e.preventDefault(); });
+main.addEventListener('toggle', function(e){ if (e.target.open) $$('textarea', e.target).forEach(autosize); }, true);
+})();
+</script>
+</body>
+</html>

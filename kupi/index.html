@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Plaćanje - Boris Vasić</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/kupi/kupi.css">
+<script src="https://js.stripe.com/endive/stripe.js"></script>
+<script src="/kupi/kljuc.js"></script>
+</head>
+<body data-page="checkout">
+<!--
+  Checkout Borisovog shopa: /kupi/?p=recept ili /kupi/?p=upiti
+  Ponuda iz mejla treće šanse: /kupi/?p=upiti&o=<porudžbina>&k=<ključ>
+  Cene, nazivi i doplata dolaze sa servera (GET /api/public/shop/config). Iznos računa server,
+  ova strana šalje samo proizvod, da li je doplata čekirana i mejl.
+  Plaćanje: Stripe Payment Element bez unapred napravljenog PaymentIntenta (deferred intent):
+  prvo elements.submit(), pa POST /api/public/shop/intent, pa stripe.confirmPayment, pa /kupi/hvala/.
+-->
+<header class="top">
+  <a class="brand" href="/" id="home"><i></i>Boris Vasić</a>
+  <span class="secure"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2" y="5.2" width="8" height="5.8" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M4 5.2V3.8a2 2 0 0 1 4 0v1.4" stroke="currentColor" stroke-width="1.3"/></svg>Plaćanje preko Stripe-a</span>
+</header>
+
+<main class="wrap">
+  <div class="notice" id="notice" hidden></div>
+
+  <form class="co" id="form" novalidate>
+    <section class="a-product product" id="product" aria-live="polite">
+      <div class="cover" id="cover"></div>
+      <div>
+        <div class="p-kind" id="kind"></div>
+        <h1 class="p-name" id="name">&nbsp;</h1>
+        <div class="p-price" id="price"></div>
+        <div class="p-note" id="offerNote" hidden></div>
+      </div>
+    </section>
+
+    <section class="a-email">
+      <label class="lbl" for="email">Tvoj mejl</label>
+      <input class="input" id="email" type="email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="ime@primer.com" required>
+      <div class="help" id="emailHelp">Na ovu adresu šaljem link za pristup.</div>
+      <div class="field-err" id="emailErr" hidden></div>
+    </section>
+
+    <section class="a-bump" id="bumpWrap" hidden><div id="kit"></div></section>
+
+    <section class="a-total total-wrap">
+      <div class="total" style="display:block">
+        <div class="lines" id="lines"></div>
+        <div class="total-row"><span>Ukupno</span><b id="total">&nbsp;</b></div>
+        <div class="missing" id="missing" hidden></div>
+      </div>
+    </section>
+
+    <section class="a-pay">
+      <div class="pay-el" id="payEl"><div class="pay-skel" id="paySkel">Učitavam polje za karticu…</div></div>
+      <button class="btn" type="submit" id="payBtn" disabled><span id="payLabel">Plati</span></button>
+      <div class="pay-err" id="payErr" role="alert" hidden></div>
+      <p class="fine">Pristup dobijaš odmah posle plaćanja, a link stiže i na mejl.</p>
+      <p class="fine small">Kupovinom pristaješ da ti povremeno pišem na mejl. Odjaviti se možeš kad god hoćeš. <a href="/kupi/privatnost/">Privatnost</a></p>
+    </section>
+  </form>
+</main>
+
+<script src="/shop/track.js"></script>
+<script src="/kupi/komplet.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var T = window.shopTrack;
+  var API = T.api;
+  var qs = new URLSearchParams(location.search);
+  var P = qs.get('p');
+  var OFFER = qs.get('o') && qs.get('k') ? { o: qs.get('o'), k: qs.get('k') } : null;
+  var PREV_KEY = 'shop_prev_' + P + (OFFER ? '_mejl' : '');
+
+  // Razlog uz komplet i rečenica uz zbir kad komplet nije dodat (Borisovo prvo lice). Cene dolaze sa servera.
+  var COPY = {
+    recept: {
+      missing: 'U korpi je samo Recept, bez Kontent mašine.',
+      reason: function () { return 'Ljudi koji gledaju tvoj klip ne postaju kupci sami od sebe, neko mora da ti napiše. Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa i prvu poruku, da gledalac postane upit. Ova cena važi samo uz ovu kupovinu.'; }
+    },
+    upiti: {
+      missing: 'U korpi je samo Kontent mašina, bez Recepta.',
+      reason: function () { return 'Poziv i prva poruka iz Kontent mašine ne pomažu klipu koji vide samo ljudi koji te već prate. U Receptu pokazujem postupak u pet koraka po kom smišljam viralne klipove za klijente. Ova cena važi samo uz ovu kupovinu.'; }
+    }
+  };
+  var ERR = {
+    card_declined: 'Banka je odbila karticu. Probaj drugu karticu ili pozovi banku.',
+    generic_decline: 'Banka je odbila karticu. Probaj drugu karticu ili pozovi banku.',
+    insufficient_funds: 'Na kartici nema dovoljno sredstava.',
+    expired_card: 'Kartica je istekla. Upiši karticu koja važi.',
+    incorrect_cvc: 'CVC kod nije tačan. To su tri cifre sa poleđine kartice.',
+    payment_intent_authentication_failure: 'Potvrda u banci nije prošla. Probaj ponovo.',
+    authentication_required: 'Potvrda u banci nije prošla. Probaj ponovo.',
+    processing_error: 'Banka trenutno ne odgovara. Probaj ponovo za minut.'
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function eur(c) { var v = c / 100; return (v % 1 === 0 ? String(v) : v.toFixed(2).replace('.', ',')) + '\u00a0€'; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function ssGet(k) { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+  function ssSet(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ništa */ } }
+
+  if (P !== 'recept' && P !== 'upiti') {
+    $('form').hidden = true;
+    var n = $('notice');
+    n.hidden = false;
+    n.innerHTML = 'Ovaj link nije potpun. Izaberi šta kupuješ: <a href="/kupi/?p=recept">Recept</a> ili <a href="/kupi/?p=upiti">Kontent mašinu</a>.';
+    return;
+  }
+  document.body.setAttribute('data-p', P);
+
+  var cfg = null;
+  var bumpOn = false;
+  var stripe = null;
+  var elements = null;
+  var busy = false;
+
+  function amount() {
+    if (!cfg) return 0;
+    if (cfg.offer) return cfg.offer.price;
+    return cfg.product.price + (bumpOn ? cfg.bump.price : 0);
+  }
+
+  function renderTotals() {
+    var a = amount();
+    var lines = '';
+    if (cfg.offer) {
+      lines = '<div><span>' + esc(cfg.product.name) + '</span><span>' + eur(cfg.offer.price) + '</span></div>';
+    } else {
+      lines = '<div><span>' + esc(cfg.product.name) + '</span><span>' + eur(cfg.product.price) + '</span></div>';
+      if (bumpOn) lines += '<div><span>' + esc(cfg.bump.name) + '</span><span>' + eur(cfg.bump.price) + '</span></div>';
+    }
+    $('lines').innerHTML = lines;
+    $('missing').hidden = !!(cfg.offer || bumpOn);
+    if (!cfg.offer) $('missing').textContent = COPY[P].missing;
+    $('total').textContent = eur(a);
+    $('payLabel').textContent = 'Plati ' + eur(a);
+    if (elements) elements.update({ amount: a });
+  }
+
+  function render() {
+    var c = COPY[P];
+    var pr = cfg.product;
+    var cover = $('cover');
+    cover.outerHTML = window.komplet_cover(P, pr.name).replace('class="cover"', 'class="cover" id="cover"');
+    $('kind').textContent = pr.tagline || '';
+    $('name').textContent = pr.name;
+    document.title = pr.name + ' - Boris Vasić';
+    if (cfg.offer) {
+      $('price').innerHTML = eur(cfg.offer.price) + ' <s>' + eur(cfg.offer.regular) + '</s>';
+      var note = $('offerNote');
+      note.hidden = false;
+      note.textContent = 'Cena iz mejla važi do ' + deadline(cfg.offer.expires_at) + '.';
+      if (cfg.offer.email && !$('email').value) $('email').value = cfg.offer.email;
+    } else {
+      $('price').innerHTML = eur(pr.price) + (pr.compare_at ? ' <s>' + eur(pr.compare_at) + '</s>' : '');
+      // Recept: 7 € uz precrtanih 29 €. Kontent mašina: 17 € uz precrtanih 39 € i ispod "Uvodna cena" (note sa servera).
+      if (pr.note) {
+        var pn = $('offerNote');
+        pn.hidden = false;
+        pn.className = 'p-note muted-note';
+        pn.textContent = pr.note;
+      }
+      var b = cfg.bump;
+      var names = {};
+      names[P] = pr.name;
+      names[b.id] = b.name;
+      kit = window.Komplet($('kit'), {
+        have: P, names: names, price: b.price, regular: b.regular, bundle: cfg.bundle, chain: b.chain, reason: c.reason(b), removable: true,
+        onAdd: function () { setBump(true); },
+        onRemove: function () { setBump(false); }
+      });
+      $('bumpWrap').hidden = false;
+      watch($('bumpWrap'), function () { T('bump_view', { price: b.price }); });
+    }
+    renderTotals();
+  }
+
+  function deadline(iso) {
+    var d = new Date(iso);
+    var days = ['nedelje', 'ponedeljka', 'utorka', 'srede', 'četvrtka', 'petka', 'subote'];
+    var parts = new Intl.DateTimeFormat('sr-Latn', { timeZone: 'Europe/Belgrade', weekday: 'short', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(d);
+    var get = function (t) { var x = parts.find(function (p) { return p.type === t; }); return x ? x.value : ''; };
+    var dow = new Date(d.toLocaleString('en-US', { timeZone: 'Europe/Belgrade' })).getDay();
+    return days[dow] + ' ' + get('day') + '.' + get('month') + '. u ' + get('hour') + ':' + get('minute');
+  }
+
+  // Jednom kad element uđe u ekran.
+  function watch(el, fn) {
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); fn(); }
+    }, { threshold: 0.5 });
+    io.observe(el);
+  }
+
+  /* ---------- mejl ---------- */
+  var emailStarted = false;
+  $('email').addEventListener('input', function () {
+    if (!emailStarted) { emailStarted = true; T('email_start'); }
+    $('email').classList.remove('err');
+    $('emailErr').hidden = true;
+  });
+  function emailOk() {
+    var v = $('email').value.trim();
+    return /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v) ? v.toLowerCase() : null;
+  }
+
+  /* ---------- komplet (doplata) ---------- */
+  var kit = null;
+  function setBump(on) {
+    if (busy) return;
+    bumpOn = on;
+    kit.set(on);
+    T(on ? 'bump_check' : 'bump_uncheck', { total: amount() });
+    renderTotals();
+  }
+
+  /* ---------- Stripe ---------- */
+  function initStripe() {
+    var pk = window.SHOP_STRIPE_PK;
+    if (!window.Stripe || !pk || !cfg.ready) {
+      $('paySkel').textContent = 'Plaćanje karticom trenutno nije dostupno. Probaj ponovo za par minuta.';
+      return;
+    }
+    stripe = window.Stripe(pk, { locale: 'hr' });
+    var opts = {
+      mode: 'payment',
+      amount: amount(),
+      currency: 'eur',
+      allowedPaymentMethodTypes: ['card'],
+      locale: 'hr',
+      fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap' }],
+      appearance: {
+        theme: 'night',
+        variables: {
+          colorPrimary: '#11c7d4',
+          colorBackground: '#131316',
+          colorText: '#fafafa',
+          colorTextSecondary: '#a4a4ad',
+          colorDanger: '#ff5c5c',
+          fontFamily: 'Hanken Grotesk, system-ui, sans-serif',
+          fontSizeBase: '16px',
+          borderRadius: '10px',
+          spacingUnit: '4px'
+        },
+        rules: { '.Input': { border: '1px solid #34343b', boxShadow: 'none' }, '.Input:focus': { borderColor: '#11c7d4' } }
+      }
+    };
+    // Kartica se pamti samo za doplatu jednim klikom na hvala strani (mora isto i na serveru).
+    if (!cfg.offer) opts.setupFutureUsage = 'on_session';
+    elements = stripe.elements(opts);
+    var pe = elements.create('payment', { layout: { type: 'tabs' }, wallets: { applePay: 'auto', googlePay: 'auto' } });
+    pe.on('ready', function () {
+      $('paySkel').hidden = true;
+      $('payBtn').disabled = false;
+      watch($('payEl'), function () { T('card_view'); });
+    });
+    var addedInfo = false;
+    pe.on('change', function (e) {
+      if (e.complete && !addedInfo) {
+        addedInfo = true;
+        T.pixel('AddPaymentInfo', { content_ids: [P], currency: 'EUR', value: amount() / 100 });
+      }
+    });
+    pe.on('loaderror', function () { $('paySkel').textContent = 'Polje za karticu se nije učitalo. Osveži stranu.'; });
+    pe.mount('#payEl');
+  }
+
+  function showErr(msg) {
+    var el = $('payErr');
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function setBusy(on) {
+    busy = on;
+    $('payBtn').disabled = on;
+    $('payBtn').innerHTML = on ? '<span class="spin"></span>' : '<span id="payLabel">Plati ' + eur(amount()) + '</span>';
+  }
+
+  function hvalaUrl(o, k) { return '/kupi/hvala/?o=' + encodeURIComponent(o) + '&k=' + encodeURIComponent(k); }
+
+  $('form').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    if (busy || !elements) return;
+    $('payErr').hidden = true;
+    var email = emailOk();
+    T('pay_click', { total: amount(), bump: bumpOn });
+    if (!email) {
+      $('email').classList.add('err');
+      $('emailErr').textContent = 'Upiši mejl, na njega stiže pristup.';
+      $('emailErr').hidden = false;
+      $('email').focus();
+      return;
+    }
+    setBusy(true);
+
+    // 1) Stripe proverava karticu i otvara Apple/Google Pay (mora odmah posle klika).
+    var sub = await elements.submit();
+    if (sub.error) {
+      setBusy(false);
+      if (sub.error.type !== 'validation_error') { T('pay_error', { code: sub.error.code || sub.error.type, stage: 'submit' }); showErr(sub.error.message); }
+      return;
+    }
+
+    // 2) Server računa iznos i pravi PaymentIntent.
+    var a = T.attr();
+    var res, data;
+    try {
+      res = await fetch(API + '/api/public/shop/intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ sid: T.sid, p: P, bump: bumpOn, email: email, fbp: a.fbp, fbc: a.fbc, attr: a, prev: ssGet(PREV_KEY), offer: OFFER || undefined })
+      });
+      data = await res.json();
+    } catch (e) {
+      data = { ok: false, error: 'Nema veze sa serverom. Proveri internet i probaj ponovo.' };
+    }
+    if (!data.ok) {
+      setBusy(false);
+      T('pay_error', { code: 'server_' + (res ? res.status : 0), stage: 'intent' });
+      if (data.field === 'email') { $('email').classList.add('err'); $('emailErr').textContent = data.error; $('emailErr').hidden = false; }
+      else showErr(data.error || 'Nešto nije prošlo. Probaj ponovo.');
+      return;
+    }
+    ssSet(PREV_KEY, { o: data.order, k: data.key });
+    ssSet('shop_last', { o: data.order, k: data.key });
+    if (data.paid) { location.href = hvalaUrl(data.order, data.key); return; }
+
+    // 3) Potvrda plaćanja (3D Secure prozor otvara Stripe sam).
+    var r = await stripe.confirmPayment({
+      elements: elements,
+      clientSecret: data.clientSecret,
+      confirmParams: {
+        return_url: location.origin + hvalaUrl(data.order, data.key),
+        payment_method_data: { billing_details: { email: email } }
+      },
+      redirect: 'if_required'
+    });
+    if (r.error) {
+      setBusy(false);
+      var e = r.error;
+      T('pay_error', { code: e.decline_code || e.code || e.type, type: e.type, stage: 'confirm' }, { order: data.order });
+      showErr(ERR[e.decline_code] || ERR[e.code] || e.message || 'Plaćanje nije prošlo. Probaj ponovo.');
+      return;
+    }
+    T('paid', { total: amount(), bump: bumpOn }, { order: data.order, beacon: true });
+    try { sessionStorage.removeItem(PREV_KEY); } catch (x) { /* ništa */ }
+    location.href = hvalaUrl(data.order, data.key);
+  });
+
+  /* ---------- start ---------- */
+  T('checkout_open', { offer: !!OFFER });
+  if (OFFER) T('offer_open');
+  var url = API + '/api/public/shop/config?p=' + encodeURIComponent(P) + (OFFER ? '&o=' + encodeURIComponent(OFFER.o) + '&k=' + encodeURIComponent(OFFER.k) : '');
+  fetch(url).then(function (r) { return r.json(); }).then(function (c) {
+    if (!c.ok) throw new Error('config');
+    cfg = c;
+    if (OFFER && c.offer_expired) {
+      OFFER = null;
+      var n = $('notice');
+      n.hidden = false;
+      n.textContent = 'Ova ponuda je istekla, ispod je redovna cena.';
+    }
+    render();
+    T.pixel('InitiateCheckout', { content_ids: [P], content_type: 'product', currency: 'EUR', value: amount() / 100 });
+    initStripe();
+  }).catch(function () {
+    $('paySkel').textContent = 'Strana se nije učitala do kraja. Osveži je.';
+  });
+})();
+</script>
+</body>
+</html>

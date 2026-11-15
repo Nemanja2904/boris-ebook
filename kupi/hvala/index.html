@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pristup - Boris Vasić</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/kupi/kupi.css">
+<script src="https://js.stripe.com/endive/stripe.js"></script>
+<script src="/kupi/kljuc.js"></script>
+</head>
+<body data-page="hvala">
+<!--
+  Hvala strana: /kupi/hvala/?o=<porudžbina>&k=<ključ>
+  Linkovi za pristup se prikazuju odmah (ne čeka se mejl). Ako webhook još nije stigao, server sam pita Stripe.
+  Pixel Purchase puca samo kad server kaže (jednom po porudžbini, eventID = PaymentIntent, isti kao CAPI).
+  Druga šansa: ko je kupio jedan proizvod, 15 minuta od plaćanja (rok i cenu drži server, POST /api/public/shop/upsell).
+-->
+<header class="top">
+  <a class="brand" href="/"><i></i>Boris Vasić</a>
+</header>
+
+<main class="wrap">
+  <div class="thanks">
+    <div id="pending" class="wait"><span class="spin"></span><span>Potvrđujem plaćanje sa bankom, traje par sekundi.</span></div>
+    <div id="problem" class="notice" hidden></div>
+
+    <div id="done" hidden>
+      <h1>Plaćeno. Pristup je tvoj.</h1>
+      <p class="lead" id="mailLine">Link sam poslao i na tvoj mejl. Ako ga ne vidiš za par minuta, pogledaj u Promocije ili Spam.</p>
+      <div class="links" id="links"></div>
+    </div>
+
+    <section class="second" id="second" hidden>
+      <h2 id="sTitle"></h2>
+      <div id="sKit" style="margin-top:14px"></div>
+      <div class="clock" id="sClock"></div>
+      <div id="sElement" hidden><div class="pay-el" id="sPayEl" style="margin-top:16px"></div></div>
+      <button class="btn" type="button" id="sBtn" hidden></button>
+      <div class="pay-err" id="sErr" role="alert" hidden></div>
+      <p class="fine small" id="sCard" hidden></p>
+      <button class="no" type="button" id="sNo">Ne, hvala</button>
+    </section>
+    <p class="ok" id="sOk" hidden></p>
+  </div>
+</main>
+
+<script src="/shop/track.js"></script>
+<script src="/kupi/komplet.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var T = window.shopTrack;
+  var API = T.api;
+  var qs = new URLSearchParams(location.search);
+  var last = null;
+  try { last = JSON.parse(sessionStorage.getItem('shop_last') || 'null'); } catch (e) { last = null; }
+  var O = qs.get('o') || (last && last.o);
+  var K = qs.get('k') || (last && last.k);
+
+  var ACT = { recept: 'Preuzmi PDF', upiti: 'Otvori Kontent mašinu' };
+  var SECOND = {
+    // kupio Recept, nudi se sveska
+    upiti: {
+      title: function (s) { return 'Hoćeš i Kontent mašinu za ' + eur(s.price) + '?'; },
+      body: function (s) { return 'Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa koji smisliš po Receptu i prvu poruku za onog ko ti se javi. Ukupno osam delova, od deset problema tvog kupca do te poruke. Cena je ista kao na prethodnoj strani.'; },
+      button: function (s) { return 'Dodaj Kontent mašinu za ' + eur(s.price); },
+      ok: 'Kontent mašina je dodata. Link je ispod, a poslao sam ga i na mejl.'
+    },
+    // kupio svesku, nudi se Recept
+    recept: {
+      title: function (s) { return 'Hoćeš i Recept za ' + eur(s.price) + '?'; },
+      body: function () { return 'Recept je PDF sa postupkom u pet koraka po kom smišljam klipove za klijente, od ciljne grupe do hooka. Na tim klipovima onda radi poziv iz Kontent mašine. Cena je ista kao na prethodnoj strani.'; },
+      button: function (s) { return 'Dodaj Recept za ' + eur(s.price); },
+      ok: 'Recept je dodat. Link je ispod, a poslao sam ga i na mejl.'
+    }
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function eur(c) { var v = c / 100; return (v % 1 === 0 ? String(v) : v.toFixed(2).replace('.', ',')) + '\u00a0€'; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  if (!O || !K) {
+    $('pending').hidden = true;
+    $('problem').hidden = false;
+    $('problem').innerHTML = 'Ne nalazim ovu kupovinu. Otvori link iz mejla ili mi piši na <a href="mailto:borisprproj@edgecut.app">borisprproj@edgecut.app</a>.';
+    return;
+  }
+
+  var state = null;
+  var stripe = null;
+  var skew = 0; // server minus telefon, ms
+  var shownSecond = false;
+  var declined = false;
+  var tick = null;
+
+  function load() {
+    return fetch(API + '/api/public/shop/order?o=' + encodeURIComponent(O) + '&k=' + encodeURIComponent(K))
+      .then(function (r) { return r.json(); });
+  }
+
+  function cover(p, name) { return window.komplet_cover(p, name); }
+
+  function firePixels(d) {
+    if (!d.report || !d.pixel || !d.pixel.length) return;
+    d.pixel.forEach(function (px) {
+      var key = 'shop_px_' + px.event_id;
+      try { if (localStorage.getItem(key)) return; localStorage.setItem(key, '1'); } catch (e) { /* bez storage-a server je već čuvar */ }
+      T.pixel('Purchase', { value: px.value, currency: 'EUR', content_ids: px.content_ids, content_type: 'product', num_items: px.content_ids.length }, px.event_id);
+    });
+  }
+
+  function render(d) {
+    state = d;
+    if (d.server_now) skew = new Date(d.server_now).getTime() - Date.now();
+    $('pending').hidden = true;
+    $('done').hidden = false;
+    if (d.email) $('mailLine').textContent = 'Link sam poslao i na ' + d.email + '. Ako ga ne vidiš za par minuta, pogledaj u Promocije ili Spam.';
+    $('links').innerHTML = d.links.map(function (l) {
+      return '<div><a class="link" href="' + esc(l.url) + '" target="_blank" rel="noopener" data-p="' + l.product + '">' + cover(l.product, l.name) +
+        '<div><div class="l-name">' + esc(l.name) + '</div><div class="l-act">' + ACT[l.product] + '</div></div></a>' +
+        (l.pdfUrl ? '<a class="pdf-link" href="' + esc(l.pdfUrl) + '" data-p="' + l.product + '-pdf">Preuzmi Kontent mašinu kao PDF za štampu</a>' : '') + '</div>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.link, .pdf-link'), function (a) {
+      a.addEventListener('click', function () { T('link_click', { product: a.getAttribute('data-p') }, { beacon: true, order: O }); });
+    });
+    firePixels(d);
+    renderSecond(d.second);
+  }
+
+  /* ---------- druga šansa ---------- */
+  var paidSecond = false;
+  function renderSecond(s) {
+    var box = $('second');
+    if (paidSecond) return; // posle doplate kutija ostaje sa oba dela
+    if (!s || declined) { box.hidden = true; stopClock(); return; }
+    var c = SECOND[s.product];
+    $('sTitle').textContent = c.title(s);
+    if (!kit) {
+      var bought = s.product === 'recept' ? 'upiti' : 'recept';
+      var names = {};
+      names[s.product] = s.name;
+      var own = (state.links || []).filter(function (l) { return l.product === bought; })[0];
+      names[bought] = own ? own.name : (bought === 'recept' ? 'Recept za smišljanje viralnog videa' : 'Kontent mašina za besplatne upite');
+      kit = window.Komplet($('sKit'), {
+        have: bought, names: names, price: s.price, regular: s.regular, bundle: state.bundle, chain: s.chain, reason: c.body(s), removable: false, payButton: true,
+        labels: { headOff: 'Komplet ima dva dela, ti imaš jedan', headOn: 'Imaš oba dela', on: 'Kupljeno', off: 'Nemaš ga' },
+        onAdd: takeSecond
+      });
+    }
+    if (s.card) {
+      $('sCard').hidden = false;
+      $('sCard').textContent = 'Naplaćuje se na istu karticu (' + s.card.brand.charAt(0).toUpperCase() + s.card.brand.slice(1) + ' •••• ' + s.card.last4 + ').';
+    }
+    box.hidden = false;
+    if (!shownSecond) { shownSecond = true; T('second_view', { product: s.product, price: s.price, card: !!s.card }, { order: O }); }
+    startClock(new Date(s.expires_at).getTime());
+  }
+
+  function startClock(end) {
+    stopClock();
+    var draw = function () {
+      var left = end - (Date.now() + skew);
+      if (left <= 0) { stopClock(); $('second').hidden = true; return; }
+      var m = Math.floor(left / 60000), sec = Math.floor((left % 60000) / 1000);
+      $('sClock').textContent = 'Ova cena važi još ' + m + ':' + (sec < 10 ? '0' : '') + sec + '.';
+    };
+    draw();
+    tick = setInterval(draw, 1000);
+  }
+  function stopClock() { if (tick) { clearInterval(tick); tick = null; } }
+
+  var kit = null;
+  function sBusy(on, label) {
+    if (!elements) { kit.busy(on); return; }
+    $('sBtn').disabled = on;
+    $('sBtn').innerHTML = on ? '<span class="spin"></span>' : esc(label || 'Plati ' + eur(state.second.price));
+  }
+  function sErr(msg) { $('sErr').textContent = msg; $('sErr').hidden = !msg; }
+
+  function getStripe() {
+    if (!stripe && window.Stripe && window.SHOP_STRIPE_PK) stripe = window.Stripe(window.SHOP_STRIPE_PK, { locale: 'hr' });
+    return stripe;
+  }
+
+  function upsell(mode) {
+    return fetch(API + '/api/public/shop/upsell', {
+      method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ o: O, k: K, mode: mode })
+    }).then(function (r) { return r.json(); });
+  }
+
+  // Posle plaćanja doplate: sačekaj da je server vidi kao plaćenu, pa osveži linkove.
+  async function afterPaid() {
+    var product = state.second.product;
+    T('second_paid', { product: product }, { order: O });
+    for (var i = 0; i < 15; i++) {
+      var d = await load();
+      if (d.ok && d.links.some(function (l) { return l.product === product; })) {
+        stopClock();
+        paidSecond = true;
+        kit.set(true);
+        ['sClock', 'sElement', 'sBtn', 'sCard', 'sNo', 'sErr'].forEach(function (id) { $(id).hidden = true; });
+        $('sTitle').hidden = true;
+        $('sOk').textContent = SECOND[product].ok;
+        $('sOk').hidden = false;
+        render(d);
+        return;
+      }
+      await sleep(1500);
+    }
+    sErr('Plaćanje je prošlo, a link još čekam. Osveži stranu za minut.');
+  }
+
+  var elements = null;
+  function showElement() {
+    var st = getStripe();
+    if (!st) { sErr('Plaćanje karticom trenutno nije dostupno.'); return; }
+    $('sCard').hidden = true;
+    $('sElement').hidden = false;
+    kit.el.querySelector('.btn-add').hidden = true;
+    $('sBtn').hidden = false;
+    $('sBtn').disabled = false;
+    $('sBtn').textContent = 'Plati ' + eur(state.second.price);
+    if (elements) return;
+    elements = st.elements({
+      mode: 'payment', amount: state.second.price, currency: 'eur', allowedPaymentMethodTypes: ['card'], locale: 'hr',
+      fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap' }],
+      appearance: {
+        theme: 'night',
+        variables: { colorPrimary: '#11c7d4', colorBackground: '#131316', colorText: '#fafafa', colorDanger: '#ff5c5c', fontFamily: 'Hanken Grotesk, system-ui, sans-serif', borderRadius: '10px' },
+        rules: { '.Input': { border: '1px solid #34343b', boxShadow: 'none' } }
+      }
+    });
+    elements.create('payment', { layout: { type: 'tabs' } }).mount('#sPayEl');
+  }
+
+  $('sBtn').addEventListener('click', function () { takeSecond(); });
+  async function takeSecond() {
+    if (!state || !state.second) return;
+    sErr('');
+    var s = state.second;
+    var st = getStripe();
+    if (!st) { sErr('Plaćanje karticom trenutno nije dostupno.'); return; }
+    sBusy(true);
+
+    // Pun Payment Element: sačuvana kartica nije prošla ili je nema.
+    if (elements) {
+      T('second_take', { product: s.product, mode: 'element' }, { order: O });
+      var sub = await elements.submit();
+      if (sub.error) { sBusy(false); return; }
+      var d1 = await upsell('element').catch(function () { return { ok: false }; });
+      if (!d1.ok || !d1.clientSecret) { sBusy(false); sErr(d1.error || 'Nešto nije prošlo. Probaj ponovo.'); if (d1.expired) $('second').hidden = true; return; }
+      var r1 = await st.confirmPayment({
+        elements: elements, clientSecret: d1.clientSecret,
+        confirmParams: { return_url: location.origin + '/kupi/hvala/?o=' + O + '&k=' + K }, redirect: 'if_required'
+      });
+      if (r1.error) {
+        sBusy(false);
+        T('second_error', { code: r1.error.decline_code || r1.error.code || r1.error.type, mode: 'element' }, { order: O });
+        sErr(r1.error.message || 'Kartica nije prošla.');
+        return;
+      }
+      return afterPaid();
+    }
+
+    // Sačuvana kartica jednim klikom (3D Secure ako ga banka traži).
+    T('second_take', { product: s.product, mode: s.card ? 'saved' : 'element' }, { order: O });
+    if (!s.card) { sBusy(false, 'Plati ' + eur(s.price)); showElement(); return; }
+    var d = await upsell('saved').catch(function () { return { ok: false, fallback: true }; });
+    if (d.ok && d.status === 'succeeded') return afterPaid();
+    if (d.ok && d.status === 'requires_action' && d.clientSecret) {
+      var r = await st.handleNextAction({ clientSecret: d.clientSecret });
+      if (!r.error && r.paymentIntent && (r.paymentIntent.status === 'succeeded' || r.paymentIntent.status === 'processing')) return afterPaid();
+      T('second_error', { code: (r.error && (r.error.code || r.error.type)) || 'requires_action', mode: 'saved' }, { order: O });
+    } else {
+      if (d.expired) { $('second').hidden = true; stopClock(); return; }
+      T('second_error', { code: d.code || d.status || 'error', mode: 'saved' }, { order: O });
+    }
+    sBusy(false, 'Plati ' + eur(s.price));
+    sErr('Kartica ovaj put nije prošla. Upiši je ponovo ili probaj drugu.');
+    showElement();
+  }
+
+  $('sNo').addEventListener('click', function () {
+    declined = true;
+    $('second').hidden = true;
+    stopClock();
+    T('second_skip', null, { order: O });
+  });
+
+  /* ---------- start ---------- */
+  T('thanks_view', null, { order: O });
+  (async function poll() {
+    for (var i = 0; i < 30; i++) {
+      var d;
+      try { d = await load(); } catch (e) { d = null; }
+      if (d && !d.ok) {
+        $('pending').hidden = true;
+        $('problem').hidden = false;
+        $('problem').innerHTML = 'Ne nalazim ovu kupovinu. Otvori link iz mejla ili mi piši na <a href="mailto:borisprproj@edgecut.app">borisprproj@edgecut.app</a>.';
+        return;
+      }
+      if (d && d.status === 'paid') { render(d); return; }
+      await sleep(i < 10 ? 1500 : 3000);
+    }
+    $('pending').hidden = true;
+    $('problem').hidden = false;
+    $('problem').innerHTML = 'Plaćanje još nije potvrđeno. Ako je novac skinut sa računa, piši mi na <a href="mailto:borisprproj@edgecut.app">borisprproj@edgecut.app</a> i rešiću to.';
+  })();
+})();
+</script>
+</body>
+</html>
