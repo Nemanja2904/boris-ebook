@@ -69,14 +69,14 @@
       title: function (s) { return 'Hoćeš i Kontent mašinu za ' + eur(s.price) + '?'; },
       body: function (s) { return 'Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa koji smisliš po Receptu i prvu poruku za onog ko ti se javi. Ukupno osam delova, od deset problema tvog kupca do te poruke. Cena je ista kao na prethodnoj strani.'; },
       button: function (s) { return 'Dodaj Kontent mašinu za ' + eur(s.price); },
-      ok: 'Kontent mašina je dodata. Link je ispod, a poslao sam ga i na mejl.'
+      ok: 'Kontent mašina je dodata. Link je gore na strani, a poslao sam ga i na mejl.'
     },
     // kupio svesku, nudi se Recept
     recept: {
       title: function (s) { return 'Hoćeš i Recept za ' + eur(s.price) + '?'; },
       body: function () { return 'Recept je PDF sa postupkom u pet koraka po kom smišljam klipove za klijente, od ciljne grupe do hooka. Na tim klipovima onda radi poziv iz Kontent mašine. Cena je ista kao na prethodnoj strani.'; },
       button: function (s) { return 'Dodaj Recept za ' + eur(s.price); },
-      ok: 'Recept je dodat. Link je ispod, a poslao sam ga i na mejl.'
+      ok: 'Recept je dodat. Link je gore na strani, a poslao sam ga i na mejl.'
     }
   };
 
@@ -236,7 +236,7 @@
         rules: { '.Input': { border: '1px solid #34343b', boxShadow: 'none' } }
       }
     });
-    elements.create('payment', { layout: { type: 'tabs' } }).mount('#sPayEl');
+    elements.create('payment', { layout: { type: 'tabs' }, wallets: { link: 'never' } }).mount('#sPayEl');
   }
 
   $('sBtn').addEventListener('click', function () { takeSecond(); });

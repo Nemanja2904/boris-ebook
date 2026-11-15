@@ -58,10 +58,12 @@
     </section>
 
     <section class="a-pay">
-      <div class="pay-el" id="payEl"><div class="pay-skel" id="paySkel">Učitavam polje za karticu…</div></div>
+      <div class="pay-skel" id="paySkel">Učitavam polje za karticu…</div>
+      <div class="pay-el" id="payEl"></div>
       <button class="btn" type="submit" id="payBtn" disabled><span id="payLabel">Plati</span></button>
       <div class="pay-err" id="payErr" role="alert" hidden></div>
       <p class="fine">Pristup dobijaš odmah posle plaćanja, a link stiže i na mejl.</p>
+      <p class="fine">Karticu pamti Stripe, da na sledećoj strani možeš da dodaš drugi deo kompleta jednim klikom.</p>
       <p class="fine small">Kupovinom pristaješ da ti povremeno pišem na mejl. Odjaviti se možeš kad god hoćeš. <a href="/kupi/privatnost/">Privatnost</a></p>
     </section>
   </form>
@@ -258,7 +260,7 @@
     // Kartica se pamti samo za doplatu jednim klikom na hvala strani (mora isto i na serveru).
     if (!cfg.offer) opts.setupFutureUsage = 'on_session';
     elements = stripe.elements(opts);
-    var pe = elements.create('payment', { layout: { type: 'tabs' }, wallets: { applePay: 'auto', googlePay: 'auto' } });
+    var pe = elements.create('payment', { layout: { type: 'tabs' }, wallets: { applePay: 'auto', googlePay: 'auto', link: 'never' }, terms: { card: 'never' } });
     pe.on('ready', function () {
       $('paySkel').hidden = true;
       $('payBtn').disabled = false;

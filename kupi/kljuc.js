@@ -4,4 +4,4 @@
  * Mora biti iz istog Stripe naloga kao STRIPE_SECRET_KEY u webapp-u (sk_test_...).
  * Live ključ (pk_live_...) ide tek kad Nemanja kaže, zajedno sa SHOP_STRIPE_LIVE=1 na serveru.
  */
-window.SHOP_STRIPE_PK = '';
+window.SHOP_STRIPE_PK = 'pk_test_51T1vmm3HELbuFgpdNNWCtXqbxtDKZN2sWr1kXVS1igd2HXNaCpnoMQEaF8477wSFMDeLU9vgO8fLLehxxteUFKYg00OGT8tHqy';

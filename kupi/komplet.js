@@ -1,7 +1,7 @@
 /*
- * Prikaz kompleta od dva dela (checkout i druga šansa na hvala strani).
- * Deo 1 "Pregledi" = Recept, deo 2 "Upiti" = radna sveska. Deo koji je kupac uzeo je pun, drugi je prazan
- * sa velikim dugmetom "Dodaj za X €". Komplet nikad nije unapred izabran.
+ * Ponuda drugog dela kompleta (checkout i druga šansa na hvala strani).
+ * Deo 1 "Pregledi" = Recept, deo 2 "Upiti" = Kontent mašina. Prikazuje se samo deo koji kupac nema,
+ * sa tri cene jedna ispod druge i dugmetom "Dodaj za X €". Komplet nikad nije unapred izabran.
  * Cene i nazivi dolaze sa servera; ova skripta samo crta.
  *
  *   var k = Komplet(el, { have: 'recept', names: {recept, upiti}, price, regular, bundle: {total, regular, savings},
@@ -9,7 +9,7 @@
  *   k.set(true|false)   // dodat ili ne (posle odgovora servera, ili odmah na checkoutu)
  *   k.busy(true|false)  // dugme dok traje plaćanje druge šanse
  *   o.payButton = true: dugme je plaćanje (hvala strana), žuto kao Plati
- *   o.labels = { headOff, headOn, on, off } menja tekst (hvala strana: "kupljeno" umesto "u korpi")
+ *   o.labels = { headOff, headOn, on } menja tekst (hvala strana: "kupljeno" umesto "u korpi")
  */
 (function () {
   'use strict';
@@ -31,52 +31,44 @@
   }
   window.komplet_cover = img;
 
-  // Cene dela koji fali, od najveće ka najmanjoj, poslednja krupna i žuta: redovna, uvodna, u kompletu.
+  // Cene dela koji fali, jedna ispod druge: redovna, uvodna, u kompletu. Poslednja je krupna i žuta.
   // Precrtane su obe cene koje se u kompletu ne plaćaju. Redovna se precrtava samo ako je stvarno važila
   // (soldAtRegular; za oba proizvoda potvrdio vlasnik 15.11.2026).
   function chainHtml(c) {
-    var reg = c.soldAtRegular ? '<s>' + eur(c.regular) + '</s>' : eur(c.regular);
-    return '<div class="kit-row"><span class="kp">redovna ' + reg + '</span>' +
-      '<span class="kp">uvodna <s>' + eur(c.intro) + '</s></span>' +
-      '<span class="kp last">u kompletu <b>' + eur(c.bundle) + '</b></span></div>';
+    var reg = c.soldAtRegular ? '<s>' + eur(c.regular) + '</s>' : '<span>' + eur(c.regular) + '</span>';
+    return '<div class="kl"><span>Redovna cena</span>' + reg + '</div>' +
+      '<div class="kl"><span>Uvodna cena</span><s>' + eur(c.intro) + '</s></div>' +
+      '<div class="kl now"><span>U kompletu</span><b>' + eur(c.bundle) + '</b></div>';
   }
 
+  // Prikazuje se samo deo koji kupac NEMA: ono što kupuje već stoji iznad (checkout) ili ga je platio (hvala).
   window.Komplet = function (el, o) {
     var added = false;
     var L = o.labels || {
-      headOff: 'Komplet ima dva dela, u korpi je jedan',
+      headOff: 'Dodaj i drugi deo kompleta',
       headOn: 'Oba dela su u korpi',
-      on: 'U korpi',
-      off: 'Nije u korpi'
+      on: 'Dodato u korpu'
     };
     var missing = o.have === 'recept' ? 'upiti' : 'recept';
+    var part = PARTS.filter(function (p) { return p.id === missing; })[0];
 
     el.className = 'kit';
     el.innerHTML =
       '<div class="kit-head" data-k="head"></div>' +
-      PARTS.map(function (p) {
-        return '<div class="part" data-part="' + p.id + '">' + img(p.id, o.names[p.id]) +
-          '<div class="part-txt"><div class="part-no">' + p.no + '</div><div class="part-name">' + esc(o.names[p.id]) + '</div>' +
-          '<div class="part-st" data-k="st"></div></div></div>';
-      }).join('') +
+      '<div class="part">' + img(missing, o.names[missing]) +
+        '<div class="part-txt"><div class="part-no">' + part.no + '</div><div class="part-name">' + esc(o.names[missing]) + '</div>' +
+        '<div class="part-st" data-k="st"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7.4l2.6 2.6L11 4.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> ' + esc(L.on) + '</div></div></div>' +
+      (o.reason ? '<p class="kit-why">' + esc(o.reason) + '</p>' : '') +
       (o.chain ? '<div class="kit-prices" data-k="prices">' + chainHtml(o.chain) + '</div>' : '') +
       '<button type="button" class="btn-add' + (o.payButton ? ' pay' : '') + '" data-k="add">Dodaj za ' + eur(o.price) + '</button>' +
       '<div class="kit-done" data-k="done"><span>Komplet: <span class="price-new">' + eur(o.bundle.total) + '</span> umesto <s>' + eur(o.bundle.regular) + '</s>, <span class="price-new">' + eur(o.bundle.savings) + ' manje</span></span>' +
-      (o.removable ? ' <button type="button" class="kit-remove" data-k="remove">Ukloni</button>' : '') + '</div>' +
-      (o.reason ? '<p class="kit-why">' + esc(o.reason) + '</p>' : '');
+      (o.removable ? ' <button type="button" class="kit-remove" data-k="remove">Ukloni</button>' : '') + '</div>';
 
     var q = function (k) { return el.querySelector('[data-k="' + k + '"]'); };
 
     function draw() {
-      PARTS.forEach(function (p) {
-        var on = p.id === o.have || added;
-        var part = el.querySelector('[data-part="' + p.id + '"]');
-        part.classList.toggle('on', on);
-        part.classList.toggle('off', !on);
-        part.querySelector('[data-k="st"]').innerHTML = on
-          ? '<svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7.4l2.6 2.6L11 4.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> ' + L.on
-          : L.off;
-      });
+      el.classList.toggle('is-on', added);
+      q('st').hidden = !added;
       q('head').textContent = added ? L.headOn : L.headOff;
       q('add').hidden = added;
       if (q('prices')) q('prices').hidden = added;
