@@ -34,17 +34,11 @@
   // Cene dela koji fali, jedna ispod druge: redovna, uvodna, u kompletu. Poslednja je krupna i žuta.
   // Precrtane su obe cene koje se u kompletu ne plaćaju. Redovna se precrtava samo ako je stvarno važila
   // (soldAtRegular; za oba proizvoda potvrdio vlasnik 15.11.2026).
-  // Hvala strana šalje i c.now (cena druge šanse, niža od cene u kompletu): tada je "U kompletu" precrtano,
-  // a krupna žuta je "Samo sada".
   function chainHtml(c) {
     var reg = c.soldAtRegular ? '<s>' + eur(c.regular) + '</s>' : '<span>' + eur(c.regular) + '</span>';
-    var lower = typeof c.now === 'number' && c.now < c.bundle;
     return '<div class="kl"><span>Redovna cena</span>' + reg + '</div>' +
       '<div class="kl"><span>Uvodna cena</span><s>' + eur(c.intro) + '</s></div>' +
-      (lower
-        ? '<div class="kl"><span>U kompletu</span><s>' + eur(c.bundle) + '</s></div>' +
-          '<div class="kl now"><span>Samo sada</span><b>' + eur(c.now) + '</b></div>'
-        : '<div class="kl now"><span>U kompletu</span><b>' + eur(c.bundle) + '</b></div>');
+      '<div class="kl now"><span>U kompletu</span><b>' + eur(c.bundle) + '</b></div>';
   }
 
   // Prikazuje se samo deo koji kupac NEMA: ono što kupuje već stoji iznad (checkout) ili ga je platio (hvala).

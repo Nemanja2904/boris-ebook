@@ -17,7 +17,7 @@
   Hvala strana: /kupi/hvala/?o=<porudžbina>&k=<ključ>
   Linkovi za pristup se prikazuju odmah (ne čeka se mejl). Ako webhook još nije stigao, server sam pita Stripe.
   Pixel Purchase puca samo kad server kaže (jednom po porudžbini, eventID = PaymentIntent, isti kao CAPI).
-  Druga šansa: ko je kupio jedan proizvod, 15 minuta od plaćanja (rok i cenu drži server, POST /api/public/shop/upsell).
+  Druga šansa: ko je kupio jedan proizvod, 24 h od plaćanja, bez tajmera na strani (rok i cenu drži server, POST /api/public/shop/upsell).
 -->
 <header class="top">
   <a class="brand" href="/"><i></i>Boris Vasić</a>
@@ -37,7 +37,6 @@
     <section class="second" id="second" hidden>
       <h2 id="sTitle"></h2>
       <div id="sKit" style="margin-top:14px"></div>
-      <div class="clock" id="sClock"></div>
       <div id="sElement" hidden><div class="pay-el" id="sPayEl" style="margin-top:16px"></div></div>
       <button class="btn" type="button" id="sBtn" hidden></button>
       <div class="pay-err" id="sErr" role="alert" hidden></div>
@@ -63,25 +62,18 @@
   var K = qs.get('k') || (last && last.k);
 
   var ACT = { recept: 'Preuzmi PDF', upiti: 'Otvori Kontent mašinu' };
-  // Druga šansa može biti jeftinija od doplate na checkoutu (server šalje chain.now).
-  function priceNote(s) {
-    var c = s.chain || {};
-    // Niža cena se vidi u prikazu cena (U kompletu precrtano, Samo sada) i u tajmeru, pasus je ne ponavlja.
-    if (typeof c.now === 'number' && c.now < c.bundle) return '';
-    return 'Cena je ista kao na prethodnoj strani.';
-  }
   var SECOND = {
     // kupio Recept, nudi se sveska
     upiti: {
       title: function (s) { return 'Hoćeš i Kontent mašinu za ' + eur(s.price) + '?'; },
-      body: function (s) { return 'Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa koji smisliš po Receptu i prvu poruku za onog ko ti se javi. Ukupno osam delova, od deset problema tvog kupca do te poruke.' + (priceNote(s) ? ' ' + priceNote(s) : ''); },
+      body: function () { return 'Recept sam ti donosi preglede, ali od pregleda nemaš ništa dok ti niko ne napiše poruku. Ljudi pišu tek kad ih klip na to pozove. Kontent mašina je osam koraka koje popunjavaš za svoj posao, od deset problema tvog kupca do poziva na kraju klipa i prve poruke onome ko ti se javi.'; },
       button: function (s) { return 'Dodaj Kontent mašinu za ' + eur(s.price); },
       ok: 'Kontent mašina je dodata. Link je gore na strani, a poslao sam ga i na mejl.'
     },
     // kupio svesku, nudi se Recept
     recept: {
       title: function (s) { return 'Hoćeš i Recept za ' + eur(s.price) + '?'; },
-      body: function (s) { return 'Recept je PDF sa postupkom u pet koraka po kom smišljam klipove za klijente, od ciljne grupe do hooka. Na tim klipovima onda radi poziv iz Kontent mašine.' + (priceNote(s) ? ' ' + priceNote(s) : ''); },
+      body: function () { return 'Poziv na kraju klipa radi samo ako klip gleda neko ko te još ne prati. Klip koji vide samo tvoji pratioci retko donese novog kupca, koliko god dobar poziv bio. U Receptu je postupak u pet koraka po kom smišljam klipove koje gledaju i ljudi koji te ne znaju, od ciljne grupe do hooka.'; },
       button: function (s) { return 'Dodaj Recept za ' + eur(s.price); },
       ok: 'Recept je dodat. Link je gore na strani, a poslao sam ga i na mejl.'
     }
@@ -104,7 +96,6 @@
   var skew = 0; // server minus telefon, ms
   var shownSecond = false;
   var declined = false;
-  var tick = null;
 
   function load() {
     return fetch(API + '/api/public/shop/order?o=' + encodeURIComponent(O) + '&k=' + encodeURIComponent(K))
@@ -145,7 +136,7 @@
   function renderSecond(s) {
     var box = $('second');
     if (paidSecond) return; // posle doplate kutija ostaje sa oba dela
-    if (!s || declined) { box.hidden = true; stopClock(); return; }
+    if (!s || declined) { box.hidden = true; return; }
     var c = SECOND[s.product];
     $('sTitle').textContent = c.title(s);
     if (!kit) {
@@ -155,7 +146,7 @@
       var own = (state.links || []).filter(function (l) { return l.product === bought; })[0];
       names[bought] = own ? own.name : (bought === 'recept' ? 'Recept za smišljanje viralnog videa' : 'Kontent mašina za besplatne upite');
       kit = window.Komplet($('sKit'), {
-        have: bought, names: names, price: s.price, regular: s.regular, bundle: s.bundle || state.bundle, chain: s.chain, reason: c.body(s), removable: false, payButton: true,
+        have: bought, names: names, price: s.price, regular: s.regular, bundle: state.bundle, chain: s.chain, reason: c.body(s), removable: false, payButton: true,
         labels: { headOff: 'Komplet ima dva dela, ti imaš jedan', headOn: 'Imaš oba dela', on: 'Kupljeno', off: 'Nemaš ga' },
         onAdd: takeSecond
       });
@@ -166,21 +157,8 @@
     }
     box.hidden = false;
     if (!shownSecond) { shownSecond = true; T('second_view', { product: s.product, price: s.price, card: !!s.card }, { order: O }); }
-    startClock(new Date(s.expires_at).getTime());
   }
 
-  function startClock(end) {
-    stopClock();
-    var draw = function () {
-      var left = end - (Date.now() + skew);
-      if (left <= 0) { stopClock(); $('second').hidden = true; return; }
-      var m = Math.floor(left / 60000), sec = Math.floor((left % 60000) / 1000);
-      $('sClock').textContent = 'Ova cena važi još ' + m + ':' + (sec < 10 ? '0' : '') + sec + '.';
-    };
-    draw();
-    tick = setInterval(draw, 1000);
-  }
-  function stopClock() { if (tick) { clearInterval(tick); tick = null; } }
 
   var kit = null;
   function sBusy(on, label) {
@@ -208,10 +186,10 @@
     for (var i = 0; i < 15; i++) {
       var d = await load();
       if (d.ok && d.links.some(function (l) { return l.product === product; })) {
-        stopClock();
+
         paidSecond = true;
         kit.set(true);
-        ['sClock', 'sElement', 'sBtn', 'sCard', 'sNo', 'sErr'].forEach(function (id) { $(id).hidden = true; });
+        ['sElement', 'sBtn', 'sCard', 'sNo', 'sErr'].forEach(function (id) { $(id).hidden = true; });
         $('sTitle').hidden = true;
         $('sOk').textContent = SECOND[product].ok;
         $('sOk').hidden = false;
@@ -285,7 +263,7 @@
       if (!r.error && r.paymentIntent && (r.paymentIntent.status === 'succeeded' || r.paymentIntent.status === 'processing')) return afterPaid();
       T('second_error', { code: (r.error && (r.error.code || r.error.type)) || 'requires_action', mode: 'saved' }, { order: O });
     } else {
-      if (d.expired) { $('second').hidden = true; stopClock(); return; }
+      if (d.expired) { $('second').hidden = true; return; }
       T('second_error', { code: d.code || d.status || 'error', mode: 'saved' }, { order: O });
     }
     sBusy(false, 'Plati ' + eur(s.price));
@@ -296,7 +274,7 @@
   $('sNo').addEventListener('click', function () {
     declined = true;
     $('second').hidden = true;
-    stopClock();
+
     T('second_skip', null, { order: O });
   });
 
