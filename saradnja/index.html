@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nemoj samo postojati na Instagramu · Boris Vasić</title>
-<meta name="description" content="Tvoj biznis već zarađuje. Instagram bi mogao da ti dovodi klijente. Besplatan poziv sa Borisom, 30 minuta.">
-<meta property="og:title" content="Nemoj samo postojati na Instagramu">
-<meta property="og:description" content="Besplatan poziv sa Borisom: šta ti koči klijente na Instagramu i šta prvo da promeniš.">
+<title>Nemoj samo postojati na društvenim mrežama · Boris Vasić</title>
+<meta name="description" content="Sadržaj može svakog dana da ti dovodi ljude koje zanima baš ono što prodaješ. Besplatan poziv sa Borisom, 30 minuta.">
+<meta property="og:title" content="Nemoj samo postojati na društvenim mrežama">
+<meta property="og:description" content="Besplatan poziv sa Borisom: šta ti koči klijente i šta prvo da promeniš.">
 <meta property="og:image" content="https://borisprproj.com/saradnja/media/t-ana.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,46 +34,53 @@ fbq('init','4374976512714502');fbq('track','PageView');
 
   /* header */
   .top{position:sticky;top:0;z-index:10;background:rgba(243,244,246,.94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
-  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
   .brand{font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none}
-  .brand span{font-weight:500;color:var(--faint)}
-  .top-link{font-size:14px;font-weight:700;text-decoration:none;padding:8px 12px;border:1.5px solid var(--ink);border-radius:999px}
 
   /* type */
   h1{font-weight:800;font-size:clamp(40px,10.5vw,76px);line-height:1.02;letter-spacing:-.035em}
-  .tag{display:inline-block;margin-top:14px;background:var(--ink);color:#fff;font-weight:800;font-size:clamp(15px,3.6vw,22px);letter-spacing:.02em;padding:8px 14px 7px;border-radius:4px}
-  h2{font-weight:800;font-size:clamp(28px,6.4vw,44px);line-height:1.1;letter-spacing:-.025em;max-width:18ch}
+  .tag{display:inline-block;margin-top:14px;background:var(--ink);color:#fff;font-weight:800;font-size:clamp(14px,3.6vw,22px);letter-spacing:.02em;padding:8px 14px 7px;border-radius:4px}
+  h2{font-weight:800;font-size:clamp(28px,6.4vw,44px);line-height:1.1;letter-spacing:-.025em;max-width:20ch}
   .lead{font-size:18px;color:var(--muted);margin-top:22px;max-width:34em}
   .lead b,.txt b{color:var(--ink);font-weight:700}
   .txt{color:var(--muted);font-size:17px;max-width:36em}
   .txt + .txt{margin-top:18px}
+  .who-tag{font-weight:500;color:var(--faint)}
 
   /* hero */
   .hero{padding:40px 0 56px}
-  .hero-grid{display:grid;gap:36px}
+  .hero-grid{display:grid;gap:34px}
+  .hero-grid > *,.pot-grid > *,.call-grid > *{min-width:0}
   .reels{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:0 20px 6px;scrollbar-width:none}
   .reels::-webkit-scrollbar{display:none}
-  .reels img{flex:0 0 38%;width:38%;min-width:0;height:auto;scroll-snap-align:start;border-radius:12px;aspect-ratio:9/16;object-fit:cover;background:#dde1e6}
-  .reels-note{font-size:13px;color:var(--faint);margin-top:10px}
+  .reel{flex:0 0 38%;min-width:0;scroll-snap-align:start}
+  .reel .pic{position:relative;border-radius:12px;overflow:hidden;background:#dde1e6;aspect-ratio:9/16}
+  .reel img{width:100%;height:100%;object-fit:cover}
+  .reel .views{position:absolute;left:8px;bottom:8px;background:rgba(12,26,43,.82);color:#fff;font-weight:800;font-size:13px;padding:4px 8px;border-radius:6px;font-variant-numeric:tabular-nums}
+  .reel .meta{margin-top:8px;font-size:12.5px;line-height:1.35;color:var(--muted);font-weight:600}
+  .reel .meta a{display:inline-block;margin-top:2px;font-weight:600;font-size:12px;color:var(--faint);text-underline-offset:2px}
+  .reels-note{font-size:14px;color:var(--muted);margin-top:14px;max-width:34em}
   @media(min-width:900px){
     .hero{padding:72px 0 96px}
-    .hero-grid{grid-template-columns:1.05fr 1fr;align-items:center;gap:56px}
-    .reels{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:0;padding:0;overflow:visible}
-    .reels img{width:100%}
-    .reels img:nth-child(2n){transform:translateY(28px)}
+    .hero-grid{grid-template-columns:.9fr 1.2fr;align-items:center;gap:56px}
+    .reels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0;padding:0;overflow:visible}
+    .reel:nth-child(2n) .pic{transform:translateY(24px)}
+    .reel:nth-child(2n) .meta{margin-top:32px}
   }
 
   /* problem */
-  .feed{margin-top:30px;border-left:3px solid var(--ink);padding:4px 0 4px 20px;display:grid;gap:12px;max-width:36em}
-  .feed p{font-size:17px;color:var(--ink);font-weight:600}
-  .feed p span{color:var(--muted);font-weight:500}
-  .verdict{margin-top:34px}
-  .punch{margin-top:28px;font-weight:800;font-size:clamp(22px,4.6vw,30px);line-height:1.2;letter-spacing:-.02em;max-width:22ch}
+  .wrongs{margin-top:34px;display:grid;gap:26px;max-width:40em}
+  .wrong{border-left:3px solid var(--ink);padding-left:18px}
+  .wrong h3{font-weight:800;font-size:20px;line-height:1.3}
+  .wrong p{color:var(--muted);margin-top:6px}
+  .wrong p em{font-style:normal;color:var(--ink);font-weight:600}
+  .verdict{margin-top:40px}
+  .punch{margin-top:12px;font-weight:800;font-size:clamp(22px,4.6vw,30px);line-height:1.2;letter-spacing:-.02em;max-width:22ch}
+  @media(min-width:900px){.wrongs{grid-template-columns:1fr 1fr;max-width:none;gap:32px 48px}}
 
   /* potential */
   .pot{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .rules{margin-top:44px;display:grid;gap:40px}
-  .rules{counter-reset:rule}
+  .rules{margin-top:44px;display:grid;gap:40px;counter-reset:rule}
   .rule{display:grid;grid-template-columns:44px 1fr;gap:6px 16px;counter-increment:rule}
   .rule::before{content:counter(rule);grid-row:1;font-weight:800;font-size:34px;line-height:1;color:var(--ink);opacity:.18}
   .rule h3{font-weight:800;font-size:21px;line-height:1.25;letter-spacing:-.01em}
@@ -84,10 +91,14 @@ fbq('init','4374976512714502');fbq('track','PageView');
     .pot-grid .rules{margin-top:0}
   }
   .after{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);display:grid;gap:18px}
-  .after .big{font-weight:700;font-size:20px;line-height:1.4;max-width:30em}
+  .after .big{font-weight:700;font-size:20px;line-height:1.4;max-width:32em}
 
-  /* results */
-  .cases{margin-top:44px;display:grid;gap:36px}
+  /* how + results */
+  .how{margin-top:30px;display:grid;gap:0;max-width:640px;border-top:1px solid var(--line)}
+  .how p{display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-weight:600}
+  .how p b{flex:0 0 34px;font-weight:800;font-size:13px;color:#fff;background:var(--ink);border-radius:4px;text-align:center;padding:2px 0}
+  .how p b.you{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+  .cases{margin-top:56px;display:grid;gap:36px}
   .case .who{font-size:14px;font-weight:600;color:var(--faint)}
   .case .num{font-weight:800;font-size:28px;line-height:1.15;letter-spacing:-.02em;margin-top:4px}
   .case .num small{display:block;font-size:16px;font-weight:600;letter-spacing:0;color:var(--muted);margin-top:6px;line-height:1.5}
@@ -99,6 +110,8 @@ fbq('init','4374976512714502');fbq('track','PageView');
   .mini b{display:block;font-weight:800;font-size:24px;letter-spacing:-.02em}
   .mini span{font-size:14px;color:var(--muted)}
   @media(min-width:900px){
+    .how-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+    .how-grid .how{margin-top:8px}
     .cases{grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
     .case.wide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.6fr;gap:40px;align-items:center}
     .case.wide video{margin-top:0}
@@ -106,29 +119,38 @@ fbq('init','4374976512714502');fbq('track','PageView');
   }
 
   /* about */
-  .about{background:var(--ink);color:#fff}
-  .about h2{color:#fff}
-  .about .txt{color:#c6ccd6}
-  .about .txt b{color:#fff}
+  .about{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 
   /* call */
-  .call-grid{display:grid;gap:36px}
-  .call-grid > *,.hero-grid > *,.pot-grid > *{min-width:0}
-  .checks{margin-top:24px;display:grid;gap:10px;max-width:30em}
-  .checks li{list-style:none;position:relative;padding-left:26px;font-weight:600}
-  .checks li::before{content:"";position:absolute;left:4px;top:.55em;width:9px;height:9px;border-radius:2px;background:var(--ink)}
-  .fit{margin-top:26px;font-size:15px;color:var(--muted);max-width:30em}
-  .cal-note{margin-top:12px;text-align:center;font-size:14px;color:var(--faint)}
+  .call{background:var(--ink);color:#fff;padding:64px 0 72px}
+  .call h2{color:#fff;font-size:clamp(34px,8vw,56px);max-width:16ch}
+  .call .sub{margin-top:14px;font-size:18px;color:#c9d0da;max-width:30em}
+  .call .sub b{color:#fff}
+  .call-grid{display:grid;gap:32px;margin-top:34px}
+  .checks{display:grid;gap:10px;max-width:30em}
+  .checks li{list-style:none;position:relative;padding-left:26px;font-weight:600;color:#fff}
+  .checks li::before{content:"";position:absolute;left:4px;top:.55em;width:9px;height:9px;border-radius:2px;background:var(--cta)}
+  .call .txt{color:#c9d0da}
+  .fit{margin-top:22px;font-size:15px;color:#9aa4b2;max-width:30em}
+  .cal-card{background:var(--surface);border-radius:20px;padding:6px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 18px 40px -12px rgba(0,0,0,.45)}
+  .cal-card .eck{border:0}
   [data-ec-kalendar]{--eck-accent:var(--cta);--eck-text:var(--ink);--eck-muted:var(--muted);--eck-border:var(--line);--eck-surface:var(--bg)}
-  @media(min-width:900px){.call-grid{grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}}
+  @media(min-width:900px){.call{padding:96px 0}.call-grid{grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}}
 
   /* cta */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 28px;border-radius:12px;background:var(--cta);color:var(--cta-text);font-weight:800;font-size:17px;text-decoration:none;transition:background .15s ease,transform .1s ease}
   .btn:hover{background:var(--cta-hover)}
   .btn:active{transform:scale(.97)}
-  .btn:focus-visible,.top-link:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .btn.sm{min-height:40px;padding:0 16px;font-size:14px;border-radius:10px}
   .cta-row{margin-top:30px}
-  .cta-row p{margin-top:10px;font-size:14px;color:var(--faint)}
+
+  /* sticky bar (telefon) */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(12,26,43,.08);transform:translateY(110%);transition:transform .25s ease-out}
+  .bar.on{transform:none}
+  .bar .btn{width:100%}
+  .bar small{display:block;text-align:center;font-size:12px;color:var(--faint);margin-top:4px}
+  @media(min-width:900px){.bar{display:none}}
 
   /* faq */
   .faq{margin-top:28px;max-width:720px;border-top:1px solid var(--line)}
@@ -139,20 +161,21 @@ fbq('init','4374976512714502');fbq('track','PageView');
   .faq details[open] summary::after{content:"−"}
   .faq details p{padding:0 0 20px;color:var(--muted);max-width:36em}
 
-  footer{padding:36px 0 48px;font-size:13px;color:var(--faint)}
+  footer{padding:36px 0 110px;font-size:13px;color:var(--faint)}
   footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+  @media(min-width:900px){footer{padding-bottom:48px}}
 
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease-out,transform .5s ease-out}
   .reveal.on{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.bar{transition:none}}
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#">Boris Vasić <span>· Edge Cut</span></a>
-    <a class="top-link" href="#poziv">Zakaži poziv</a>
+    <a class="brand" href="#">Boris Vasić</a>
+    <a class="btn sm" href="#poziv">Zakaži poziv</a>
   </div>
 </header>
 
@@ -162,34 +185,61 @@ fbq('init','4374976512714502');fbq('track','PageView');
   <div class="wrap hero-grid">
     <div>
       <h1>Nemoj samo postojati</h1>
-      <span class="tag">NA INSTAGRAMU</span>
-      <p class="lead">Tvoj biznis već zarađuje.<br>Instagram bi mogao da ti dovodi klijente, a verovatno ti dovodi samo lajkove.</p>
+      <span class="tag">NA DRUŠTVENIM MREŽAMA</span>
+      <p class="lead">Većina biznisa objavljuje samo da bi bila prisutna.<br>Profil postoji, a klijenti i dalje stižu preko preporuke.<br><b>Sadržaj može svakog dana da ti dovodi ljude koje zanima baš ono što prodaješ.</b><br>Upoznaju te kroz klipove i javljaju se već zainteresovani.</p>
     </div>
     <div>
-      <div class="reels" aria-label="Klipovi Borisovih klijenata sa brojem pregleda">
-        <img src="img/reel-salon.jpg" alt="Klip frizerskog salona, 2,2 miliona pregleda" width="480" height="742">
-        <img src="img/reel-psi.jpg" alt="Klip škole za pse, milion pregleda" width="480" height="744">
-        <img src="img/reel-sokovi.jpg" alt="Klip za detox sokove, 1,2 miliona pregleda" width="480" height="842" loading="lazy">
-        <img src="img/reel-kosa.jpg" alt="Klip o nezi kose, 708 hiljada pregleda" width="480" height="854" loading="lazy">
+      <div class="reels">
+        <figure class="reel">
+          <div class="pic"><img src="img/k-ana.jpg" alt="Klip frizerskog salona" width="480" height="854"><span class="views">2,4 mil.</span></div>
+          <figcaption class="meta">Frizerski salon<br><a href="https://www.instagram.com/reel/DXVPIPWDCqb/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img src="img/k-ivan.jpg" alt="Klip škole dresure pasa" width="480" height="854"><span class="views">1,3 mil.</span></div>
+          <figcaption class="meta">Škola dresure pasa<br><a href="https://www.instagram.com/p/DSArIoEDBO7/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img src="img/k-darvin.jpg" alt="Klip veterinarske ambulante" width="480" height="854" loading="lazy"><span class="views">416 hilj.</span></div>
+          <figcaption class="meta">Veterinarska ambulanta<br><a href="https://www.instagram.com/darvin_sve_za_ljubimca/" target="_blank" rel="noopener">Pogledaj profil ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img src="img/k-ro.jpg" alt="Klip firme za detox sokove" width="480" height="854" loading="lazy"><span class="views">286 hilj.</span></div>
+          <figcaption class="meta">Detox sokovi<br><a href="https://www.instagram.com/p/DYCCY44ohXg/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img src="img/k-ags.jpg" alt="Klip firme koja mašine za čaure prodaje u Americi" width="480" height="854" loading="lazy"><span class="views">226 hilj.</span></div>
+          <figcaption class="meta">Mašine za čaure, za američko tržište<br><a href="https://www.facebook.com/reel/1394122232823715/" target="_blank" rel="noopener">Pogledaj na Facebooku ↗</a></figcaption>
+        </figure>
       </div>
-      <p class="reels-note">Klipovi mojih klijenata: frizerski salon, škola za pse, detox sokovi, nega kose.</p>
+      <p class="reels-note">Klipovi koje sam radio za klijente iz potpuno različitih poslova: frizerski salon, škola dresure pasa, veterinarska ambulanta, detox sokovi i mašine za čaure.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="wrap reveal">
-    <h2>Otvori Instagram skoro bilo kog biznisa u Srbiji</h2>
-    <div class="feed">
-      <p>Videćeš slike proizvoda, „pre i posle“, akcije i „pozovite nas“.</p>
-      <p>Klipove koji zvuče kao reklama: <span>„mi nudimo“, „naša usluga“, „najbolji u gradu“.</span></p>
-      <p>Objave kad se vlasnik seti, bez plana.</p>
-      <p>I poneki klip sa dobrim pregledima, posle kog niko ne piše.</p>
+  <div class="wrap">
+    <h2 class="reveal">Šta većina biznisa radi pogrešno na društvenim mrežama</h2>
+    <div class="wrongs">
+      <div class="wrong reveal">
+        <h3>Objavljuje reklame umesto sadržaja.</h3>
+        <p><em>Slika proizvoda, akcija, „pozovite nas“.</em><br>Niko ne otvara Instagram da bi gledao reklame, pa ljudi to preskoče za sekundu, a algoritam onda klip ne pokazuje dalje.</p>
+      </div>
+      <div class="wrong reveal">
+        <h3>Priča o sebi, a ne o kupcu.</h3>
+        <p><em>„Mi nudimo“, „naša usluga“, „najbolji u gradu“.</em><br>Kupca ne zanima tvoja usluga dok ne vidi da razumeš njegov problem.</p>
+      </div>
+      <div class="wrong reveal">
+        <h3>Objavljuje bez plana.</h3>
+        <p><em>Klip nastane kad se vlasnik seti.</em><br>Bez teme koja pogađa kupca, ni dobar snimak ne dođe do pravih ljudi.</p>
+      </div>
+      <div class="wrong reveal">
+        <h3>Juri preglede, a ne klijente.</h3>
+        <p>Poneki klip ode viralno, a posle njega niko ne piše, jer gledalac ne zna šta sledeće da uradi.</p>
+      </div>
     </div>
-    <div class="verdict">
-      <p class="txt">Niko ne otvara Instagram da bi gledao reklame, pa ljudi preskoče sve što na reklamu liči.<br>Algoritam vidi da su preskočili i klip ne pokazuje dalje.</p>
-      <p class="txt">Zato većina vlasnika na kraju zaključi da Instagram ne radi za njihov posao.</p>
-      <p class="punch">Radi, samo što je klip snimljen za prodavca, a ne za kupca.</p>
+    <div class="verdict reveal">
+      <p class="txt">Zato većina vlasnika zaključi da društvene mreže ne rade za njihov posao.</p>
+      <p class="punch">Rade, samo što je klip snimljen za prodavca, a ne za kupca.</p>
     </div>
   </div>
 </section>
@@ -199,37 +249,48 @@ fbq('init','4374976512714502');fbq('track','PageView');
     <div class="pot-grid">
       <div class="reveal">
         <h2>Pre nego što ti piše, kupac te gleda</h2>
-        <p class="lead">Kad nekom zatreba frizer, veterinar ili nova mašina, prvo te pogleda na Instagramu.<br>Ako vidi samo ponudu, poredi te sa drugima po ceni.<br><b>Ako vidi nekog ko razume njegov problem, piše baš tebi.</b></p>
+        <p class="lead">Kad nekom zatreba frizer, veterinar ili nova mašina, prvo te pogleda na društvenim mrežama.<br>Ako vidi samo ponudu, poredi te sa drugima po ceni.<br><b>Ako vidi nekog ko razume njegov problem, piše baš tebi.</b></p>
         <p class="txt" style="margin-top:22px">Tri stvari po kojima radim sa svakim klijentom:</p>
       </div>
       <div class="rules">
         <div class="rule reveal">
           <h3>Klip počinje od problema kupca, ne od proizvoda</h3>
-          <p class="txt">Ako prodaješ detox sokove, kupac ne traži sok.<br>Traži rešenje za kilažu, creva i nadutost.</p>
-          <p class="proof">Klipovi o soku imali su 10 do 30 hiljada pregleda, a prvi klip o crevima doveo je preko 2.000 ljudi koji su se javili.</p>
+          <p class="txt">Ko kupuje detox sokove, ne traži sok.<br>Traži rešenje za kilažu, creva i nadutost.</p>
+          <p class="proof">Kod RO! <span class="who-tag">(firma koja pravi detox sokove)</span> klipovi o soku imali su 10 do 30 hiljada pregleda, a prvi klip o crevima doveo je preko 2.000 ljudi zainteresovanih za njihove sokove.</p>
         </div>
         <div class="rule reveal">
           <h3>Ljudi kupuju od osobe kojoj veruju</h3>
-          <p class="txt">Umesto „pre i posle“ frizura snimao sam vlasnicu salona i njene savete.</p>
+          <p class="txt">Kod Ane <span class="who-tag">(vlasnica frizerskog salona)</span> umesto „pre i posle“ frizura snimao sam nju i njene savete.</p>
           <p class="proof">Sad joj pišu žene koje hoće baš kod nje, a jedan čovek je došao čak iz Saudijske Arabije.</p>
         </div>
         <div class="rule reveal">
           <h3>Pregled nije klijent</h3>
           <p class="txt">Milion pregleda ne znači ništa ako posle klipa niko ne zna šta da uradi.<br>Zato svaki klip ima sledeći korak: reč u komentaru, besplatan vodič ili poruku.</p>
-          <p class="proof">Jedan video škole za pse doveo je preko 7.000 ljudi koji su se javili.</p>
+          <p class="proof">Jedan video SuperDoga <span class="who-tag">(Ivanova škola dresure pasa iz Hrvatske)</span> doveo je preko 7.000 ljudi zainteresovanih za dresuru.</p>
         </div>
       </div>
     </div>
     <div class="after reveal">
-      <p class="big">Stefanu se danas javljaju ljudi koji ga prate i gledaju njegove klipove, i već u prvoj poruci kažu da hoće da rade sa njim.</p>
-      <p class="txt">Isto radi i u poslu za koji misliš da je dosadan.<br>Radim sa srpskom firmom koja mašine za čaure prodaje Amerikancima, sa veterinarskom ambulantom u Novom Sadu, sa frizerskim salonom u Novim Banovcima i sa školom za pse u Hrvatskoj.</p>
+      <p class="big">Stefan Šćirban <span class="who-tag">(edukator za Meta reklame, sa mnom radi više od godinu dana)</span> danas dobija poruke od ljudi koji ga prate i gledaju njegove klipove, i već u prvoj poruci kažu da hoće da rade sa njim.</p>
+      <p class="txt">Isto radi i u poslu za koji misliš da je dosadan.<br>Radim sa srpskom firmom koja mašine za čaure prodaje Amerikancima, sa veterinarskom ambulantom u Novom Sadu, sa frizerskim salonom u Novim Banovcima i sa školom dresure pasa u Hrvatskoj.</p>
     </div>
   </div>
 </section>
 
-<section id="rezultati">
+<section id="klijenti">
   <div class="wrap">
-    <h2 class="reveal">Šta se desilo kad su to uradili</h2>
+    <div class="how-grid">
+      <div class="reveal">
+        <h2>Kako to izgleda kod mojih klijenata</h2>
+        <p class="lead"><b>Moji klijenti odvoje par sati mesečno za snimanje i imaju sadržaj za ceo mesec.</b></p>
+      </div>
+      <div class="how reveal">
+        <p><b>JA</b>Teme i skripte pišem po problemima tvojih kupaca.</p>
+        <p><b class="you">TI</b>Na snimanju te vodim kroz svaku rečenicu.</p>
+        <p><b>JA</b>Montažu i objavu radim ja.</p>
+        <p><b class="you">TI</b>Odgovaraš ljudima koji ti pišu.</p>
+      </div>
+    </div>
     <div class="cases">
       <article class="case reveal">
         <p class="who">Ana · frizerski salon</p>
@@ -244,21 +305,22 @@ fbq('init','4374976512714502');fbq('track','PageView');
         <video src="media/t-ro.mp4" poster="media/t-ro.jpg" controls playsinline preload="none"></video>
       </article>
       <article class="case reveal">
-        <p class="who">AGS · mašine za čaure, prodaju u Americi</p>
-        <p class="num">„Broj pregleda se drastično povećao.“<small>Snimanje im uzme dan ili dva mesečno.</small></p>
+        <p class="who">AGS · srpska firma, mašine za čaure prodaje u Americi</p>
+        <p class="num">„Broj pregleda se drastično povećao.“</p>
+        <q>Lagan posao, pogotovo sa dobrom pripremom.</q>
         <video src="media/t-ags.mp4" poster="media/t-ags.jpg" controls playsinline preload="none"></video>
       </article>
       <article class="case wide reveal">
         <div>
-          <p class="who">Stefan · edukacija za Meta reklame</p>
-          <p class="num">7 klijenata za 7 dana, samo organski<small>Sarađujemo više od godinu dana, a na sadržaj mu ode oko dva sata nedeljno.</small></p>
+          <p class="who">Stefan Šćirban · edukacija za Meta reklame</p>
+          <p class="num">7 klijenata za 7 dana, samo organski</p>
           <q>Ako na to gledaš kao na trošak, onda je sve trošak.</q>
         </div>
         <video src="media/t-stefan.mp4" poster="media/t-stefan.jpg" controls playsinline preload="none"></video>
       </article>
     </div>
     <div class="minis reveal">
-      <div class="mini"><b>7.000+</b><span>ljudi se javilo iz jednog videa<br>SuperDog · škola za pse</span></div>
+      <div class="mini"><b>7.000+</b><span>zainteresovanih iz jednog videa<br>SuperDog · škola dresure pasa</span></div>
       <div class="mini"><b>300.000</b><span>pregleda na jednom klipu<br>Darvin · veterinarska ambulanta</span></div>
     </div>
   </div>
@@ -266,40 +328,41 @@ fbq('init','4374976512714502');fbq('track','PageView');
 
 <section class="about">
   <div class="wrap reveal">
-    <h2>Ja sam Boris i vodim Edge Cut</h2>
-    <p class="txt" style="margin-top:22px">Sa klijentima sam iz organskog sadržaja doveo <b>preko 80.000 ljudi</b> koji su se sami javili, bez novca u reklame.</p>
+    <h2>Ja sam Boris</h2>
+    <p class="lead"><b>Stojim iza dosta velikih profila na društvenim mrežama, a većina ljudi koji ih prate ne zna da sam ih ja radio.</b></p>
+    <p class="txt" style="margin-top:18px">Sa klijentima sam iz organskog sadržaja doveo preko 80.000 zainteresovanih ljudi, bez novca u reklame.</p>
     <p class="txt">Ne prodajem klipove.<br>Gledam šta tvoj kupac traži i pravim sadržaj koji ga dovede do tebe.</p>
-    <div class="cta-row"><a class="btn" href="#poziv">Zakaži poziv</a></div>
+    <div class="cta-row"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
-<section id="poziv">
-  <div class="wrap call-grid">
-    <div class="reveal">
-      <h2>Pogledajmo tvoj profil zajedno</h2>
-      <p class="txt" style="margin-top:22px">Na pozivu od 30 minuta prolazimo tvoj Instagram i kažem ti:</p>
-      <ul class="checks">
-        <li>šta ti sada koči klijente,</li>
-        <li>koji problem tvog kupca ima najviše potencijala,</li>
-        <li>šta bih prvo promenio.</li>
-      </ul>
-      <p class="txt" style="margin-top:22px">Ako vidim da ti ne mogu pomoći, reći ću ti i to.</p>
-      <p class="fit">Poziv je za vlasnike biznisa koji već zarađuju.<br>Ako tek pokrećeš posao, ovo još nije za tebe.</p>
-    </div>
-    <div>
-      <div data-ec-kalendar data-landing="saradnja"></div>
-      <p class="cal-note">Besplatno, online, 30 minuta.</p>
+<section class="call" id="poziv">
+  <div class="wrap">
+    <h2>Zakaži besplatan poziv</h2>
+    <p class="sub"><b>Izaberi dan i vreme ispod.</b><br>Poziv traje 30 minuta, online je i ne plaća se.</p>
+    <div class="call-grid">
+      <div class="cal-card"><div data-ec-kalendar data-landing="saradnja"></div></div>
+      <div>
+        <p class="txt">Na pozivu prolazimo tvoj profil i kažem ti:</p>
+        <ul class="checks" style="margin-top:14px">
+          <li>šta ti sada koči klijente,</li>
+          <li>koji problem tvog kupca ima najviše potencijala,</li>
+          <li>šta bih prvo promenio.</li>
+        </ul>
+        <p class="txt" style="margin-top:20px">Ako vidim da ti ne mogu pomoći, reći ću ti i to.</p>
+        <p class="fit">Poziv je za vlasnike biznisa koji već zarađuju.<br>Ako tek pokrećeš posao, ovo još nije za tebe.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section style="padding-top:0">
+<section>
   <div class="wrap">
     <h2 class="reveal">Pitanja</h2>
     <div class="faq">
-      <details><summary>Moj posao je dosadan za Instagram.</summary><p>Svaki posao ima kupca sa problemom, a o svom problemu ljudi rado gledaju.</p></details>
+      <details><summary>Moj posao je dosadan za društvene mreže.</summary><p>Svaki posao ima kupca sa problemom, a o svom problemu ljudi rado gledaju.</p></details>
       <details><summary>Ne volim da se snimam.</summary><p>Na snimanju slušam kako pričaš i vraćam te kad treba da budeš prirodniji, brži ili sporiji.<br>Montaža skloni sve što ne valja.</p></details>
-      <details><summary>Nemam vremena za ovo.</summary><p>Teme, skripte i montažu radim ja.<br>Ti samo odvojiš vreme za snimanje.</p></details>
+      <details><summary>Nemam vremena za ovo.</summary><p>Potrebno ti je svega par sati mesečno da imaš sadržaj za ceo mesec.<br>Ostalo radim ja.</p></details>
       <details><summary>Koliko košta?</summary><p>Zavisi od toga šta ti treba, jer svakom biznisu pomažem drugačije.<br>To dogovaramo tek kad vidim tvoj profil.</p></details>
       <details><summary>Već sam radio sa agencijom i nije bilo rezultata.</summary><p>Na pozivu ti na tvom profilu pokažem šta bih uradio drugačije.</p></details>
     </div>
@@ -310,10 +373,15 @@ fbq('init','4374976512714502');fbq('track','PageView');
 
 <footer>
   <div class="wrap">
-    <span>Boris Vasić · Edge Cut</span>
+    <span>Boris Vasić</span>
     <a href="/kupi/privatnost/">Privatnost</a>
   </div>
 </footer>
+
+<div class="bar" id="bar" aria-hidden="true">
+  <a class="btn" href="#poziv" tabindex="-1">Zakaži besplatan poziv</a>
+  <small>30 minuta, online, besplatno</small>
+</div>
 
 <script src="/kalendar/kalendar.js" defer></script>
 <script>
@@ -327,6 +395,23 @@ fbq('init','4374976512714502');fbq('track','PageView');
     els.forEach(function(e){ io.observe(e); });
     setTimeout(function(){ els.forEach(function(e){ e.classList.add('on'); }); }, 2500);
   })();
+
+  // Traka na dnu (telefon): pojavi se kad se prođe prvi ekran, skloni se kad je kalendar na ekranu.
+  (function(){
+    var bar = document.getElementById('bar'), hero = document.querySelector('.hero'), call = document.getElementById('poziv');
+    function upd(){
+      var past = hero.getBoundingClientRect().bottom < 0;
+      var r = call.getBoundingClientRect(), inCall = r.top < window.innerHeight && r.bottom > 0;
+      var show = past && !inCall;
+      bar.classList.toggle('on', show);
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      bar.querySelector('a').tabIndex = show ? 0 : -1;
+    }
+    window.addEventListener('scroll', upd, {passive:true});
+    window.addEventListener('resize', upd, {passive:true});
+    upd();
+  })();
+
   // Samo jedan video svira u isto vreme.
   document.querySelectorAll('video').forEach(function(v){
     v.addEventListener('play', function(){ document.querySelectorAll('video').forEach(function(o){ if(o !== v) o.pause(); }); });
