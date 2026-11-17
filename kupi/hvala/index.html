@@ -63,18 +63,25 @@
   var K = qs.get('k') || (last && last.k);
 
   var ACT = { recept: 'Preuzmi PDF', upiti: 'Otvori Kontent mašinu' };
+  // Druga šansa može biti jeftinija od doplate na checkoutu (server šalje chain.now).
+  function priceNote(s) {
+    var c = s.chain || {};
+    // Niža cena se vidi u prikazu cena (U kompletu precrtano, Samo sada) i u tajmeru, pasus je ne ponavlja.
+    if (typeof c.now === 'number' && c.now < c.bundle) return '';
+    return 'Cena je ista kao na prethodnoj strani.';
+  }
   var SECOND = {
     // kupio Recept, nudi se sveska
     upiti: {
       title: function (s) { return 'Hoćeš i Kontent mašinu za ' + eur(s.price) + '?'; },
-      body: function (s) { return 'Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa koji smisliš po Receptu i prvu poruku za onog ko ti se javi. Ukupno osam delova, od deset problema tvog kupca do te poruke. Cena je ista kao na prethodnoj strani.'; },
+      body: function (s) { return 'Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa koji smisliš po Receptu i prvu poruku za onog ko ti se javi. Ukupno osam delova, od deset problema tvog kupca do te poruke.' + (priceNote(s) ? ' ' + priceNote(s) : ''); },
       button: function (s) { return 'Dodaj Kontent mašinu za ' + eur(s.price); },
       ok: 'Kontent mašina je dodata. Link je gore na strani, a poslao sam ga i na mejl.'
     },
     // kupio svesku, nudi se Recept
     recept: {
       title: function (s) { return 'Hoćeš i Recept za ' + eur(s.price) + '?'; },
-      body: function () { return 'Recept je PDF sa postupkom u pet koraka po kom smišljam klipove za klijente, od ciljne grupe do hooka. Na tim klipovima onda radi poziv iz Kontent mašine. Cena je ista kao na prethodnoj strani.'; },
+      body: function (s) { return 'Recept je PDF sa postupkom u pet koraka po kom smišljam klipove za klijente, od ciljne grupe do hooka. Na tim klipovima onda radi poziv iz Kontent mašine.' + (priceNote(s) ? ' ' + priceNote(s) : ''); },
       button: function (s) { return 'Dodaj Recept za ' + eur(s.price); },
       ok: 'Recept je dodat. Link je gore na strani, a poslao sam ga i na mejl.'
     }
@@ -148,7 +155,7 @@
       var own = (state.links || []).filter(function (l) { return l.product === bought; })[0];
       names[bought] = own ? own.name : (bought === 'recept' ? 'Recept za smišljanje viralnog videa' : 'Kontent mašina za besplatne upite');
       kit = window.Komplet($('sKit'), {
-        have: bought, names: names, price: s.price, regular: s.regular, bundle: state.bundle, chain: s.chain, reason: c.body(s), removable: false, payButton: true,
+        have: bought, names: names, price: s.price, regular: s.regular, bundle: s.bundle || state.bundle, chain: s.chain, reason: c.body(s), removable: false, payButton: true,
         labels: { headOff: 'Komplet ima dva dela, ti imaš jedan', headOn: 'Imaš oba dela', on: 'Kupljeno', off: 'Nemaš ga' },
         onAdd: takeSecond
       });
