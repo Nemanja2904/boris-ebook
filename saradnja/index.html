@@ -58,14 +58,15 @@ fbq('init','4374976512714502');fbq('track','PageView');
   .reel img{width:100%;height:100%;object-fit:cover}
   .reel .views{position:absolute;left:8px;bottom:8px;background:rgba(12,26,43,.82);color:#fff;font-weight:800;font-size:13px;padding:4px 8px;border-radius:6px;font-variant-numeric:tabular-nums}
   .reel .meta{margin-top:8px;font-size:12.5px;line-height:1.35;color:var(--muted);font-weight:600}
-  .reel .meta a{display:inline-block;margin-top:2px;font-weight:600;font-size:12px;color:var(--faint);text-underline-offset:2px}
+  .reel .meta a{display:inline-block;margin-top:2px;font-weight:600;font-size:12px;color:var(--faint);text-underline-offset:2px;white-space:nowrap}
   .reels-note{font-size:14px;color:var(--muted);margin-top:14px;max-width:34em}
   @media(min-width:900px){
     .hero{padding:72px 0 96px}
-    .hero-grid{grid-template-columns:.9fr 1.2fr;align-items:center;gap:56px}
-    .reels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0;padding:0;overflow:visible}
-    .reel:nth-child(2n) .pic{transform:translateY(24px)}
-    .reel:nth-child(2n) .meta{margin-top:32px}
+    .hero-grid{grid-template-columns:1fr 1fr;align-items:center;gap:56px}
+    .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 14px;margin:0;padding:0;overflow:visible}
+    .reel:nth-child(3n+2){transform:translateY(22px)}
+    .reels{padding-bottom:22px}
+    .reel .meta a{font-size:11.5px}
   }
 
   /* problem */
@@ -210,8 +211,12 @@ fbq('init','4374976512714502');fbq('track','PageView');
           <div class="pic"><img src="img/k-ags.jpg" alt="Klip firme koja mašine za čaure prodaje u Americi" width="480" height="854" loading="lazy"><span class="views">226 hilj.</span></div>
           <figcaption class="meta">Mašine za čaure, za američko tržište<br><a href="https://www.facebook.com/reel/1394122232823715/" target="_blank" rel="noopener">Pogledaj na Facebooku ↗</a></figcaption>
         </figure>
+        <figure class="reel">
+          <div class="pic"><img src="img/k-noro.jpg" alt="Klip brenda trakica za nos" width="480" height="854" loading="lazy"><span class="views">117 hilj.</span></div>
+          <figcaption class="meta">Trakice za nos<br><a href="https://www.instagram.com/reel/DWrgSD8CKvE/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
       </div>
-      <p class="reels-note">Klipovi koje sam radio za klijente iz potpuno različitih poslova: frizerski salon, škola dresure pasa, veterinarska ambulanta, detox sokovi i mašine za čaure.</p>
+      <p class="reels-note">Klipovi koje sam radio za klijente iz potpuno različitih poslova: frizerski salon, škola dresure pasa, veterinarska ambulanta, detox sokovi, mašine za čaure i trakice za nos.</p>
     </div>
   </div>
 </section>
