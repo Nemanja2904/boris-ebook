@@ -144,6 +144,28 @@
   }
 
   shopTrack.sid = sid;
+
+  /* ---------- Microsoft Clarity (snimci sesija i heatmape) ----------
+   * Uključuje se upisom ID-ja projekta ispod. Priručnik (/sveska/) ga nema: to su kupčevi odgovori.
+   * Kartica je u Stripe iframe-u, Clarity je ne vidi; polja forme Clarity maskira sam.
+   * Sesija nosi naš sid, pa se snimak nađe po posetiocu iz Ebooks admina (Clarity filter: Custom tag sid). */
+  var CLARITY_ID = 'zf378qm3nd';
+  if (CLARITY_ID && !window.clarity) {
+    /* eslint-disable */
+    (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script',CLARITY_ID);
+    /* eslint-enable */
+    // Sve što posetilac kuca (mejl na checkoutu) je maskirano u snimku, bez obzira na Clarity podešavanje.
+    var maskInputs = function () { Array.prototype.forEach.call(document.querySelectorAll('input, textarea, select'), function (el) { el.setAttribute('data-clarity-mask', 'true'); }); };
+    maskInputs();
+    document.addEventListener('DOMContentLoaded', maskInputs);
+    try {
+      window.clarity('set', 'sid', sid);
+      window.clarity('set', 'strana', page);
+      if (product) window.clarity('set', 'proizvod', product);
+    } catch (e) { /* bez Clarity-ja */ }
+  }
   shopTrack.attr = fullAttr;
   shopTrack.pixel = pixel;
   shopTrack.api = API;
