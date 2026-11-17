@@ -191,8 +191,10 @@
       .then(function (res) {
         S.busy = false;
         if (res.ok && res.id) {
-          pixel('track', 'Schedule', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
-          pixel('track', 'Lead', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
+          if (landing !== 'kalendar-test') {
+            pixel('track', 'Schedule', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
+            pixel('track', 'Lead', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
+          }
           el('<div class="eck-ok" role="status"><div class="eck-check">✓</div><p class="eck-h" style="margin:0">Poziv je zakazan</p>' +
             '<p><b style="color:var(--tx)">' + esc(res.label) + '</b></p><p>Link za Google Meet stiže ti na mejl.</p></div>');
           try { window.dispatchEvent(new CustomEvent('ec-kalendar:booked', { detail: { id: res.id, label: res.label } })); } catch (e) {}
