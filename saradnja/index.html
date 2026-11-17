@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nemoj samo postojati na Instagramu · Boris Vasić</title>
+<meta name="description" content="Tvoj biznis već zarađuje. Instagram bi mogao da ti dovodi klijente. Besplatan poziv sa Borisom, 30 minuta.">
+<meta property="og:title" content="Nemoj samo postojati na Instagramu">
+<meta property="og:description" content="Besplatan poziv sa Borisom: šta ti koči klijente na Instagramu i šta prvo da promeniš.">
+<meta property="og:image" content="https://borisprproj.com/saradnja/media/t-ana.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://edgecut.app">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','4374976512714502');fbq('track','PageView');
+</script>
+<style>
+  :root{
+    --bg:#f3f4f6; --surface:#fff; --ink:#0c1a2b; --muted:#4a5565; --faint:#6b7480; --line:#e1e4e9;
+    --cta:#13a79c; --cta-hover:#1ab8ad; --cta-text:#fff;
+    --r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:500;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  img,video{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  section{padding:64px 0}
+  @media(min-width:900px){section{padding:96px 0}}
+
+  /* header */
+  .top{position:sticky;top:0;z-index:10;background:rgba(243,244,246,.94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .brand{font-weight:800;font-size:15px;letter-spacing:-.01em;text-decoration:none}
+  .brand span{font-weight:500;color:var(--faint)}
+  .top-link{font-size:14px;font-weight:700;text-decoration:none;padding:8px 12px;border:1.5px solid var(--ink);border-radius:999px}
+
+  /* type */
+  h1{font-weight:800;font-size:clamp(40px,10.5vw,76px);line-height:1.02;letter-spacing:-.035em}
+  .tag{display:inline-block;margin-top:14px;background:var(--ink);color:#fff;font-weight:800;font-size:clamp(15px,3.6vw,22px);letter-spacing:.02em;padding:8px 14px 7px;border-radius:4px}
+  h2{font-weight:800;font-size:clamp(28px,6.4vw,44px);line-height:1.1;letter-spacing:-.025em;max-width:18ch}
+  .lead{font-size:18px;color:var(--muted);margin-top:22px;max-width:34em}
+  .lead b,.txt b{color:var(--ink);font-weight:700}
+  .txt{color:var(--muted);font-size:17px;max-width:36em}
+  .txt + .txt{margin-top:18px}
+
+  /* hero */
+  .hero{padding:40px 0 56px}
+  .hero-grid{display:grid;gap:36px}
+  .reels{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:0 20px 6px;scrollbar-width:none}
+  .reels::-webkit-scrollbar{display:none}
+  .reels img{flex:0 0 38%;width:38%;min-width:0;height:auto;scroll-snap-align:start;border-radius:12px;aspect-ratio:9/16;object-fit:cover;background:#dde1e6}
+  .reels-note{font-size:13px;color:var(--faint);margin-top:10px}
+  @media(min-width:900px){
+    .hero{padding:72px 0 96px}
+    .hero-grid{grid-template-columns:1.05fr 1fr;align-items:center;gap:56px}
+    .reels{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:0;padding:0;overflow:visible}
+    .reels img{width:100%}
+    .reels img:nth-child(2n){transform:translateY(28px)}
+  }
+
+  /* problem */
+  .feed{margin-top:30px;border-left:3px solid var(--ink);padding:4px 0 4px 20px;display:grid;gap:12px;max-width:36em}
+  .feed p{font-size:17px;color:var(--ink);font-weight:600}
+  .feed p span{color:var(--muted);font-weight:500}
+  .verdict{margin-top:34px}
+  .punch{margin-top:28px;font-weight:800;font-size:clamp(22px,4.6vw,30px);line-height:1.2;letter-spacing:-.02em;max-width:22ch}
+
+  /* potential */
+  .pot{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .rules{margin-top:44px;display:grid;gap:40px}
+  .rules{counter-reset:rule}
+  .rule{display:grid;grid-template-columns:44px 1fr;gap:6px 16px;counter-increment:rule}
+  .rule::before{content:counter(rule);grid-row:1;font-weight:800;font-size:34px;line-height:1;color:var(--ink);opacity:.18}
+  .rule h3{font-weight:800;font-size:21px;line-height:1.25;letter-spacing:-.01em}
+  .rule .txt{grid-column:2;font-size:16.5px}
+  .rule .proof{grid-column:2;font-weight:700;color:var(--ink);font-size:16.5px}
+  @media(min-width:900px){
+    .pot-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}
+    .pot-grid .rules{margin-top:0}
+  }
+  .after{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);display:grid;gap:18px}
+  .after .big{font-weight:700;font-size:20px;line-height:1.4;max-width:30em}
+
+  /* results */
+  .cases{margin-top:44px;display:grid;gap:36px}
+  .case .who{font-size:14px;font-weight:600;color:var(--faint)}
+  .case .num{font-weight:800;font-size:28px;line-height:1.15;letter-spacing:-.02em;margin-top:4px}
+  .case .num small{display:block;font-size:16px;font-weight:600;letter-spacing:0;color:var(--muted);margin-top:6px;line-height:1.5}
+  .case q{display:block;margin-top:12px;font-size:16px;font-weight:600;color:var(--ink);quotes:"\201E" "\201C"}
+  .case video{margin-top:16px;width:100%;border-radius:var(--r);background:#111;aspect-ratio:9/16;object-fit:cover;max-height:78vh}
+  .case.wide video{aspect-ratio:1374/720}
+  .minis{margin-top:40px;display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  .mini{border-top:3px solid var(--ink);padding-top:12px}
+  .mini b{display:block;font-weight:800;font-size:24px;letter-spacing:-.02em}
+  .mini span{font-size:14px;color:var(--muted)}
+  @media(min-width:900px){
+    .cases{grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
+    .case.wide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.6fr;gap:40px;align-items:center}
+    .case.wide video{margin-top:0}
+    .minis{max-width:620px}
+  }
+
+  /* about */
+  .about{background:var(--ink);color:#fff}
+  .about h2{color:#fff}
+  .about .txt{color:#c6ccd6}
+  .about .txt b{color:#fff}
+
+  /* call */
+  .call-grid{display:grid;gap:36px}
+  .call-grid > *,.hero-grid > *,.pot-grid > *{min-width:0}
+  .checks{margin-top:24px;display:grid;gap:10px;max-width:30em}
+  .checks li{list-style:none;position:relative;padding-left:26px;font-weight:600}
+  .checks li::before{content:"";position:absolute;left:4px;top:.55em;width:9px;height:9px;border-radius:2px;background:var(--ink)}
+  .fit{margin-top:26px;font-size:15px;color:var(--muted);max-width:30em}
+  .cal-note{margin-top:12px;text-align:center;font-size:14px;color:var(--faint)}
+  [data-ec-kalendar]{--eck-accent:var(--cta);--eck-text:var(--ink);--eck-muted:var(--muted);--eck-border:var(--line);--eck-surface:var(--bg)}
+  @media(min-width:900px){.call-grid{grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}}
+
+  /* cta */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 28px;border-radius:12px;background:var(--cta);color:var(--cta-text);font-weight:800;font-size:17px;text-decoration:none;transition:background .15s ease,transform .1s ease}
+  .btn:hover{background:var(--cta-hover)}
+  .btn:active{transform:scale(.97)}
+  .btn:focus-visible,.top-link:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .cta-row{margin-top:30px}
+  .cta-row p{margin-top:10px;font-size:14px;color:var(--faint)}
+
+  /* faq */
+  .faq{margin-top:28px;max-width:720px;border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;padding:20px 36px 20px 0;font-weight:700;font-size:17px;position:relative}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";position:absolute;right:4px;top:16px;font-size:24px;font-weight:600;color:var(--faint)}
+  .faq details[open] summary::after{content:"−"}
+  .faq details p{padding:0 0 20px;color:var(--muted);max-width:36em}
+
+  footer{padding:36px 0 48px;font-size:13px;color:var(--faint)}
+  footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease-out,transform .5s ease-out}
+  .reveal.on{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">Boris Vasić <span>· Edge Cut</span></a>
+    <a class="top-link" href="#poziv">Zakaži poziv</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Nemoj samo postojati</h1>
+      <span class="tag">NA INSTAGRAMU</span>
+      <p class="lead">Tvoj biznis već zarađuje.<br>Instagram bi mogao da ti dovodi klijente, a verovatno ti dovodi samo lajkove.</p>
+    </div>
+    <div>
+      <div class="reels" aria-label="Klipovi Borisovih klijenata sa brojem pregleda">
+        <img src="img/reel-salon.jpg" alt="Klip frizerskog salona, 2,2 miliona pregleda" width="480" height="742">
+        <img src="img/reel-psi.jpg" alt="Klip škole za pse, milion pregleda" width="480" height="744">
+        <img src="img/reel-sokovi.jpg" alt="Klip za detox sokove, 1,2 miliona pregleda" width="480" height="842" loading="lazy">
+        <img src="img/reel-kosa.jpg" alt="Klip o nezi kose, 708 hiljada pregleda" width="480" height="854" loading="lazy">
+      </div>
+      <p class="reels-note">Klipovi mojih klijenata: frizerski salon, škola za pse, detox sokovi, nega kose.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <h2>Otvori Instagram skoro bilo kog biznisa u Srbiji</h2>
+    <div class="feed">
+      <p>Videćeš slike proizvoda, „pre i posle“, akcije i „pozovite nas“.</p>
+      <p>Klipove koji zvuče kao reklama: <span>„mi nudimo“, „naša usluga“, „najbolji u gradu“.</span></p>
+      <p>Objave kad se vlasnik seti, bez plana.</p>
+      <p>I poneki klip sa dobrim pregledima, posle kog niko ne piše.</p>
+    </div>
+    <div class="verdict">
+      <p class="txt">Niko ne otvara Instagram da bi gledao reklame, pa ljudi preskoče sve što na reklamu liči.<br>Algoritam vidi da su preskočili i klip ne pokazuje dalje.</p>
+      <p class="txt">Zato većina vlasnika na kraju zaključi da Instagram ne radi za njihov posao.</p>
+      <p class="punch">Radi, samo što je klip snimljen za prodavca, a ne za kupca.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pot">
+  <div class="wrap">
+    <div class="pot-grid">
+      <div class="reveal">
+        <h2>Pre nego što ti piše, kupac te gleda</h2>
+        <p class="lead">Kad nekom zatreba frizer, veterinar ili nova mašina, prvo te pogleda na Instagramu.<br>Ako vidi samo ponudu, poredi te sa drugima po ceni.<br><b>Ako vidi nekog ko razume njegov problem, piše baš tebi.</b></p>
+        <p class="txt" style="margin-top:22px">Tri stvari po kojima radim sa svakim klijentom:</p>
+      </div>
+      <div class="rules">
+        <div class="rule reveal">
+          <h3>Klip počinje od problema kupca, ne od proizvoda</h3>
+          <p class="txt">Ako prodaješ detox sokove, kupac ne traži sok.<br>Traži rešenje za kilažu, creva i nadutost.</p>
+          <p class="proof">Klipovi o soku imali su 10 do 30 hiljada pregleda, a prvi klip o crevima doveo je preko 2.000 ljudi koji su se javili.</p>
+        </div>
+        <div class="rule reveal">
+          <h3>Ljudi kupuju od osobe kojoj veruju</h3>
+          <p class="txt">Umesto „pre i posle“ frizura snimao sam vlasnicu salona i njene savete.</p>
+          <p class="proof">Sad joj pišu žene koje hoće baš kod nje, a jedan čovek je došao čak iz Saudijske Arabije.</p>
+        </div>
+        <div class="rule reveal">
+          <h3>Pregled nije klijent</h3>
+          <p class="txt">Milion pregleda ne znači ništa ako posle klipa niko ne zna šta da uradi.<br>Zato svaki klip ima sledeći korak: reč u komentaru, besplatan vodič ili poruku.</p>
+          <p class="proof">Jedan video škole za pse doveo je preko 7.000 ljudi koji su se javili.</p>
+        </div>
+      </div>
+    </div>
+    <div class="after reveal">
+      <p class="big">Stefanu se danas javljaju ljudi koji ga prate i gledaju njegove klipove, i već u prvoj poruci kažu da hoće da rade sa njim.</p>
+      <p class="txt">Isto radi i u poslu za koji misliš da je dosadan.<br>Radim sa srpskom firmom koja mašine za čaure prodaje Amerikancima, sa veterinarskom ambulantom u Novom Sadu, sa frizerskim salonom u Novim Banovcima i sa školom za pse u Hrvatskoj.</p>
+    </div>
+  </div>
+</section>
+
+<section id="rezultati">
+  <div class="wrap">
+    <h2 class="reveal">Šta se desilo kad su to uradili</h2>
+    <div class="cases">
+      <article class="case reveal">
+        <p class="who">Ana · frizerski salon</p>
+        <p class="num">3x veća zarada<small>14 miliona pregleda od marta, bez ijedne plaćene reklame.</small></p>
+        <q>Došla sam do toga da ne stignem da odgovorim na sva pitanja.</q>
+        <video src="media/t-ana.mp4" poster="media/t-ana.jpg" controls playsinline preload="none"></video>
+      </article>
+      <article class="case reveal">
+        <p class="who">RO! · detox sokovi</p>
+        <p class="num">14 od 15 klipova sa 300.000 pregleda</p>
+        <q>Nekad mi je snimanje bilo napor 9 od 10. Sad je bukvalno kao uživanje.</q>
+        <video src="media/t-ro.mp4" poster="media/t-ro.jpg" controls playsinline preload="none"></video>
+      </article>
+      <article class="case reveal">
+        <p class="who">AGS · mašine za čaure, prodaju u Americi</p>
+        <p class="num">„Broj pregleda se drastično povećao.“<small>Snimanje im uzme dan ili dva mesečno.</small></p>
+        <video src="media/t-ags.mp4" poster="media/t-ags.jpg" controls playsinline preload="none"></video>
+      </article>
+      <article class="case wide reveal">
+        <div>
+          <p class="who">Stefan · edukacija za Meta reklame</p>
+          <p class="num">7 klijenata za 7 dana, samo organski<small>Sarađujemo više od godinu dana, a na sadržaj mu ode oko dva sata nedeljno.</small></p>
+          <q>Ako na to gledaš kao na trošak, onda je sve trošak.</q>
+        </div>
+        <video src="media/t-stefan.mp4" poster="media/t-stefan.jpg" controls playsinline preload="none"></video>
+      </article>
+    </div>
+    <div class="minis reveal">
+      <div class="mini"><b>7.000+</b><span>ljudi se javilo iz jednog videa<br>SuperDog · škola za pse</span></div>
+      <div class="mini"><b>300.000</b><span>pregleda na jednom klipu<br>Darvin · veterinarska ambulanta</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap reveal">
+    <h2>Ja sam Boris i vodim Edge Cut</h2>
+    <p class="txt" style="margin-top:22px">Sa klijentima sam iz organskog sadržaja doveo <b>preko 80.000 ljudi</b> koji su se sami javili, bez novca u reklame.</p>
+    <p class="txt">Ne prodajem klipove.<br>Gledam šta tvoj kupac traži i pravim sadržaj koji ga dovede do tebe.</p>
+    <div class="cta-row"><a class="btn" href="#poziv">Zakaži poziv</a></div>
+  </div>
+</section>
+
+<section id="poziv">
+  <div class="wrap call-grid">
+    <div class="reveal">
+      <h2>Pogledajmo tvoj profil zajedno</h2>
+      <p class="txt" style="margin-top:22px">Na pozivu od 30 minuta prolazimo tvoj Instagram i kažem ti:</p>
+      <ul class="checks">
+        <li>šta ti sada koči klijente,</li>
+        <li>koji problem tvog kupca ima najviše potencijala,</li>
+        <li>šta bih prvo promenio.</li>
+      </ul>
+      <p class="txt" style="margin-top:22px">Ako vidim da ti ne mogu pomoći, reći ću ti i to.</p>
+      <p class="fit">Poziv je za vlasnike biznisa koji već zarađuju.<br>Ako tek pokrećeš posao, ovo još nije za tebe.</p>
+    </div>
+    <div>
+      <div data-ec-kalendar data-landing="saradnja"></div>
+      <p class="cal-note">Besplatno, online, 30 minuta.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="reveal">Pitanja</h2>
+    <div class="faq">
+      <details><summary>Moj posao je dosadan za Instagram.</summary><p>Svaki posao ima kupca sa problemom, a o svom problemu ljudi rado gledaju.</p></details>
+      <details><summary>Ne volim da se snimam.</summary><p>Na snimanju slušam kako pričaš i vraćam te kad treba da budeš prirodniji, brži ili sporiji.<br>Montaža skloni sve što ne valja.</p></details>
+      <details><summary>Nemam vremena za ovo.</summary><p>Teme, skripte i montažu radim ja.<br>Ti samo odvojiš vreme za snimanje.</p></details>
+      <details><summary>Koliko košta?</summary><p>Zavisi od toga šta ti treba, jer svakom biznisu pomažem drugačije.<br>To dogovaramo tek kad vidim tvoj profil.</p></details>
+      <details><summary>Već sam radio sa agencijom i nije bilo rezultata.</summary><p>Na pozivu ti na tvom profilu pokažem šta bih uradio drugačije.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Boris Vasić · Edge Cut</span>
+    <a href="/kupi/privatnost/">Privatnost</a>
+  </div>
+</footer>
+
+<script src="/kalendar/kalendar.js" defer></script>
+<script>
+  // Sekcije ulaze kad dođu na ekran. Bez IntersectionObservera stranica odmah prikaže sve.
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('on'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('on'); io.unobserve(en.target); } });
+    }, {rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+    setTimeout(function(){ els.forEach(function(e){ e.classList.add('on'); }); }, 2500);
+  })();
+  // Samo jedan video svira u isto vreme.
+  document.querySelectorAll('video').forEach(function(v){
+    v.addEventListener('play', function(){ document.querySelectorAll('video').forEach(function(o){ if(o !== v) o.pause(); }); });
+  });
+</script>
+</body>
+</html>
