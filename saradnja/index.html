@@ -69,6 +69,32 @@ fbq('init','4374976512714502');fbq('track','PageView');
     .reel .meta a{font-size:11.5px}
   }
 
+  /* izbor situacije */
+  .pick{background:var(--ink);color:#fff;padding:56px 0 64px}
+  .pick h2{color:#fff;max-width:none}
+  .pick .sub{margin-top:12px;font-size:17px;color:#c9d0da;max-width:36em}
+  .picks{margin-top:28px;display:grid;gap:12px}
+  .pk{display:block;text-decoration:none;color:#fff;background:#13253b;border:1px solid #233a55;border-radius:14px;padding:20px 20px 18px;transition:border-color .15s ease,background .15s ease}
+  .pk:hover{border-color:var(--cta);background:#162b44}
+  .pk:focus-visible{outline:2px solid var(--cta);outline-offset:2px}
+  .pk h3{font-weight:800;font-size:19px;line-height:1.25}
+  .pk p{margin-top:6px;font-size:15px;color:#b4bfcc;line-height:1.5}
+  .pk span{display:inline-block;margin-top:12px;font-weight:700;font-size:15px;color:#2fd0c2}
+  .pk.alt{border-color:var(--cta)}
+  @media(min-width:900px){.pick{padding:80px 0}.picks{grid-template-columns:repeat(4,1fr);gap:14px}}
+
+  /* rezultat na klipu u heroju */
+  .reels.res .views{background:var(--cta);font-size:12.5px;line-height:1.25;right:8px;text-align:left}
+  .reels.res .reel{flex-basis:44%}
+  @media(min-width:900px){.reels.res{grid-template-columns:repeat(3,1fr)}}
+
+  /* blok sa pregledima */
+  .views-block{margin-top:56px;padding-top:36px;border-top:1px solid var(--line)}
+  .views-block h3{font-weight:800;font-size:22px}
+  .views-block .txt{margin-top:6px;font-size:15.5px}
+  .views-block .reels{margin-top:20px}
+  @media(min-width:900px){.views-block .reels{grid-template-columns:repeat(6,1fr)}.views-block .reel:nth-child(3n+2){transform:none}.views-block .reels{padding-bottom:0}}
+
   /* problem */
   .wrongs{margin-top:34px;display:grid;gap:26px;max-width:40em}
   .wrong{border-left:3px solid var(--ink);padding-left:18px}
@@ -190,33 +216,34 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <p class="lead">Većina biznisa objavljuje samo da bi bila prisutna.<br>Profil postoji, a klijenti i dalje stižu preko preporuke.<br><b>Sadržaj može svakog dana da ti dovodi ljude koje zanima baš ono što prodaješ.</b><br>Upoznaju te kroz klipove i javljaju se već zainteresovani.</p>
     </div>
     <div>
-      <div class="reels">
+      <div class="reels res">
         <figure class="reel">
-          <div class="pic"><img src="img/k-ana.jpg" alt="Klip frizerskog salona" width="480" height="854"><span class="views">2,4 mil.</span></div>
-          <figcaption class="meta">Frizerski salon<br><a href="https://www.instagram.com/reel/DXVPIPWDCqb/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+          <div class="pic"><img src="img/k-ana.jpg" alt="Klip frizerskog salona" width="480" height="854"><span class="views">3x veća zarada</span></div>
+          <figcaption class="meta">Frizerski salon, od prvog klipa do danas<br><a href="ana/">Pogledaj kako →</a></figcaption>
         </figure>
         <figure class="reel">
-          <div class="pic"><img src="img/k-ivan.jpg" alt="Klip škole dresure pasa" width="480" height="854"><span class="views">1,3 mil.</span></div>
-          <figcaption class="meta">Škola dresure pasa<br><a href="https://www.instagram.com/p/DSArIoEDBO7/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+          <div class="pic"><img src="img/k-superdog40.jpg" alt="Klip škole dresure pasa: dresura za 40 sekundi" width="480" height="854"><span class="views">7.000+ zainteresovanih</span></div>
+          <figcaption class="meta">Škola dresure pasa, iz ovog jednog videa<br><a href="superdog/">Pogledaj kako →</a></figcaption>
         </figure>
         <figure class="reel">
-          <div class="pic"><img src="img/k-darvin.jpg" alt="Klip veterinarske ambulante" width="480" height="854" loading="lazy"><span class="views">416 hilj.</span></div>
-          <figcaption class="meta">Veterinarska ambulanta<br><a href="https://www.instagram.com/darvin_sve_za_ljubimca/" target="_blank" rel="noopener">Pogledaj profil ↗</a></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="pic"><img src="img/k-ro.jpg" alt="Klip firme za detox sokove" width="480" height="854" loading="lazy"><span class="views">286 hilj.</span></div>
-          <figcaption class="meta">Detox sokovi<br><a href="https://www.instagram.com/p/DYCCY44ohXg/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="pic"><img src="img/k-ags.jpg" alt="Klip firme koja mašine za čaure prodaje u Americi" width="480" height="854" loading="lazy"><span class="views">226 hilj.</span></div>
-          <figcaption class="meta">Mašine za čaure, za američko tržište<br><a href="https://www.facebook.com/reel/1394122232823715/" target="_blank" rel="noopener">Pogledaj na Facebooku ↗</a></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="pic"><img src="img/k-noro.jpg" alt="Klip brenda trakica za nos" width="480" height="854" loading="lazy"><span class="views">117 hilj.</span></div>
-          <figcaption class="meta">Trakice za nos<br><a href="https://www.instagram.com/reel/DWrgSD8CKvE/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+          <div class="pic"><img src="img/k-stefan.jpg" alt="Klip edukatora za Meta reklame" width="480" height="854"><span class="views">7 klijenata za 7 dana</span></div>
+          <figcaption class="meta">Edukator za Meta reklame, samo iz organskog sadržaja<br><a href="https://www.instagram.com/reel/DWmjN9djnNC/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
         </figure>
       </div>
-      <p class="reels-note">Klipovi koje sam radio za klijente iz potpuno različitih poslova: frizerski salon, škola dresure pasa, veterinarska ambulanta, detox sokovi, mašine za čaure i trakice za nos.</p>
+      <p class="reels-note">Rezultati klijenata sa kojima radim, iz potpuno različitih poslova.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pick" id="resi">
+  <div class="wrap">
+    <h2>Šta hoćeš da rešiš?</h2>
+    <p class="sub">Izaberi situaciju u kojoj si sada.<br>Iza svake je pravi klijent: kako je bilo pre, šta sam promenio i šta se desilo posle.</p>
+    <div class="picks">
+      <a class="pk" href="ags/"><h3>Niko ne gleda moje klipove</h3><p>Objavljuješ redovno, a klipovi stanu na par stotina pregleda.</p><span>Pogledaj primer →</span></a>
+      <a class="pk" href="superdog/"><h3>Gledaju me, ali niko ne piše</h3><p>Pregledi dolaze, a poruke i upiti ne.</p><span>Pogledaj primer →</span></a>
+      <a class="pk" href="ana/"><h3>Pišu mi, ali hoću da prodam više</h3><p>Ljudi se javljaju, a zarada stoji u mestu.</p><span>Pogledaj primer →</span></a>
+      <a class="pk alt" href="#poziv"><h3>Ne znam gde spadam</h3><p>Na pozivu pogledam tvoj profil i kažem ti odakle da kreneš.</p><span>Zakaži besplatan poziv →</span></a>
     </div>
   </div>
 </section>
@@ -324,9 +351,35 @@ fbq('init','4374976512714502');fbq('track','PageView');
         <video src="media/t-stefan.mp4" poster="media/t-stefan.jpg" controls playsinline preload="none"></video>
       </article>
     </div>
-    <div class="minis reveal">
-      <div class="mini"><b>7.000+</b><span>zainteresovanih iz jednog videa<br>SuperDog · škola dresure pasa</span></div>
-      <div class="mini"><b>300.000</b><span>pregleda na jednom klipu<br>Darvin · veterinarska ambulanta</span></div>
+    <div class="views-block reveal">
+      <h3>Pregledi na klipovima</h3>
+      <p class="txt">Klipovi koje sam radio za frizerski salon, školu dresure pasa, veterinarsku ambulantu, detox sokove, mašine za čaure i trakice za nos.</p>
+      <div class="reels vw">
+        <figure class="reel">
+          <div class="pic"><img loading="lazy" src="img/k-ana.jpg" alt="Klip frizerskog salona" width="480" height="854"><span class="views">2,4 mil.</span></div>
+          <figcaption class="meta">Frizerski salon<br><a href="https://www.instagram.com/reel/DXVPIPWDCqb/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img loading="lazy" src="img/k-ivan.jpg" alt="Klip škole dresure pasa" width="480" height="854"><span class="views">1,3 mil.</span></div>
+          <figcaption class="meta">Škola dresure pasa<br><a href="https://www.instagram.com/p/DSArIoEDBO7/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img loading="lazy" src="img/k-darvin.jpg" alt="Klip veterinarske ambulante" width="480" height="854"><span class="views">416 hilj.</span></div>
+          <figcaption class="meta">Veterinarska ambulanta<br><a href="https://www.instagram.com/darvin_sve_za_ljubimca/" target="_blank" rel="noopener">Pogledaj profil ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img loading="lazy" src="img/k-ro.jpg" alt="Klip firme za detox sokove" width="480" height="854"><span class="views">286 hilj.</span></div>
+          <figcaption class="meta">Detox sokovi<br><a href="https://www.instagram.com/p/DYCCY44ohXg/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img loading="lazy" src="img/k-ags.jpg" alt="Klip firme koja mašine za čaure prodaje u Americi" width="480" height="854"><span class="views">226 hilj.</span></div>
+          <figcaption class="meta">Mašine za čaure, za američko tržište<br><a href="https://www.facebook.com/reel/1394122232823715/" target="_blank" rel="noopener">Pogledaj na Facebooku ↗</a></figcaption>
+        </figure>
+        <figure class="reel">
+          <div class="pic"><img loading="lazy" src="img/k-noro.jpg" alt="Klip brenda trakica za nos" width="480" height="854"><span class="views">117 hilj.</span></div>
+          <figcaption class="meta">Trakice za nos<br><a href="https://www.instagram.com/reel/DWrgSD8CKvE/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
