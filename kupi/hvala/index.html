@@ -18,6 +18,7 @@
   Linkovi za pristup se prikazuju odmah (ne čeka se mejl). Ako webhook još nije stigao, server sam pita Stripe.
   Pixel Purchase puca samo kad server kaže (jednom po porudžbini, eventID = PaymentIntent, isti kao CAPI).
   Druga šansa: ko je kupio jedan proizvod, 24 h od plaćanja, bez tajmera na strani (rok i cenu drži server, POST /api/public/shop/upsell).
+  Konsultacija: kupac ebooka vidi ponudu ispod (jednim klikom, POST /upsell sa p=konsultacija), posle plaćanja ide na /kupi/termin/.
 -->
 <header class="top">
   <a class="brand" href="/"><i></i>Boris Vasić</a>
@@ -44,6 +45,18 @@
       <button class="no" type="button" id="sNo">Ne, hvala</button>
     </section>
     <p class="ok" id="sOk" hidden></p>
+
+    <section class="second konsult" id="konsult" hidden>
+      <h2 id="kTitle">Hoćeš da ti složim plan za tvoj profil?</h2>
+      <p id="kBody">Priručnik ti daje postupak, ali ne zna kako izgleda tvoj profil. Na konsultaciji od sat vremena zajedno prolazimo kroz tvoj profil, a ti dobijaš plan za narednih 90 dana: šta da objavljuješ i koliko videa, koji stil montaže ti odgovara, gde da nađeš dobrog editora koji ne košta mnogo i kako da vodiš profil a da ti to ne pojede ceo dan.</p>
+      <p class="k-week" id="kWeek" hidden></p>
+      <button class="btn-add" type="button" id="kBtn"></button>
+      <a class="btn-add pay" id="kGo" hidden></a>
+      <div class="pay-err" id="kErr" role="alert" hidden></div>
+      <p class="fine small" id="kCard" hidden></p>
+      <p class="fine small" id="kFine">Posle plaćanja odmah biraš termin.</p>
+      <button class="no" type="button" id="kNo">Ne, hvala</button>
+    </section>
   </div>
 </main>
 
@@ -129,7 +142,100 @@
     });
     firePixels(d);
     renderSecond(d.second);
+    renderKonsult(d);
   }
+
+  /* ---------- konsultacija ---------- */
+  var kDeclined = false;
+  // Linkovi sa servera su na borisprproj.com; na ovoj strani idu na isti sajt (i lokalno).
+  function local(u) { try { var x = new URL(u); return x.pathname + x.search; } catch (e) { return u; } }
+  var kBusy = false;
+  function renderKonsult(d) {
+    var k = d.konsult;
+    var box = $('konsult');
+    if (!k || kDeclined) { box.hidden = true; return; }
+    var onlyKonsult = !d.links.length;
+    if (k.paid) {
+      // Kupio konsultaciju (samu ili ovde): nema ponude, samo termin.
+      if (onlyKonsult) {
+        $('done').querySelector('h1').textContent = 'Plaćeno. Izaberi termin.';
+        $('mailLine').textContent = 'Link za izbor termina sam poslao i na ' + (d.email || 'tvoj mejl') + ', ako hoćeš da zakažeš kasnije.';
+      }
+      $('kTitle').textContent = k.booked_at ? 'Konsultacija je zakazana' : 'Konsultacija je plaćena';
+      $('kBody').textContent = k.booked_at
+        ? 'Pozivnica sa linkom za Google Meet ti je stigla na mejl. Termin možeš da promeniš preko linka iz pozivnice.'
+        : 'Izaberi termin koji ti odgovara. Čim zakažeš, na mejl ti stiže pozivnica sa linkom za Google Meet.';
+      ['kWeek', 'kBtn', 'kCard', 'kFine', 'kNo', 'kErr'].forEach(function (id) { $(id).hidden = true; });
+      var go = $('kGo');
+      go.hidden = !!k.booked_at;
+      go.href = local(k.termin_url);
+      go.textContent = 'Izaberi termin';
+      box.hidden = false;
+      return;
+    }
+    $('kBtn').innerHTML = 'Zakaži konsultaciju za ' + eur(k.price) + ' <s>' + eur(k.regular) + '</s>';
+    if (typeof k.week_left === 'number') {
+      $('kWeek').hidden = false;
+      $('kWeek').textContent = k.week_left > 0
+        ? 'Primam 5 konsultacija nedeljno. Ove nedelje je slobodno još ' + k.week_left + '.'
+        : 'Primam 5 konsultacija nedeljno. Ova nedelja je popunjena, termini su od sledećeg ponedeljka.';
+    }
+    if (k.card) {
+      $('kCard').hidden = false;
+      $('kCard').textContent = 'Naplaćuje se na istu karticu (' + k.card.brand.charAt(0).toUpperCase() + k.card.brand.slice(1) + ' •••• ' + k.card.last4 + ').';
+    }
+    if (box.hidden) T('konsult_view', { price: k.price, card: !!k.card }, { order: O });
+    box.hidden = false;
+  }
+
+  $('kBtn').addEventListener('click', async function () {
+    var k = state && state.konsult;
+    if (!k || k.paid || kBusy) return;
+    $('kErr').hidden = true;
+    T('konsult_take', { card: !!k.card }, { order: O });
+    // Bez sačuvane kartice: checkout vezan za ovu kupovinu.
+    if (!k.card) { location.href = local(k.checkout_url); return; }
+    kBusy = true;
+    var btn = $('kBtn');
+    var label = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span>';
+    var st = getStripe();
+    var d = await fetch(API + '/api/public/shop/upsell', {
+      method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ o: O, k: K, mode: 'saved', p: 'konsultacija' })
+    }).then(function (r) { return r.json(); }).catch(function () { return { ok: false, fallback: true }; });
+    var paid = d.ok && d.status === 'succeeded';
+    if (!paid && d.ok && d.status === 'requires_action' && d.clientSecret && st) {
+      var r = await st.handleNextAction({ clientSecret: d.clientSecret });
+      paid = !r.error && r.paymentIntent && (r.paymentIntent.status === 'succeeded' || r.paymentIntent.status === 'processing');
+    }
+    if (paid) {
+      T('konsult_paid', null, { order: O });
+      for (var i = 0; i < 15; i++) {
+        var o = await load();
+        if (o.ok && o.konsult && o.konsult.paid) { location.href = local(o.konsult.termin_url); return; }
+        await sleep(1500);
+      }
+      kBusy = false;
+      $('kErr').textContent = 'Plaćanje je prošlo, a link za termin još čekam. Osveži stranu za minut ili pogledaj mejl.';
+      $('kErr').hidden = false;
+      return;
+    }
+    T('konsult_error', { code: d.code || d.status || 'error' }, { order: O });
+    kBusy = false;
+    btn.disabled = false;
+    btn.innerHTML = label;
+    if (d.expired) { $('konsult').hidden = true; return; }
+    // Kartica nije prošla: pun checkout vezan za ovu kupovinu (druga kartica).
+    $('kErr').innerHTML = 'Kartica ovaj put nije prošla. <a href="' + esc(local(k.checkout_url)) + '">Plati drugom karticom</a>.';
+    $('kErr').hidden = false;
+  });
+
+  $('kNo').addEventListener('click', function () {
+    kDeclined = true;
+    $('konsult').hidden = true;
+    T('konsult_skip', null, { order: O });
+  });
 
   /* ---------- druga šansa ---------- */
   var paidSecond = false;

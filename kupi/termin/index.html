@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Termin za konsultaciju - Boris Vasić</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/kupi/kupi.css">
+<style>
+  .termin{margin-top:22px;--eck-accent:#11c7d4;--eck-accent-text:#06181a;--eck-bg:#09090b;--eck-surface:#131316;--eck-border:#26262b;--eck-text:#fafafa;--eck-muted:#a4a4ad}
+  .termin .eck{max-width:none}
+</style>
+</head>
+<body data-page="termin" data-p="konsultacija">
+<!--
+  Izbor termina za plaćenu konsultaciju: /kupi/termin/?o=<porudžbina sa konsultacijom>&k=<view_key>
+  Link stiže u mejlu posle plaćanja, a hvala strana šalje ovde odmah. Stanje i termine daje GET /api/public/shop/termin,
+  zakazivanje ide preko istog kalendara kao besplatan poziv (kalendar.js), samo na rutu za konsultaciju i bez Pixel leada.
+-->
+<header class="top">
+  <a class="brand" href="/"><i></i>Boris Vasić</a>
+</header>
+
+<main class="wrap">
+  <div class="thanks">
+    <div id="pending" class="wait"><span class="spin"></span><span>Učitavam slobodne termine.</span></div>
+    <div id="problem" class="notice" hidden></div>
+    <div id="done" hidden>
+      <h1 id="title">Izaberi termin za konsultaciju</h1>
+      <p class="lead" id="lead">Konsultacija traje sat vremena, preko Google Meeta. Čim zakažeš, na mejl ti stiže pozivnica sa linkom.</p>
+      <div class="termin" id="cal"></div>
+    </div>
+  </div>
+</main>
+
+<script src="/shop/track.js"></script>
+<script>
+(function () {
+  'use strict';
+  var T = window.shopTrack;
+  var API = T.api;
+  var qs = new URLSearchParams(location.search);
+  var O = qs.get('o');
+  var K = qs.get('k');
+  var MAIL = 'borisprproj@edgecut.app';
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function problem(html) { $('pending').hidden = true; $('problem').hidden = false; $('problem').innerHTML = html; }
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  if (!O || !K) { problem('Ne nalazim ovu kupovinu. Otvori link iz mejla ili mi piši na <a href="mailto:' + MAIL + '">' + MAIL + '</a>.'); return; }
+
+  function load() {
+    return fetch(API + '/api/public/shop/termin?o=' + encodeURIComponent(O) + '&k=' + encodeURIComponent(K)).then(function (r) { return r.json(); });
+  }
+
+  function mount(d) {
+    var cal = $('cal');
+    cal.setAttribute('data-ec-kalendar', '');
+    cal.setAttribute('data-landing', 'konsultacija');
+    cal.setAttribute('data-slots', '/api/public/shop/termin?o=' + encodeURIComponent(O) + '&k=' + encodeURIComponent(K));
+    cal.setAttribute('data-book', '/api/public/shop/termin');
+    cal.setAttribute('data-extra', JSON.stringify({ o: O, k: K }));
+    cal.setAttribute('data-email', d.email || '');
+    cal.setAttribute('data-minutes', '60');
+    cal.setAttribute('data-done', 'Konsultacija je zakazana');
+    cal.setAttribute('data-fallback', 'mailto:' + MAIL + '?subject=' + encodeURIComponent('Termin za konsultaciju'));
+    cal.setAttribute('data-no-pixel', '');
+    var s = document.createElement('script');
+    s.src = '/kalendar/kalendar.js';
+    document.body.appendChild(s);
+    window.addEventListener('ec-kalendar:booked', function (e) {
+      $('title').textContent = 'Vidimo se na pozivu';
+      $('lead').textContent = 'Pozivnica sa linkom za Google Meet ti stiže na mejl. Termin možeš da promeniš preko linka iz pozivnice.';
+      T('termin_booked', { label: e.detail && e.detail.label }, { order: O });
+    });
+  }
+
+  T('termin_view', null, { order: O });
+  (async function start() {
+    for (var i = 0; i < 20; i++) {
+      var d;
+      try { d = await load(); } catch (e) { d = null; }
+      if (d && !d.ok) { problem('Ne nalazim ovu kupovinu. Otvori link iz mejla ili mi piši na <a href="mailto:' + MAIL + '">' + MAIL + '</a>.'); return; }
+      if (d && d.status === 'booked') {
+        $('pending').hidden = true;
+        $('done').hidden = false;
+        $('title').textContent = 'Konsultacija je zakazana';
+        $('lead').innerHTML = 'Termin: <b>' + esc(d.label) + '</b>. Pozivnica sa linkom za Google Meet ti je stigla na mejl.' +
+          (d.reschedule_url ? ' <a href="' + esc(d.reschedule_url) + '" target="_blank" rel="noopener">Promeni termin</a>' : '');
+        return;
+      }
+      if (d && d.status === 'open') {
+        $('pending').hidden = true;
+        $('done').hidden = false;
+        mount(d);
+        return;
+      }
+      // Plaćanje još nije potvrđeno (webhook kasni par sekundi).
+      await sleep(i < 8 ? 1500 : 3000);
+    }
+    problem('Plaćanje još nije potvrđeno. Ako je novac skinut sa računa, piši mi na <a href="mailto:' + MAIL + '">' + MAIL + '</a> i zakazaćemo ručno.');
+  })();
+})();
+</script>
+</body>
+</html>

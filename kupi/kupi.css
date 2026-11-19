@@ -35,11 +35,11 @@ button{font:inherit;color:inherit}
 .wrap{max-width:1040px;margin:0 auto;padding:4px 16px calc(48px + env(safe-area-inset-bottom,0px))}
 
 /* checkout raspored: telefon jedna kolona, komp dve (pregled levo, plaćanje desno) */
-.co{display:grid;gap:22px;grid-template-areas:"product" "bump" "total" "email" "pay"}
-.a-product{grid-area:product}.a-email{grid-area:email}.a-bump{grid-area:bump}.a-total{grid-area:total}.a-pay{grid-area:pay}
+.co{display:grid;gap:22px;grid-template-areas:"product" "about" "bump" "total" "email" "pay"}
+.a-product{grid-area:product}.a-about{grid-area:about}.a-email{grid-area:email}.a-bump{grid-area:bump}.a-total{grid-area:total}.a-pay{grid-area:pay}
 @media(min-width:900px){
   .co{grid-template-columns:minmax(0,1fr) minmax(0,440px);column-gap:56px;row-gap:24px;align-items:start;
-      grid-template-areas:"product email" "bump pay" "total pay" ". pay"}
+      grid-template-areas:"product email" "about pay" "bump pay" "total pay" ". pay"}
   .a-pay{position:sticky;top:20px}
 }
 
@@ -145,3 +145,13 @@ label.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
 @media(min-width:900px){.thanks h1{font-size:44px}}
 .cover img[src*="korica"]{object-position:center top}
 .kit-done s{color:var(--faint);font-weight:500}
+
+/* Konsultacija: šta dobija kupac (checkout bez doplate) */
+.about{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 16px 14px}
+.about-h{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.015em}
+.about-l{margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:15px;display:flex;flex-direction:column;gap:8px}
+.about-l li::marker{color:var(--accent)}
+.about-w{margin-top:12px;font-size:14px;font-weight:600;color:var(--action)}
+.konsult .k-week{font-size:14px;font-weight:600;color:var(--action)}
+.konsult .btn-add{margin-top:16px;text-decoration:none}
+.konsult .btn-add s{margin-left:6px}

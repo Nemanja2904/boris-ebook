@@ -26,6 +26,7 @@
   // a dok je nema, tipografska pločica.
   function img(id, name) {
     if (id === 'recept') return '<div class="cover"><img src="/recept-za-viralan-video/assets/boris-cover.jpg" alt=""></div>';
+    if (id === 'konsultacija') return '<div class="cover type"><span>1 na 1 · 60 min</span><b>Plan za 90 dana</b></div>';
     return '<div class="cover"><img src="/kupi/korica-sveske.png" alt="" onerror="this.parentNode.className=\'cover type\';this.parentNode.innerHTML=\'<span>Interaktivni priručnik</span><b>' +
       esc(name).replace(/'/g, '&#39;') + '</b>\'"></div>';
   }

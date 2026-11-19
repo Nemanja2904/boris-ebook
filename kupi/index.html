@@ -14,7 +14,7 @@
 </head>
 <body data-page="checkout">
 <!--
-  Checkout Borisovog shopa: /kupi/?p=recept ili /kupi/?p=upiti
+  Checkout Borisovog shopa: /kupi/?p=recept, /kupi/?p=upiti ili /kupi/?p=konsultacija (bez doplate, posle plaćanja termin)
   Ponuda iz mejla treće šanse: /kupi/?p=upiti&o=<porudžbina>&k=<ključ>
   Cene, nazivi i doplata dolaze sa servera (GET /api/public/shop/config). Iznos računa server,
   ova strana šalje samo proizvod, da li je doplata čekirana i mejl.
@@ -40,6 +40,16 @@
       </div>
     </section>
 
+    <section class="a-about about" id="about" hidden>
+      <h2 class="about-h">Šta dobijaš</h2>
+      <ul class="about-l">
+        <li>Poziv od sat vremena sa mnom, preko Google Meeta. Zajedno prolazimo kroz tvoj trenutni profil.</li>
+        <li>Plan za narednih 90 dana, napravljen za tvoj profil: šta da objavljuješ i koliko videa, koji stil montaže ti odgovara, gde da nađeš dobrog editora koji ne košta mnogo i kako da vodiš profil a da ti to ne pojede ceo dan.</li>
+        <li>Termin biraš odmah posle plaćanja, radnim danima između 10 i 15 h.</li>
+      </ul>
+      <p class="about-w" id="weekLeft" hidden></p>
+    </section>
+
     <section class="a-email">
       <label class="lbl" for="email">Tvoj mejl</label>
       <input class="input" id="email" type="email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="ime@primer.com" required>
@@ -62,8 +72,8 @@
       <div class="pay-el" id="payEl"></div>
       <button class="btn" type="submit" id="payBtn" disabled><span id="payLabel">Plati</span></button>
       <div class="pay-err" id="payErr" role="alert" hidden></div>
-      <p class="fine">Pristup dobijaš odmah posle plaćanja, a link stiže i na mejl.</p>
-      <p class="fine">Karticu pamti Stripe, da na sledećoj strani možeš da dodaš drugi deo kompleta jednim klikom.</p>
+      <p class="fine" id="fineAccess">Pristup dobijaš odmah posle plaćanja, a link stiže i na mejl.</p>
+      <p class="fine" id="fineCard">Karticu pamti Stripe, da na sledećoj strani možeš da dodaš drugi deo kompleta jednim klikom.</p>
       <p class="fine small">Kupovinom pristaješ da ti povremeno pišem na mejl. Odjaviti se možeš kad god hoćeš. <a href="/kupi/privatnost/">Privatnost</a></p>
     </section>
   </form>
@@ -114,7 +124,8 @@
   function ssGet(k) { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } }
   function ssSet(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ništa */ } }
 
-  if (P !== 'recept' && P !== 'upiti') {
+  var KONSULT = P === 'konsultacija';
+  if (P !== 'recept' && P !== 'upiti' && !KONSULT) {
     $('form').hidden = true;
     var n = $('notice');
     n.hidden = false;
@@ -132,7 +143,7 @@
   function amount() {
     if (!cfg) return 0;
     if (cfg.offer) return cfg.offer.price;
-    return cfg.product.price + (bumpOn ? cfg.bump.price : 0);
+    return cfg.product.price + (bumpOn && cfg.bump ? cfg.bump.price : 0);
   }
 
   function renderTotals() {
@@ -145,8 +156,8 @@
       if (bumpOn) lines += '<div><span>' + esc(cfg.bump.name) + '</span><span>' + eur(cfg.bump.price) + '</span></div>';
     }
     $('lines').innerHTML = lines;
-    $('missing').hidden = !!(cfg.offer || bumpOn);
-    if (!cfg.offer) $('missing').textContent = COPY[P].missing;
+    $('missing').hidden = !!(cfg.offer || bumpOn || !cfg.bump);
+    if (!cfg.offer && cfg.bump) $('missing').textContent = COPY[P].missing;
     $('total').textContent = eur(a);
     $('payLabel').textContent = 'Plati ' + eur(a);
     if (elements) elements.update({ amount: a });
@@ -156,16 +167,33 @@
     var c = COPY[P];
     var pr = cfg.product;
     var cover = $('cover');
-    cover.outerHTML = window.komplet_cover(P, pr.name).replace('class="cover"', 'class="cover" id="cover"');
+    cover.outerHTML = window.komplet_cover(P, pr.name).replace('<div class="', '<div id="cover" class="');
     $('kind').textContent = pr.tagline || '';
     $('name').textContent = pr.name;
     document.title = pr.name + ' - Boris Vasić';
+    if (KONSULT) {
+      $('about').hidden = false;
+      $('emailHelp').textContent = 'Link za izbor termina šaljem na ovu adresu, pa možeš da zakažeš i kasnije.';
+      $('fineAccess').hidden = true;
+      $('fineCard').hidden = true;
+      if (typeof cfg.week_left === 'number') {
+        var w = $('weekLeft');
+        w.hidden = false;
+        w.textContent = cfg.week_left > 0
+          ? 'Primam 5 konsultacija nedeljno. Ove nedelje je slobodno još ' + cfg.week_left + '.'
+          : 'Primam 5 konsultacija nedeljno. Ova nedelja je popunjena, termini su od sledećeg ponedeljka.';
+      }
+    }
     if (cfg.offer) {
       $('price').innerHTML = eur(cfg.offer.price) + ' <s>' + eur(cfg.offer.regular) + '</s>';
-      var note = $('offerNote');
-      note.hidden = false;
-      note.textContent = 'Cena iz mejla važi do ' + deadline(cfg.offer.expires_at) + '.';
+      if (cfg.offer.expires_at) {
+        var note = $('offerNote');
+        note.hidden = false;
+        note.textContent = 'Cena iz mejla važi do ' + deadline(cfg.offer.expires_at) + '.';
+      }
       if (cfg.offer.email && !$('email').value) $('email').value = cfg.offer.email;
+    } else if (!cfg.bump) {
+      $('price').innerHTML = eur(pr.price) + (pr.compare_at ? ' <s>' + eur(pr.compare_at) + '</s>' : '');
     } else {
       $('price').innerHTML = eur(pr.price) + (pr.compare_at ? ' <s>' + eur(pr.compare_at) + '</s>' : '');
       // Recept: 7 € uz precrtanih 29 €. Kontent mašina: 17 € uz precrtanih 39 € i ispod "Uvodna cena" (note sa servera).
