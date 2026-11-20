@@ -10,6 +10,10 @@
  * Boje se menjaju CSS promenljivama na elementu ili roditelju:
  *   --eck-accent, --eck-accent-text, --eck-bg, --eck-surface, --eck-border, --eck-text, --eck-muted
  *
+ * Ako strana ima /shop/track.js, svaki korak ide i u naše praćenje (ADS → Besplatan poziv → Levak):
+ *   cal_view (kalendar na ekranu), cal_day, slot_pick, form_start, book_submit, booked, book_error,
+ *   a uz zakazivanje ide sid posetioca, pa se poziv vezuje za ceo put.
+ *
  * Po zakazivanju: Pixel Schedule + Lead (eventID = id reda, server šalje CAPI sa istim id-jem),
  * događaj `ec-kalendar:booked` na window (detail: {id, label}), pa redirect ako postoji data-redirect.
  * Ako API ne odgovori, prikazuje se običan Calendly link (fallback).
@@ -49,6 +53,9 @@
   function fbc() {
     var c = cookie('_fbc'); if (c) return c;
     var id = qs.get('fbclid'); return id ? 'fb.1.' + Date.now() + '.' + id : null;
+  }
+  function track(type, value, beacon) {
+    try { if (window.shopTrack) window.shopTrack(type, value, beacon ? { beacon: true } : undefined); } catch (e) { /* praćenje nikad ne ruši kalendar */ }
   }
   function pixel(kind, name, data, opts) { if (NO_PIXEL) return; try { if (window.fbq) window.fbq(kind, name, data || {}, opts || {}); } catch (e) {} }
   function fallbackUrl() {
@@ -137,13 +144,14 @@
       '<p class="eck-h" style="margin-top:6px">Izaberi vreme</p><div class="eck-times">' + times + '</div>' +
       '<p class="eck-note">Poziv traje ' + esc(MIN) + ' minuta, preko Google Meeta. Vreme je po Beogradu.</p>');
     host.querySelectorAll('.eck-day').forEach(function (b) {
-      b.onclick = function () { S.day = b.getAttribute('data-day'); renderPicker(); };
+      b.onclick = function () { S.day = b.getAttribute('data-day'); track('cal_day', { day: S.day }); renderPicker(); };
     });
     host.querySelectorAll('.eck-t').forEach(function (b) {
       b.onclick = function () {
         var iso = b.getAttribute('data-iso');
         S.slot = { iso: iso, time: b.textContent, day: d.label };
         pixel('trackCustom', 'IzabraoTermin', { landing: landing });
+        track('slot_pick', { day: d.label, time: b.textContent });
         renderForm();
       };
     });
@@ -181,6 +189,7 @@
     form.onsubmit = function (e) { e.preventDefault(); submit(form); };
     function keep() { ['name', 'email', 'phone', 'instagram', 'note', 'pre'].forEach(function (k) { saved[k] = form.elements[k].value; }); }
     form.addEventListener('input', keep);
+    form.addEventListener('input', function () { if (!S.formStarted) { S.formStarted = true; track('form_start'); } });
     form.addEventListener('change', keep);
   }
 
@@ -199,8 +208,10 @@
       instagram: f.instagram.value, note: f.note.value, website: f.website.value,
       tz: (Intl.DateTimeFormat().resolvedOptions().timeZone || null), landing: landing, utm: utm,
       fbclid: qs.get('fbclid'), fbc: fbc(), fbp: cookie('_fbp'), page: location.href.slice(0, 600),
-      ref: document.referrer || null, ms: Date.now() - T0
+      ref: document.referrer || null, ms: Date.now() - T0,
+      sid: (window.shopTrack && window.shopTrack.sid) || undefined
     };
+    track('book_submit');
     S.busy = true;
     var btn = form.querySelector('.eck-btn'); btn.disabled = true; btn.textContent = 'Zakazujem...';
     fetch(BOOK, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(body) })
@@ -208,6 +219,7 @@
       .then(function (res) {
         S.busy = false;
         if (res.ok && res.id) {
+          track('booked', { id: res.id }, true);
           if (landing !== 'kalendar-test') {
             pixel('track', 'Schedule', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
             pixel('track', 'Lead', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
@@ -222,10 +234,12 @@
           return;
         }
         if (res.taken) {
+          track('book_error', { error: 'termin zauzet' });
           S.slot = null;
           load(true, 'Taj termin je upravo zauzet. Izaberi drugi.');
           return;
         }
+        track('book_error', { error: String(res.error || (res.taken ? 'zauzet' : 'greška')).slice(0, 120) });
         if (res.fallback) { renderFallback(res.error || 'Zakazivanje nije prošlo. Zakaži direktno:'); return; }
         renderForm(res.error || 'Nešto nije u redu, probaj ponovo.', res.field);
       })
@@ -248,6 +262,15 @@
         if (notice) host.insertAdjacentHTML('afterbegin', '<p class="eck-err" role="alert" style="margin:0 0 10px">' + esc(notice) + '</p>');
       })
       .catch(function () { renderFallback('Kalendar trenutno ne može da se učita. Zakaži direktno:'); });
+  }
+
+  // Kalendar je stvarno bio na ekranu (ne samo učitan na dnu strane).
+  if ('IntersectionObserver' in window) {
+    var seenCal = false;
+    var calIo = new IntersectionObserver(function (en) {
+      if (!seenCal && en.some(function (x) { return x.isIntersecting; })) { seenCal = true; track('cal_view'); calIo.disconnect(); }
+    }, { threshold: 0.3 });
+    calIo.observe(host);
   }
 
   load(false);

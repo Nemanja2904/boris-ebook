@@ -197,7 +197,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.bar{transition:none}}
 </style>
 </head>
-<body>
+<body data-site="saradnja">
 
 <header class="top">
   <div class="wrap">
@@ -208,7 +208,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
 
 <main>
 
-<section class="hero">
+<section class="hero" data-section="hero">
   <div class="wrap hero-grid">
     <div>
       <h1>Nemoj samo postojati</h1>
@@ -235,7 +235,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section class="pick" id="resi">
+<section class="pick" id="resi" data-section="resi">
   <div class="wrap">
     <h2>Šta hoćeš da rešiš?</h2>
     <p class="sub">Izaberi situaciju u kojoj si sada.<br>Iza svake je pravi klijent: kako je bilo pre, šta sam promenio i šta se desilo posle.</p>
@@ -248,7 +248,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section>
+<section data-section="greske">
   <div class="wrap">
     <h2 class="reveal">Šta većina biznisa radi pogrešno na društvenim mrežama</h2>
     <div class="wrongs">
@@ -276,7 +276,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section class="pot">
+<section class="pot" data-section="potencijal">
   <div class="wrap">
     <div class="pot-grid">
       <div class="reveal">
@@ -309,7 +309,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section id="klijenti">
+<section id="klijenti" data-section="klijenti">
   <div class="wrap">
     <div class="how-grid">
       <div class="reveal">
@@ -384,7 +384,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section class="about">
+<section class="about" data-section="boris">
   <div class="wrap reveal">
     <h2>Ja sam Boris</h2>
     <p class="lead"><b>Stojim iza dosta velikih profila na društvenim mrežama, a većina ljudi koji ih prate ne zna da sam ih ja radio.</b></p>
@@ -394,7 +394,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section class="call" id="poziv">
+<section class="call" id="poziv" data-section="poziv">
   <div class="wrap">
     <h2>Zakaži besplatan poziv</h2>
     <p class="sub"><b>Izaberi dan i vreme ispod.</b><br>Poziv traje 30 minuta, online je i ne plaća se.</p>
@@ -414,7 +414,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </section>
 
-<section>
+<section data-section="pitanja">
   <div class="wrap">
     <h2 class="reveal">Pitanja</h2>
     <div class="faq">
@@ -441,6 +441,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   <small>30 minuta, online, besplatno</small>
 </div>
 
+<script src="/shop/track.js" defer></script>
 <script src="/kalendar/kalendar.js" defer></script>
 <script>
   // Sekcije ulaze kad dođu na ekran. Bez IntersectionObservera stranica odmah prikaže sve.
@@ -469,6 +470,17 @@ fbq('init','4374976512714502');fbq('track','PageView');
     window.addEventListener('resize', upd, {passive:true});
     upd();
   })();
+
+  // Naše praćenje (ADS → Besplatan poziv): klik na dugme za poziv, izbor situacije, pušten video.
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a');
+    if(!a || !window.shopTrack) return;
+    if(a.getAttribute('href') === '#poziv') window.shopTrack('cta', { gde: a.closest('header') ? 'meni' : a.closest('#bar') ? 'traka' : a.classList.contains('pk') ? 'izbor' : 'strana' });
+    if(a.classList.contains('pk')){ var h = a.querySelector('h3'); window.shopTrack('pick', { title: (h ? h.textContent : a.textContent).trim().slice(0, 80) }, { beacon: true }); }
+  });
+  document.querySelectorAll('video').forEach(function(v){
+    v.addEventListener('play', function(){ if(window.shopTrack && !v.__t){ v.__t = 1; window.shopTrack('video_play', { src: (v.getAttribute('src') || '').split('/').pop() }); } });
+  });
 
   // Samo jedan video svira u isto vreme.
   document.querySelectorAll('video').forEach(function(v){

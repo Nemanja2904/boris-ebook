@@ -1,6 +1,7 @@
 /*
  * Praćenje Borisovog shopa (borisprproj.com). Ubacuje se na kraj strane:
  *   <body data-p="recept">            landing Recepta (ili data-p="upiti" za svesku)
+ *   <body data-site="saradnja">       landing za pozive: posetioci se broje odvojeno od shopa (ADS → Besplatan poziv)
  *   <section data-section="cena">     sekcije koje merimo (koliko ljudi stigne do njih)
  *   <script src="/shop/track.js" defer></script>
  *
@@ -20,10 +21,13 @@
 
   var PIXEL_ID = '4374976512714502';
   var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3000' : 'https://edgecut.app';
-  var SID_KEY = 'shop_sid';
-  var ATTR_KEY = 'shop_attr';
   var T0 = Date.now();
   var body = document.body;
+  // Sajt: shop (ebooks) ili saradnja (pozivi). Svaki ima svog posetioca, da se brojke ne mešaju.
+  var site = (body && body.getAttribute('data-site')) === 'saradnja' ? 'saradnja' : 'shop';
+  var SUFFIX = site === 'shop' ? '' : '_' + site;
+  var SID_KEY = 'shop_sid' + SUFFIX;
+  var ATTR_KEY = 'shop_attr' + SUFFIX;
   var page = (body && body.getAttribute('data-page')) || 'lp';
   var product = body && body.getAttribute('data-p');
 
@@ -50,7 +54,7 @@
    */
   var qs = new URLSearchParams(location.search);
   var UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
-  var LAST_KEY = 'shop_last';
+  var LAST_KEY = 'shop_last' + SUFFIX;
   function touchOf(src, get) {
     var t = {};
     UTM.forEach(function (k) { var v = get ? src.get(k) : src && src[k]; if (v) t[k] = String(v).slice(0, 500); });
@@ -113,6 +117,7 @@
     opts = opts || {};
     send({
       sid: sid,
+      site: site,
       type: type,
       // data-p se čita pri svakom pozivu: checkout ga postavlja tek kad pročita ?p= iz linka.
       p: opts.p || (document.body && document.body.getAttribute('data-p')) || product || undefined,
@@ -144,6 +149,7 @@
   }
 
   shopTrack.sid = sid;
+  shopTrack.site = site;
 
   /* ---------- Microsoft Clarity (snimci sesija i heatmape) ----------
    * Uključuje se upisom ID-ja projekta ispod. Priručnik (/sveska/) ga nema: to su kupčevi odgovori.
@@ -163,6 +169,7 @@
     try {
       window.clarity('set', 'sid', sid);
       window.clarity('set', 'strana', page);
+      window.clarity('set', 'sajt', site);
       if (product) window.clarity('set', 'proizvod', product);
     } catch (e) { /* bez Clarity-ja */ }
   }
@@ -189,6 +196,8 @@
   }
   Array.prototype.forEach.call(document.querySelectorAll('a[href*="/kupi/"]'), decorate);
 
+  // Podstrane landinga za pozive (primeri klijenata): poseta se beleži, levak landinga ne.
+  if (site !== 'shop' && page !== 'lp') shopTrack('page_view', { page: page });
   if (page !== 'lp') return;
 
   /* ---------- landing ---------- */
