@@ -174,7 +174,7 @@
         '<label>Mejl<small>Na njega stiže link za poziv.</small><input name="email" type="email" autocomplete="email" inputmode="email" required value="' + v('email') + '"></label>') +
       '<label>Telefon<span class="eck-ph"><select name="pre" aria-label="Pozivni broj">' + opts + '</select>' +
       '<input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="64 123 4567" required value="' + v('phone') + '"></span></label>' +
-      '<label>Instagram ili sajt tvog biznisa<input name="instagram" autocomplete="off" autocapitalize="none" placeholder="@tvojbiznis" required value="' + v('instagram') + '"></label>' +
+      '<label>Instagram, sajt ili naziv biznisa<input name="instagram" autocomplete="off" autocapitalize="none" placeholder="@tvojbiznis" required value="' + v('instagram') + '"></label>' +
       '<label>Šta treba da znam pre poziva<small>Nije obavezno.</small><textarea name="note">' + v('note') + '</textarea></label>' +
       '<div class="eck-hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
       (error ? '<p class="eck-err" role="alert">' + esc(error) + '</p>' : '') +
