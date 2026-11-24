@@ -146,7 +146,7 @@
     '.eckd-b form .eck-btn{position:sticky;bottom:0;z-index:1;box-shadow:0 0 0 8px #fff}',
     'html.eckd-on{overflow:hidden}',
     '@media(max-width:599px){dialog.eckd{width:100vw;max-height:calc(100dvh - 28px);margin:auto 0 0;border-radius:20px 20px 0 0}}',
-    '@media(prefers-reduced-motion:no-preference){dialog.eckd[open]{animation:eckdin .22s ease-out}@keyframes eckdin{from{opacity:0;transform:translateY(24px)}}}',
+    '@media(prefers-reduced-motion:no-preference){dialog.eckd[open]{animation:eckdin .22s ease-out}@keyframes eckdin{from{transform:translateY(24px)}}}',
     '@media(prefers-reduced-motion:no-preference){.eck-sk i,.eck-skt i{animation:eckp 1.2s ease-in-out infinite alternate}}',
     '@keyframes eckp{to{opacity:.45}}'
   ].join('');
