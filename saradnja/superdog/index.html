@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://edgecut.app">
-<link rel="stylesheet" href="../case.css">
+<link rel="stylesheet" href="../case.css?v=20261124">
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','4374976512714502');fbq('track','PageView');
@@ -34,6 +34,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
     <p class="who">SuperDog Akademija · škola dresure pasa iz Bosne i Hercegovine</p>
     <h1>Od prvog videa do 277.000 pratilaca</h1>
     <p class="lead">Ivan drži školu dresure pasa i prodaje online kurseve za vlasnike.<br><b>Sa njim radim od prvog videa koji je SuperDog objavio.</b><br>Sve brojke na ovoj strani su rezultat tog sadržaja.</p>
+    <div class="cta-in hero-cta"><a class="btn" href="#poziv">Zakaži besplatan poziv</a><small>30 minuta, online, besplatno</small></div>
 
     <div class="stats">
       <div class="st main"><b>277.550</b><span>pratilaca na Facebooku, TikToku, Instagramu i YouTubeu</span></div>
@@ -67,6 +68,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
         <p class="src"><a href="https://www.instagram.com/reel/DQsOA4VjAz3/" target="_blank" rel="noopener">Pogledaj video na Instagramu ↗</a></p>
       </div>
     </div>
+    <div class="cta-in"><p>Na pozivu ti kažem koji bih klip snimio prvo za tvoj posao.</p><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -89,6 +91,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <div><b>DECEMBAR 2025.</b><p>Najgledaniji video do sad: <strong>kako proći pored psa ako te je strah, 1.344.672 pregleda.</strong></p></div>
       <div><b>NOVEMBAR 2026.</b><p>Krenuo je SuperDog Klub, zajednica u kojoj Ivan i treneri odgovaraju članovima na snimke njihovih pasa.</p></div>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -104,6 +107,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <p><b>Dresura uživo</b>Mesec dana rada sa Ivanovim trenerima.</p>
       <p><b>Konsultacija sa Ivanom</b>Poziv od 60 minuta.</p>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -111,7 +115,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   <div class="wrap">
     <h2>Hoćeš isto za svoj posao?</h2>
     <p class="sub">Zakaži besplatan poziv od 30 minuta.<br>Prođemo tvoju situaciju i kažem ti šta bih menjao u narednih 90 dana.</p>
-    <div class="cal-card"><div data-ec-kalendar data-landing="saradnja-superdog"></div></div>
+    <div class="cal-card"><div data-ec-kalendar data-landing="saradnja-superdog" data-pitanja data-popup></div></div>
     <p class="fit">Poziv je za vlasnike biznisa koji već zarađuju.</p>
   </div>
 </section>
@@ -123,6 +127,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <a href="../ags/">Niko ne gleda moje klipove<span>Mašine za čaure: od 1.000 do 226.000 pregleda po klipu</span></a>
       <a href="../ana/">Pišu mi, ali hoću da prodam više<span>Frizerski salon: 3x veća zarada</span></a>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -135,7 +140,13 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </footer>
 
+<div class="bar" id="bar" aria-hidden="true">
+  <a class="btn" href="#poziv" tabindex="-1">Zakaži besplatan poziv</a>
+  <small>30 minuta, online, besplatno</small>
+</div>
+
 <script src="/shop/track.js" defer></script>
-<script src="/kalendar/kalendar.js?v=20261120" defer></script>
+<script src="/kalendar/kalendar.js?v=20261124" defer></script>
+<script src="../traka.js?v=20261124" defer></script>
 </body>
 </html>

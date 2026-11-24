@@ -22,6 +22,13 @@
  *   data-slots, data-book (putanje na edgecut.app), data-extra (JSON koji ide uz zakazivanje, npr. porudžbina),
  *   data-email (mejl je poznat, polje se ne prikazuje), data-minutes, data-done (naslov posle zakazivanja),
  *   data-fallback (link kad kalendar ne radi), data-no-pixel (bez Schedule/Lead: to nije lead za Borisov poziv).
+ *
+ * Landinzi za poziv (/saradnja i podstrane) dodaju:
+ *   data-pitanja   posle termina, pre kontakta, četiri pitanja na klik (odgovori idu u call_bookings.kvalifikacija;
+ *                  ko je kvalifikovan odlučuje server u lib/lead-magnet/poziv.ts, pa uz Schedule i Lead ide SubmitApplication),
+ *   data-popup     svaki <a href="#poziv"> otvara popup sa ovim istim kalendarom (isti element se preseli u <dialog> i nazad,
+ *                  pa izabrano ostaje), a i izbor vremena na strani nastavlja u popupu. Nazad na telefonu zatvara popup.
+ * Praćenje za to: q_answer {q, a}, q_done, popup_open {gde}, popup_close {korak}.
  */
 (function () {
   'use strict';
@@ -41,6 +48,18 @@
   var MIN = host.getAttribute('data-minutes') || '30';
   var DONE = host.getAttribute('data-done') || 'Poziv je zakazan';
   var NO_PIXEL = host.hasAttribute('data-no-pixel');
+  var POPUP = host.hasAttribute('data-popup') && typeof window.HTMLDialogElement === 'function' && !!window.HTMLDialogElement.prototype.showModal;
+
+  // Pitanja pre kontakta. Vrednosti (prvi član) moraju da se poklope sa KVALIFIKACIJA u webapp lib/lead-magnet/poziv.ts.
+  var PITANJA = host.hasAttribute('data-pitanja') ? [
+    { k: 'zaposleni', t: 'Koliko zaposlenih imaš?', grid: true,
+      o: [['0', 'Samo ja'], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'], ['6+', '6+']] },
+    { k: 'agencija', t: 'Da li je neka agencija već radila sadržaj za tebe?', o: [['da', 'Da'], ['ne', 'Ne']] },
+    { k: 'kad', t: 'Ako ti se svidi ono što čuješ na pozivu, kada krećeš?',
+      o: [['odmah', 'Odmah posle poziva'], ['uskoro', 'U naredna dva meseca'], ['raspitujem', 'Za sad se samo raspitujem']] },
+    { k: 'budzet', t: 'Koliko mesečno možeš da uložiš u sadržaj?', if: function (a) { return a.kad !== 'raspitujem'; },
+      o: [['do500', 'Do 500 €'], ['500-1000', '500 do 1.000 €'], ['1000-2000', '1.000 do 2.000 €'], ['2000+', 'Preko 2.000 €']] }
+  ] : [];
   if (host.getAttribute('data-fallback')) FALLBACK = host.getAttribute('data-fallback');
 
   // ---------- tracking ----------
@@ -107,17 +126,45 @@
     '.eck-ok p{margin:6px 0 0;color:var(--mu)}',
     '.eck-sk{display:flex;gap:8px;overflow:hidden}.eck-sk i{flex:0 0 72px;height:58px;border-radius:12px;background:var(--sf)}',
     '.eck-skt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.eck-skt i{height:46px;border-radius:10px;background:var(--sf)}',
+    '.eck-pr{display:flex;gap:6px;margin:0 0 14px}.eck-pr i{flex:1;height:4px;border-radius:2px;background:var(--bd)}.eck-pr i.on{background:var(--a)}',
+    '.eck-q{font-weight:800;font-size:19px;line-height:1.25;margin:0 0 14px;text-wrap:balance}',
+    '.eck-o{display:grid;gap:8px}.eck-o.g{grid-template-columns:repeat(3,1fr)}.eck-o.g button:first-child{grid-column:1/-1}',
+    '.eck-o button{min-height:52px;padding:12px 14px;border:1px solid var(--bd);border-radius:12px;background:var(--sf);color:var(--tx);font:inherit;font-weight:700;font-size:16px;text-align:center;cursor:pointer}',
+    '.eck-o button:active{transform:scale(.98)}',
+    '.eck-o button[aria-pressed="true"]{background:var(--a);border-color:var(--a);color:var(--at)}',
+    '@media(hover:hover){.eck-o button:hover,.eck-t:hover,.eck-day:hover{border-color:var(--a)}}',
+    '.eck button:focus-visible,.eckd-x:focus-visible{outline:2px solid var(--a,#0e7490);outline-offset:2px}',
+    '.eck-backrow{margin-top:14px}',
+    'dialog.eckd{width:min(600px,calc(100vw - 32px));max-width:none;max-height:min(760px,calc(100dvh - 48px));margin:auto;padding:0;border:0;border-radius:20px;overflow:hidden;background:#fff;color:#0c1a2b;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}',
+    'dialog.eckd[open]{display:flex;flex-direction:column}',
+    'dialog.eckd::backdrop{background:rgba(6,14,24,.72)}',
+    '.eckd-h{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 10px 12px 20px;border-bottom:1px solid #e1e4e9}',
+    '.eckd-h b{font-weight:800;font-size:17px;line-height:1.2;outline:0}.eckd-h small{display:block;font-size:13px;font-weight:500;color:#5b6472;margin-top:2px}',
+    '.eckd-x{flex:0 0 44px;height:44px;border:0;background:none;border-radius:12px;font-size:26px;line-height:1;color:#4a5565;cursor:pointer}',
+    '.eckd-b{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 4px calc(12px + env(safe-area-inset-bottom))}',
+    '.eckd-b .eck{border:0;max-width:none;border-radius:0}',
+    '.eckd-b form .eck-btn{position:sticky;bottom:0;z-index:1;box-shadow:0 0 0 8px #fff}',
+    'html.eckd-on{overflow:hidden}',
+    '@media(max-width:599px){dialog.eckd{width:100vw;max-height:calc(100dvh - 28px);margin:auto 0 0;border-radius:20px 20px 0 0}}',
+    '@media(prefers-reduced-motion:no-preference){dialog.eckd[open]{animation:eckdin .22s ease-out}@keyframes eckdin{from{opacity:0;transform:translateY(24px)}}}',
     '@media(prefers-reduced-motion:no-preference){.eck-sk i,.eck-skt i{animation:eckp 1.2s ease-in-out infinite alternate}}',
     '@keyframes eckp{to{opacity:.45}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   // ---------- stanje ----------
-  var S = { days: [], day: null, slot: null, busy: false };
+  var S = { days: [], day: null, slot: null, busy: false, korak: 'termin', odg: {} };
   host.classList.add('eck');
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function el(html) { host.innerHTML = html; }
+
+  // Traka koraka (termin, pitanja, podaci) postoji samo kad strana ima pitanja.
+  function progress(n) {
+    if (!PITANJA.length) return '';
+    return '<div class="eck-pr" role="img" aria-label="Korak ' + n + ' od 3"><i class="on"></i><i' + (n > 1 ? ' class="on"' : '') + '></i><i' + (n > 2 ? ' class="on"' : '') + '></i></div>';
+  }
+  function top() { var b = host.closest && host.closest('.eckd-b'); if (b) b.scrollTop = 0; }
 
   function renderSkeleton() {
     el('<p class="eck-h">Izaberi dan</p><div class="eck-sk"><i></i><i></i><i></i><i></i><i></i></div><div class="eck-skt"><i></i><i></i><i></i><i></i><i></i><i></i></div>');
@@ -129,6 +176,7 @@
   }
 
   function renderPicker() {
+    S.korak = 'termin';
     if (!S.days.length) { renderFallback('Trenutno nema slobodnih termina ovde. Pogledaj kalendar direktno:'); return; }
     var d = S.days.filter(function (x) { return x.date === S.day; })[0] || S.days[0];
     S.day = d.date;
@@ -140,7 +188,7 @@
     var times = d.slots.map(function (s) {
       return '<button type="button" class="eck-t" data-iso="' + s.iso + '">' + esc(s.time) + '</button>';
     }).join('');
-    el('<p class="eck-h">Izaberi dan</p><div class="eck-days">' + days + '</div>' +
+    el(progress(1) + '<p class="eck-h">Izaberi dan</p><div class="eck-days">' + days + '</div>' +
       '<p class="eck-h" style="margin-top:6px">Izaberi vreme</p><div class="eck-times">' + times + '</div>' +
       '<p class="eck-note">Poziv traje ' + esc(MIN) + ' minuta, preko Google Meeta. Vreme je po Beogradu.</p>');
     host.querySelectorAll('.eck-day').forEach(function (b) {
@@ -152,21 +200,54 @@
         S.slot = { iso: iso, time: b.textContent, day: d.label };
         pixel('trackCustom', 'IzabraoTermin', { landing: landing });
         track('slot_pick', { day: d.label, time: b.textContent });
-        renderForm();
+        next();
+        openPopup('termin');
       };
     });
     var on = host.querySelector('.eck-day[aria-pressed="true"]');
     if (on && on.scrollIntoView && on.offsetLeft > host.clientWidth - 80) on.parentNode.scrollLeft = on.offsetLeft - 16;
   }
 
+  // ---------- pitanja ----------
+  function active() { return PITANJA.filter(function (q) { return !q.if || q.if(S.odg); }); }
+  /** Prvo pitanje bez odgovora, a kad ih nema, kontakt. */
+  function next() {
+    var list = active();
+    for (var i = 0; i < list.length; i++) if (!S.odg[list[i].k]) { renderQuestion(i); return; }
+    if (PITANJA.length && !S.qDone) { S.qDone = true; track('q_done'); }
+    renderForm();
+  }
+  function renderQuestion(i) {
+    var list = active(), q = list[i];
+    S.korak = 'pitanje ' + q.k;
+    el(progress(2) + '<p class="eck-q" tabindex="-1">' + esc(q.t) + '</p><div class="eck-o' + (q.grid ? ' g' : '') + '">' +
+      q.o.map(function (o) {
+        return '<button type="button" data-v="' + esc(o[0]) + '" aria-pressed="' + (S.odg[q.k] === o[0]) + '">' + esc(o[1]) + '</button>';
+      }).join('') + '</div><div class="eck-backrow"><button type="button" class="eck-link" data-back>Nazad</button></div>');
+    host.querySelector('[data-back]').onclick = function () { if (i) renderQuestion(i - 1); else renderPicker(); };
+    host.querySelectorAll('.eck-o button').forEach(function (b) {
+      b.onclick = function () {
+        var val = b.getAttribute('data-v');
+        S.odg[q.k] = val;
+        // Promenjen odgovor može da sakrije kasnije pitanje: njegov odgovor se ne šalje.
+        PITANJA.forEach(function (x) { if (x.if && !x.if(S.odg)) delete S.odg[x.k]; });
+        track('q_answer', { q: q.k, a: val });
+        var rest = active();
+        if (i + 1 < rest.length) renderQuestion(i + 1); else next();
+      };
+    });
+    top();
+  }
+
   var saved = {};
   function renderForm(error, field) {
+    S.korak = 'podaci';
     var v = function (k) { return esc(saved[k] || ''); };
     var pre = saved.pre || '+381';
     var opts = [['+381', 'RS +381'], ['+385', 'HR +385'], ['+387', 'BA +387'], ['+382', 'ME +382'], ['', 'Drugo']].map(function (o) {
       return '<option value="' + o[0] + '"' + (o[0] === pre ? ' selected' : '') + '>' + o[1] + '</option>';
     }).join('');
-    el('<div class="eck-picked"><div><b>' + esc(S.slot.day) + ' u ' + esc(S.slot.time) + '</b><small>' + esc(MIN) + ' min, Google Meet</small></div>' +
+    el(progress(3) + '<div class="eck-picked"><div><b>' + esc(S.slot.day) + ' u ' + esc(S.slot.time) + '</b><small>' + esc(MIN) + ' min, Google Meet</small></div>' +
       '<button type="button" class="eck-link" data-back>Promeni</button></div>' +
       '<form class="eck-f" novalidate>' +
       '<label>Ime i prezime<input name="name" autocomplete="name" required value="' + v('name') + '"></label>' +
@@ -178,8 +259,11 @@
       '<label>Šta treba da znam pre poziva<small>Nije obavezno.</small><textarea name="note">' + v('note') + '</textarea></label>' +
       '<div class="eck-hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
       (error ? '<p class="eck-err" role="alert">' + esc(error) + '</p>' : '') +
-      '<button class="eck-btn" type="submit">Zakaži poziv</button></form>');
+      '<button class="eck-btn" type="submit">Zakaži poziv</button></form>' +
+      (PITANJA.length ? '<div class="eck-backrow"><button type="button" class="eck-link" data-q>Nazad na pitanja</button></div>' : ''));
     host.querySelector('[data-back]').onclick = function () { keep(); renderPicker(); };
+    if (PITANJA.length) host.querySelector('[data-q]').onclick = function () { keep(); renderQuestion(active().length - 1); };
+    top();
     var form = host.querySelector('form');
     if (field) {
       var map = { name: 'name', email: 'email', phone: 'phone', instagram: 'instagram' };
@@ -206,6 +290,7 @@
       o: EXTRA.o, k: EXTRA.k,
       start: S.slot.iso, name: f.name.value, email: f.email.value, phone: phoneValue(f.pre.value, f.phone.value),
       instagram: f.instagram.value, note: f.note.value, website: f.website.value,
+      kvalifikacija: PITANJA.length ? S.odg : undefined,
       tz: (Intl.DateTimeFormat().resolvedOptions().timeZone || null), landing: landing, utm: utm,
       fbclid: qs.get('fbclid'), fbc: fbc(), fbp: cookie('_fbp'), page: location.href.slice(0, 600),
       ref: document.referrer || null, ms: Date.now() - T0,
@@ -223,7 +308,9 @@
           if (landing !== 'kalendar-test') {
             pixel('track', 'Schedule', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
             pixel('track', 'Lead', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
+            if (res.kvalifikovan) pixel('track', 'SubmitApplication', { content_name: 'Poziv sa Borisom', landing: landing }, { eventID: res.id });
           }
+          S.korak = 'zakazano';
           el('<div class="eck-ok" role="status"><div class="eck-check">✓</div><p class="eck-h" style="margin:0">' + esc(DONE) + '</p>' +
             '<p><b style="color:var(--tx)">' + esc(res.label) + '</b></p><p>Link za Google Meet stiže ti na mejl.</p></div>');
           try { window.dispatchEvent(new CustomEvent('ec-kalendar:booked', { detail: { id: res.id, label: res.label } })); } catch (e) {}
@@ -263,6 +350,51 @@
       })
       .catch(function () { renderFallback('Kalendar trenutno ne može da se učita. Zakaži direktno:'); });
   }
+
+  // ---------- popup ----------
+  var dlg = null, home = null;
+  function openPopup(gde) {
+    if (!POPUP || (dlg && dlg.open)) return;
+    if (!dlg) {
+      dlg = document.createElement('dialog');
+      dlg.className = 'eckd';
+      dlg.setAttribute('aria-label', 'Zakaži besplatan poziv');
+      dlg.innerHTML = '<div class="eckd-h"><b tabindex="-1">Besplatan poziv<small>' + esc(MIN) + ' minuta, online</small></b>' +
+        '<button type="button" class="eckd-x" aria-label="Zatvori">×</button></div><div class="eckd-b"></div>';
+      document.body.appendChild(dlg);
+      // Boje kalendara su na roditelju na strani, pa ih popup preuzima.
+      var cs = getComputedStyle(host);
+      ['accent', 'accent-text', 'bg', 'surface', 'border', 'text', 'muted'].forEach(function (k) {
+        var v = cs.getPropertyValue('--eck-' + k); if (v) dlg.style.setProperty('--eck-' + k, v);
+      });
+      dlg.querySelector('.eckd-x').onclick = function () { dlg.close(); };
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener('close', function () {
+        track('popup_close', { korak: S.korak });
+        home.appendChild(host);
+        home.style.minHeight = '';
+        document.documentElement.classList.remove('eckd-on');
+        if (history.state && history.state.eckd) history.back();
+      });
+      // Dugme nazad na telefonu zatvara popup, ne izbacuje sa strane.
+      window.addEventListener('popstate', function () { if (dlg.open) dlg.close(); });
+    }
+    home = host.parentNode;
+    home.style.minHeight = home.offsetHeight + 'px';
+    dlg.querySelector('.eckd-b').appendChild(host);
+    document.documentElement.classList.add('eckd-on');
+    dlg.showModal();
+    dlg.querySelector('.eckd-h b').focus();
+    top();
+    try { history.pushState({ eckd: 1 }, ''); } catch (e) {}
+    track('popup_open', { gde: gde });
+  }
+  if (POPUP) document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href="#poziv"]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    openPopup(a.getAttribute('data-gde') || 'strana');
+  });
 
   // Kalendar je stvarno bio na ekranu (ne samo učitan na dnu strane).
   if ('IntersectionObserver' in window) {

@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://edgecut.app">
-<link rel="stylesheet" href="../case.css">
+<link rel="stylesheet" href="../case.css?v=20261124">
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','4374976512714502');fbq('track','PageView');
@@ -34,6 +34,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
     <p class="who">Ana · frizerski salon u Novim Banovcima</p>
     <h1>Zarada 3x veća nego pre klipova</h1>
     <p class="lead">Ana ima frizerski salon u Novim Banovcima.</p>
+    <div class="cta-in hero-cta"><a class="btn" href="#poziv">Zakaži besplatan poziv</a><small>30 minuta, online, besplatno</small></div>
 
     <div class="ba">
       <div class="after">
@@ -71,6 +72,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
         <p class="src">Ana, vlasnica salona</p>
       </div>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -78,7 +80,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   <div class="wrap">
     <h2>Hoćeš isto za svoj posao?</h2>
     <p class="sub">Zakaži besplatan poziv od 30 minuta.<br>Prođemo tvoju situaciju i kažem ti šta bih menjao u narednih 90 dana.</p>
-    <div class="cal-card"><div data-ec-kalendar data-landing="saradnja-ana"></div></div>
+    <div class="cal-card"><div data-ec-kalendar data-landing="saradnja-ana" data-pitanja data-popup></div></div>
     <p class="fit">Poziv je za vlasnike biznisa koji već zarađuju.</p>
   </div>
 </section>
@@ -90,6 +92,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <a href="../ags/">Niko ne gleda moje klipove<span>Mašine za čaure: od 1.000 do 226.000 pregleda po klipu</span></a>
       <a href="../superdog/">Gledaju me, ali niko ne piše<span>Škola dresure pasa: 7.000 zainteresovanih iz jednog videa</span></a>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -102,7 +105,13 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </footer>
 
+<div class="bar" id="bar" aria-hidden="true">
+  <a class="btn" href="#poziv" tabindex="-1">Zakaži besplatan poziv</a>
+  <small>30 minuta, online, besplatno</small>
+</div>
+
 <script src="/shop/track.js" defer></script>
-<script src="/kalendar/kalendar.js?v=20261120" defer></script>
+<script src="/kalendar/kalendar.js?v=20261124" defer></script>
+<script src="../traka.js?v=20261124" defer></script>
 </body>
 </html>

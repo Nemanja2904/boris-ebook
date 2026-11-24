@@ -118,3 +118,18 @@ footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;
 .prods{margin-top:22px;display:grid;gap:10px;max-width:640px}
 .prods p{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--muted);font-size:15.5px}
 .prods p b{display:block;color:var(--ink);font-weight:800;font-size:16.5px}
+
+/* dugme za poziv na kraju sekcije + donja traka (telefon), isto kao /saradnja */
+.cta-in{margin-top:34px;display:grid;gap:14px;justify-items:start}
+.cta-in p{font-weight:700;font-size:18px;line-height:1.35;max-width:30em;color:var(--ink)}
+.cta-in.hero-cta{margin-top:22px;gap:10px}
+.cta-in.hero-cta small{font-size:14px;font-weight:600;color:var(--faint)}
+.cta-in .btn,#bar .btn{min-height:54px;padding:0 28px;border-radius:12px;font-size:17px}
+@media(max-width:599px){.cta-in{justify-items:stretch}.cta-in.hero-cta small{text-align:center}}
+.bar#bar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(12,26,43,.08);transform:translateY(110%);transition:transform .25s ease-out}
+.bar#bar.on{transform:none}
+#bar .btn{width:100%}
+#bar small{display:block;text-align:center;font-size:12px;color:var(--faint);margin-top:4px}
+@media(min-width:900px){.bar#bar{display:none}}
+@media(max-width:899px){footer{padding-bottom:110px}}
+@media(prefers-reduced-motion:reduce){.bar#bar{transition:none}}

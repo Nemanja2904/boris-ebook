@@ -165,6 +165,13 @@ fbq('init','4374976512714502');fbq('track','PageView');
   [data-ec-kalendar]{--eck-accent:var(--cta);--eck-text:var(--ink);--eck-muted:var(--muted);--eck-border:var(--line);--eck-surface:var(--bg)}
   @media(min-width:900px){.call{padding:96px 0}.call-grid{grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}}
 
+  /* dugme za poziv na kraju sekcije */
+  .cta-in{margin-top:40px;display:grid;gap:14px;justify-items:start}
+  .cta-in p{font-weight:700;font-size:18px;line-height:1.35;max-width:30em;color:var(--ink)}
+  .cta-in.hero-cta{margin-top:24px;gap:10px}
+  .cta-in.hero-cta small{font-size:14px;font-weight:600;color:var(--faint)}
+  @media(max-width:599px){.cta-in.hero-cta small{text-align:center}.cta-in,.cta-row{justify-items:stretch}.cta-in .btn,.cta-row .btn{width:100%}}
+
   /* cta */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 28px;border-radius:12px;background:var(--cta);color:var(--cta-text);font-weight:800;font-size:17px;text-decoration:none;transition:background .15s ease,transform .1s ease}
   .btn:hover{background:var(--cta-hover)}
@@ -217,7 +224,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#">Boris Vasić</a>
-    <a class="btn sm" href="#poziv">Izaberi termin</a>
+    <a class="btn sm" href="#poziv">Zakaži poziv</a>
   </div>
 </header>
 
@@ -231,8 +238,22 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <h1 id="h">Klipovi ti stoje na par hiljada pregleda?</h1>
       <p class="lead" id="l">Na pozivu pogledam tvoj profil i pokažem ti zašto ljudi ne ostaju na klipu i šta bih menjao u narednih 90 dana.</p>
       <p class="fit2"><b id="f">Poziv je za vlasnike biznisa koji već zarađuju.</b></p>
+      <div class="cta-in hero-cta"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
     </div>
-    <div class="cal-card" id="poziv"><div data-ec-kalendar data-landing="saradnja-poziv"></div></div>
+    <div class="reels res">
+      <figure class="reel">
+        <div class="pic"><img src="../img/k-ana.jpg" alt="Klip frizerskog salona" width="480" height="854"><span class="views">3x veća zarada</span></div>
+        <figcaption class="meta">Frizerski salon: zarada pre i posle klipova<br><a href="../ana/">Pogledaj kako →</a></figcaption>
+      </figure>
+      <figure class="reel">
+        <div class="pic"><img src="../img/k-superdog40.jpg" alt="Klip škole dresure pasa: dresura za 40 sekundi" width="480" height="854"><span class="views">7.000+ zainteresovanih</span></div>
+        <figcaption class="meta">Škola dresure pasa, iz ovog jednog videa<br><a href="../superdog/">Pogledaj kako →</a></figcaption>
+      </figure>
+      <figure class="reel">
+        <div class="pic"><img src="../img/k-stefan.jpg" alt="Klip edukatora za Meta reklame" width="480" height="854"><span class="views">7 klijenata za 7 dana</span></div>
+        <figcaption class="meta">Edukator za Meta reklame, samo iz organskog sadržaja<br><a href="https://www.instagram.com/reel/DWmjN9djnNC/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
+      </figure>
+      </div>
   </div>
 </section>
 <script>
@@ -257,26 +278,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <li>šta bih prvo promenio da profil krene da raste.</li>
     </ul>
     <p class="txt reveal" style="margin-top:20px">Ako vidim da ti ne mogu pomoći, reći ću ti i to.</p>
-  </div>
-</section>
-
-<section class="pot" data-section="rezultati">
-  <div class="wrap">
-    <h2 class="reveal">Rezultati klijenata sa kojima radim</h2>
-    <div style="margin-top:26px"><div class="reels res">
-        <figure class="reel">
-          <div class="pic"><img src="../img/k-ana.jpg" alt="Klip frizerskog salona" width="480" height="854"><span class="views">3x veća zarada</span></div>
-          <figcaption class="meta">Frizerski salon: zarada pre i posle klipova<br><a href="../ana/">Pogledaj kako →</a></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="pic"><img src="../img/k-superdog40.jpg" alt="Klip škole dresure pasa: dresura za 40 sekundi" width="480" height="854"><span class="views">7.000+ zainteresovanih</span></div>
-          <figcaption class="meta">Škola dresure pasa, iz ovog jednog videa<br><a href="../superdog/">Pogledaj kako →</a></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="pic"><img src="../img/k-stefan.jpg" alt="Klip edukatora za Meta reklame" width="480" height="854"><span class="views">7 klijenata za 7 dana</span></div>
-          <figcaption class="meta">Edukator za Meta reklame, samo iz organskog sadržaja<br><a href="https://www.instagram.com/reel/DWmjN9djnNC/" target="_blank" rel="noopener">Pogledaj na Instagramu ↗</a></figcaption>
-        </figure>
-      </div></div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -286,10 +288,17 @@ fbq('init','4374976512714502');fbq('track','PageView');
     <p class="lead"><b>Stojim iza dosta velikih profila na društvenim mrežama, a većina ljudi koji ih prate ne zna da sam ih ja radio.</b></p>
     <p class="txt" style="margin-top:18px">Sa klijentima sam iz organskog sadržaja doveo preko 80.000 zainteresovanih ljudi, bez novca u reklame.</p>
     <p class="txt">Ne prodajem klipove.<br>Gledam šta tvoj kupac traži i pravim sadržaj koji ga dovede do tebe.</p>
-    <div class="cta-row"><a class="btn" href="#poziv">Izaberi termin</a></div>
+    <div class="cta-row"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
+<section class="call" id="poziv" data-section="poziv">
+  <div class="wrap">
+    <h2>Zakaži besplatan poziv</h2>
+    <p class="sub"><b>Izaberi dan i vreme ispod.</b><br>Poziv traje 30 minuta, online je i ne plaća se.</p>
+    <div class="cal-card" style="margin-top:28px;max-width:600px"><div data-ec-kalendar data-landing="saradnja-poziv" data-pitanja data-popup></div></div>
+  </div>
+</section>
 
 <section data-section="pitanja">
   <div class="wrap">
@@ -301,6 +310,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <details><summary>Koliko košta?</summary><p>Zavisi od toga šta ti treba, jer svakom biznisu pomažem drugačije.<br>To dogovaramo tek kad vidim tvoj profil.</p></details>
       <details><summary>Već sam radio sa agencijom i nije bilo rezultata.</summary><p>Na pozivu ti na tvom profilu pokažem šta bih uradio drugačije.</p></details>
     </div>
+    <div class="cta-in"><p>Ako tvoje pitanje nije ovde, postavi mi ga na pozivu.</p><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -314,12 +324,13 @@ fbq('init','4374976512714502');fbq('track','PageView');
 </footer>
 
 <div class="bar" id="bar" aria-hidden="true">
-  <a class="btn" href="#poziv" tabindex="-1">Izaberi termin</a>
+  <a class="btn" href="#poziv" tabindex="-1">Zakaži besplatan poziv</a>
   <small>30 minuta, online, besplatno</small>
 </div>
 
 <script src="/shop/track.js" defer></script>
-<script src="/kalendar/kalendar.js?v=20261123" defer></script>
+<script src="/kalendar/kalendar.js?v=20261124" defer></script>
+<script src="../traka.js?v=20261124" defer></script>
 <script>
   // Sekcije ulaze kad dođu na ekran. Bez IntersectionObservera stranica odmah prikaže sve.
   (function(){
@@ -332,29 +343,8 @@ fbq('init','4374976512714502');fbq('track','PageView');
     setTimeout(function(){ els.forEach(function(e){ e.classList.add('on'); }); }, 2500);
   })();
 
-  // Traka na dnu (telefon): pojavi se kad se prođe prvi ekran, skloni se kad je kalendar na ekranu.
-  (function(){
-    var bar = document.getElementById('bar'), hero = document.querySelector('.hero'), call = document.getElementById('poziv');
-    function upd(){
-      var past = hero.getBoundingClientRect().bottom < 0;
-      var r = call.getBoundingClientRect(), inCall = r.top < window.innerHeight && r.bottom > 0;
-      var show = past && !inCall;
-      bar.classList.toggle('on', show);
-      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
-      bar.querySelector('a').tabIndex = show ? 0 : -1;
-    }
-    window.addEventListener('scroll', upd, {passive:true});
-    window.addEventListener('resize', upd, {passive:true});
-    upd();
-  })();
 
-  // Naše praćenje (ADS → Besplatan poziv): klik na dugme za poziv, izbor situacije, pušten video.
-  document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a');
-    if(!a || !window.shopTrack) return;
-    if(a.getAttribute('href') === '#poziv') window.shopTrack('cta', { gde: a.closest('header') ? 'meni' : a.closest('#bar') ? 'traka' : a.classList.contains('pk') ? 'izbor' : 'strana' });
-    if(a.classList.contains('pk')){ var h = a.querySelector('h3'); window.shopTrack('pick', { title: (h ? h.textContent : a.textContent).trim().slice(0, 80) }, { beacon: true }); }
-  });
+  // Naše praćenje (ADS → Besplatan poziv): pušten video. Klikovi na dugmad su u traka.js.
   document.querySelectorAll('video').forEach(function(v){
     v.addEventListener('play', function(){ if(window.shopTrack && !v.__t){ v.__t = 1; window.shopTrack('video_play', { src: (v.getAttribute('src') || '').split('/').pop() }); } });
   });

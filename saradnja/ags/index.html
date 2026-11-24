@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://edgecut.app">
-<link rel="stylesheet" href="../case.css">
+<link rel="stylesheet" href="../case.css?v=20261124">
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','4374976512714502');fbq('track','PageView');
@@ -34,6 +34,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
     <p class="who">AGS · srpska firma koja mašine za čaure prodaje u Americi</p>
     <h1>Od 1.000 do 226.000 pregleda po klipu</h1>
     <p class="lead">AGS pravi mašine za pripremu čaura, a kupci su lovci i strelci u Americi.<br>Lice firme je Stefan, vlasnik i takmičar u preciznom gađanju.<br><b>Uzak posao, publika na drugom kontinentu i snimanje na engleskom.</b></p>
+    <div class="cta-in hero-cta"><a class="btn" href="#poziv">Zakaži besplatan poziv</a><small>30 minuta, online, besplatno</small></div>
 
     <div class="ba">
       <div>
@@ -67,6 +68,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
         <p>Klipovi u kojima Stefan odgovara na pitanje imali su od 1.000 do 10.000 pregleda.<br><b>Kratka misao, rečena odmah na početku, imala je 207.000, 74.000 i 69.000.</b></p>
       </div>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -90,6 +92,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
         <p class="src">Stefan, vlasnik AGS-a</p>
       </div>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -97,7 +100,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
   <div class="wrap">
     <h2>Hoćeš isto za svoj posao?</h2>
     <p class="sub">Zakaži besplatan poziv od 30 minuta.<br>Prođemo tvoju situaciju i kažem ti šta bih menjao u narednih 90 dana.</p>
-    <div class="cal-card"><div data-ec-kalendar data-landing="saradnja-ags"></div></div>
+    <div class="cal-card"><div data-ec-kalendar data-landing="saradnja-ags" data-pitanja data-popup></div></div>
     <p class="fit">Poziv je za vlasnike biznisa koji već zarađuju.</p>
   </div>
 </section>
@@ -109,6 +112,7 @@ fbq('init','4374976512714502');fbq('track','PageView');
       <a href="../superdog/">Gledaju me, ali niko ne piše<span>Škola dresure pasa: 7.000 zainteresovanih iz jednog videa</span></a>
       <a href="../ana/">Pišu mi, ali hoću da prodam više<span>Frizerski salon: 3x veća zarada</span></a>
     </div>
+    <div class="cta-in"><a class="btn" href="#poziv">Zakaži besplatan poziv</a></div>
   </div>
 </section>
 
@@ -121,7 +125,13 @@ fbq('init','4374976512714502');fbq('track','PageView');
   </div>
 </footer>
 
+<div class="bar" id="bar" aria-hidden="true">
+  <a class="btn" href="#poziv" tabindex="-1">Zakaži besplatan poziv</a>
+  <small>30 minuta, online, besplatno</small>
+</div>
+
 <script src="/shop/track.js" defer></script>
-<script src="/kalendar/kalendar.js?v=20261120" defer></script>
+<script src="/kalendar/kalendar.js?v=20261124" defer></script>
+<script src="../traka.js?v=20261124" defer></script>
 </body>
 </html>
