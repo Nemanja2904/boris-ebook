@@ -8,13 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/kupi/kupi.css?v=2511">
+<link rel="stylesheet" href="/kupi/kupi.css?v=2512">
 <script src="https://js.stripe.com/endive/stripe.js"></script>
 <script src="/kupi/kljuc.js"></script>
 </head>
 <body data-page="checkout">
 <!--
-  Checkout Borisovog shopa: /kupi/?p=recept, /kupi/?p=upiti ili /kupi/?p=konsultacija (bez doplate, posle plaćanja termin)
+  Checkout Borisovog shopa: /kupi/?p=recept, /kupi/?p=upiti, /kupi/?p=trik ili /kupi/?p=konsultacija (bez doplate, posle plaćanja termin)
+  Sa &komplet=1 (dugme "Uzmi komplet" na landingu) komplet je već izabran, može da se skine.
   Ponuda iz mejla treće šanse: /kupi/?p=upiti&o=<porudžbina>&k=<ključ>
   Cene, nazivi i doplata dolaze sa servera (GET /api/public/shop/config). Iznos računa server,
   ova strana šalje samo proizvod, da li je doplata čekirana i mejl.
@@ -72,14 +73,14 @@
       <button class="btn" type="submit" id="payBtn" disabled><span id="payLabel">Plati</span></button>
       <div class="pay-err" id="payErr" role="alert" hidden></div>
       <p class="fine" id="fineAccess">Pristup dobijaš odmah posle plaćanja, a link stiže i na mejl.</p>
-      <p class="fine" id="fineCard">Karticu pamti Stripe, da na sledećoj strani možeš da dodaš drugi deo kompleta jednim klikom.</p>
+      <p class="fine" id="fineCard">Karticu pamti Stripe, da na sledećoj strani možeš da dodaš ostatak kompleta jednim klikom.</p>
       <p class="fine small">Kupovinom pristaješ da ti povremeno pišem na mejl. Odjaviti se možeš kad god hoćeš. <a href="/kupi/privatnost/">Privatnost</a></p>
     </section>
   </form>
 </main>
 
 <script src="/shop/track.js"></script>
-<script src="/kupi/komplet.js?v=2511"></script>
+<script src="/kupi/komplet.js?v=2512"></script>
 <script>
 (function () {
   'use strict';
@@ -93,8 +94,9 @@
 
   // Doplata u jednom redu: naziv i zašto (Borisovo prvo lice). Cene dolaze sa servera.
   var COPY = {
-    recept: { mini: { name: 'Kontent mašinu', why: 'Interaktivni priručnik u kom za svoj posao pišeš poziv za kraj klipa i prvu poruku koju šalješ onome ko ti se javi.' } },
-    upiti: { mini: { name: 'Recept', why: 'Postupak u pet koraka po kom smišljam viralne klipove za klijente.' } }
+    recept: { mini: { why: 'Dobijaš i Kontent mašinu, priručnik za upite, a na poklon video „Trik od 5 minuta za 10 puta više pregleda”.' } },
+    upiti: { mini: { why: 'Dobijaš i Recept, postupak za smišljanje viralnih klipova, a na poklon video „Trik od 5 minuta za 10 puta više pregleda”.' } },
+    trik: { mini: { why: 'Uz video dobijaš oba moja priručnika: Recept za smišljanje viralnog videa i Kontent mašinu za besplatne upite.' } }
   };
   var ERR = {
     card_declined: 'Banka je odbila karticu. Probaj drugu karticu ili pozovi banku.',
@@ -118,11 +120,11 @@
   function ssSet(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ništa */ } }
 
   var KONSULT = P === 'konsultacija';
-  if (P !== 'recept' && P !== 'upiti' && !KONSULT) {
+  if (P !== 'recept' && P !== 'upiti' && P !== 'trik' && !KONSULT) {
     $('form').hidden = true;
     var n = $('notice');
     n.hidden = false;
-    n.innerHTML = 'Ovaj link nije potpun. Izaberi šta kupuješ: <a href="/kupi/?p=recept">Recept</a> ili <a href="/kupi/?p=upiti">Kontent mašinu</a>.';
+    n.innerHTML = 'Ovaj link nije potpun. Izaberi šta kupuješ: <a href="/kupi/?p=trik">video</a>, <a href="/kupi/?p=recept">Recept</a> ili <a href="/kupi/?p=upiti">Kontent mašinu</a>.';
     return;
   }
   document.body.setAttribute('data-p', P);
@@ -139,14 +141,24 @@
     return cfg.product.price + (bumpOn && cfg.bump ? cfg.bump.price : 0);
   }
 
+  // Stavke po ceni kad se kupuju posebno, pa popust kompleta: zbir je uvek iznos naplate.
+  function itemLines(items) {
+    var off = 0;
+    var html = items.map(function (i) {
+      if (!i.gift) off += i.alone - i.price;
+      return '<div><span>' + esc(i.name) + '</span><span' + (i.gift ? ' class="gift">poklon' : '>' + eur(i.alone)) + '</span></div>';
+    }).join('');
+    return html + (off > 0 ? '<div><span>Popust na komplet</span><span class="gift">\u2212' + eur(off) + '</span></div>' : '');
+  }
+
   function renderTotals() {
     var a = amount();
     var lines = '';
     if (cfg.offer) {
-      lines = '<div><span>' + esc(cfg.product.name) + '</span><span>' + eur(cfg.offer.price) + '</span></div>';
+      lines = cfg.offer.items ? itemLines(cfg.offer.items) : '<div><span>' + esc(cfg.product.name) + '</span><span>' + eur(cfg.offer.price) + '</span></div>';
     } else {
       lines = '<div><span>' + esc(cfg.product.name) + '</span><span>' + eur(cfg.product.price) + '</span></div>';
-      if (bumpOn) lines += '<div><span>' + esc(cfg.bump.name) + '</span><span>' + eur(cfg.bump.price) + '</span></div>';
+      if (bumpOn) lines += itemLines(cfg.bump.items);
     }
     $('lines').innerHTML = lines;
     $('total').textContent = eur(a);
@@ -159,8 +171,10 @@
     var pr = cfg.product;
     var cover = $('cover');
     cover.outerHTML = window.komplet_cover(P, pr.name).replace('<div class="', '<div id="cover" class="');
-    $('kind').textContent = pr.tagline || '';
-    $('name').textContent = pr.name;
+    // Ponuda iz mejla kupcu videa su oba priručnika, ne jedan proizvod iz linka.
+    var paidItems = cfg.offer && cfg.offer.items ? cfg.offer.items.filter(function (i) { return !i.gift; }) : [];
+    $('kind').textContent = paidItems.length > 1 ? 'Dva priručnika' : pr.tagline || '';
+    $('name').textContent = paidItems.length > 1 ? paidItems.map(function (i) { return i.short; }).join(' i ') : pr.name;
     document.title = pr.name + ' - Boris Vasić';
     if (OFFER) $('emailHelp').textContent = 'Na ovu adresu šaljem link za pristup.';
     if (KONSULT) {
@@ -188,7 +202,7 @@
       $('price').innerHTML = eur(pr.price) + (pr.compare_at ? ' <s>' + eur(pr.compare_at) + '</s>' : '');
     } else {
       $('price').innerHTML = eur(pr.price) + (pr.compare_at ? ' <s>' + eur(pr.compare_at) + '</s>' : '');
-      // Recept: 7 € uz precrtanih 29 €. Kontent mašina: 17 € uz precrtanih 39 € i ispod "Uvodna cena" (note sa servera).
+      // Recept: 6,99 € uz precrtanih 29 €. Kontent mašina: 16,99 € uz precrtanih 39 € i ispod "Uvodna cena" (note sa servera).
       if (pr.note) {
         var pn = $('offerNote');
         pn.hidden = false;
@@ -196,16 +210,14 @@
         pn.textContent = pr.note;
       }
       var b = cfg.bump;
-      var names = {};
-      names[P] = pr.name;
-      names[b.id] = b.name;
       kit = window.Komplet($('kit'), {
-        have: P, names: names, price: b.price, regular: b.regular, bundle: cfg.bundle, chain: b.chain, mini: c.mini, removable: true,
+        items: b.items, price: b.price, bundle: cfg.bundle, mini: c.mini,
         onAdd: function () { setBump(true); },
         onRemove: function () { setBump(false); }
       });
       $('bumpWrap').hidden = false;
       watch($('bumpWrap'), function () { T('bump_view', { price: b.price }); });
+      if (qs.get('komplet') === '1') { bumpOn = true; kit.set(true); }
     }
     renderTotals();
   }

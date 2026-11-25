@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Trik od 5 minuta za 10 puta više pregleda - Boris Vasić</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/kupi/kupi.css?v=2512">
+<style>
+  .gl{max-width:960px;margin:0 auto}
+  .gl h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.6vw,38px);line-height:1.08;letter-spacing:-.03em;margin:4px 0 16px}
+  .vid{display:block;width:100%;aspect-ratio:1600/882;background:#000;border-radius:14px;border:1px solid var(--border)}
+  .go{max-width:420px;margin:18px auto 0;text-decoration:none}
+  .poz{border-top:1px solid var(--border);margin-top:40px;padding-top:34px;scroll-margin-top:8px}
+  .poz-g{display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+  .poz h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.4vw,40px);line-height:1.06;letter-spacing:-.03em}
+  .poz ul{list-style:none;margin-top:16px;display:grid;gap:10px}
+  .poz li{position:relative;padding-left:30px;line-height:1.45}
+  .poz li::before{content:'';position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:50%;background:var(--accent)}
+  .poz li::after{content:'';position:absolute;left:6px;top:8px;width:8px;height:4px;border-left:2.5px solid var(--accent-ink);border-bottom:2.5px solid var(--accent-ink);transform:rotate(-45deg)}
+  .poz .sub{margin-top:14px;color:var(--muted)}
+  .cal{--eck-accent:#ffd60a;--eck-accent-text:#0b0b0d;--eck-bg:#131316;--eck-surface:#1c1c20;--eck-border:#34343b;--eck-text:#fafafa;--eck-muted:#a4a4ad;min-height:300px}
+  .cal .eck{max-width:none}
+  .booked{border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:14px;padding:18px}
+  .booked b{display:block;font-size:18px}
+  @media(min-width:900px){.poz-g{grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:56px;align-items:start}}
+</style>
+</head>
+<body data-page="gledaj" data-p="trik">
+<!--
+  Kupljeni video: /trik/gledaj/?t=<token>. Token stiže u mejlu i na hvala strani.
+  GET /api/public/shop/trik?t= vraća potpisan link na video (važi 6 h) i mejl kupca.
+  Ispod je prijava za besplatan poziv sa Borisom: isti kalendar kao na /saradnja, pitanja su analitika profila
+  (data-pitanja="profil"), a token ide uz zakazivanje da se vidi sa kog oglasa je kupac došao.
+-->
+<header class="top">
+  <a class="brand" href="/"><i></i>Boris Vasić</a>
+</header>
+
+<main class="wrap">
+  <div class="gl">
+    <div id="pending" class="wait"><span class="spin"></span><span>Učitavam video.</span></div>
+    <div id="problem" class="notice" hidden></div>
+
+    <div id="done" hidden>
+      <h1>Trik od 5 minuta za 10 puta više pregleda</h1>
+      <video class="vid" id="vid" controls playsinline preload="metadata" poster="/trik/img/poster.jpg" controlslist="nodownload"></video>
+      <a class="btn go" href="#poziv" id="go">Zakaži besplatan poziv</a>
+
+      <section class="poz" id="poziv">
+        <div class="poz-g">
+          <div>
+            <h2>Hoćeš da pogledam tvoj profil?</h2>
+            <ul>
+              <li>Poziv 1 na 1 sa mnom, 30 minuta, besplatan</li>
+              <li>Prolazimo kroz tvoj profil i klipove koje imaš na njemu</li>
+              <li>Kažem ti šta je dobro, šta bih promenio i kuda dalje</li>
+            </ul>
+            <p class="sub">Izaberi termin i odgovori na četiri pitanja o profilu.<br>Pre poziva ih pregledam, da na pozivu odmah pričamo o tebi.</p>
+          </div>
+          <div class="cal" id="cal"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="/shop/track.js"></script>
+<script>
+(function () {
+  'use strict';
+  var T = window.shopTrack;
+  var t = new URLSearchParams(location.search).get('t') || '';
+  var MAIL = 'borisprproj@edgecut.app';
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function problem(html) { $('pending').hidden = true; $('problem').hidden = false; $('problem').innerHTML = html; }
+
+  if (!/^[a-f0-9]{48}$/.test(t)) {
+    problem('Ovaj link nije ceo. Otvori ga iz mejla koji ti je stigao posle kupovine ili mi piši na <a href="mailto:' + MAIL + '">' + MAIL + '</a>.');
+    return;
+  }
+
+  function load() { return fetch(T.api + '/api/public/shop/trik?t=' + t).then(function (r) { return r.json(); }); }
+
+  function calendar(d) {
+    var box = $('cal');
+    if (d.booked) {
+      box.innerHTML = '<div class="booked"><b>Poziv je zakazan</b>' + esc(d.booked) + '. Link za Google Meet ti je na mejlu.</div>';
+      $('go').hidden = true;
+      return;
+    }
+    var host = document.createElement('div');
+    host.setAttribute('data-ec-kalendar', '');
+    host.setAttribute('data-landing', 'trik');
+    host.setAttribute('data-pitanja', 'profil');
+    host.setAttribute('data-predlog-mejl', d.email || '');
+    host.setAttribute('data-extra', JSON.stringify({ t: t }));
+    box.appendChild(host);
+    var s = document.createElement('script');
+    s.src = '/kalendar/kalendar.js?v=2512';
+    document.body.appendChild(s);
+    window.addEventListener('ec-kalendar:booked', function () { $('go').hidden = true; });
+  }
+
+  load().then(function (d) {
+    if (!d.ok) {
+      problem(d.error === 'video'
+        ? 'Video trenutno ne može da se učita. Osveži stranu za minut ili mi piši na <a href="mailto:' + MAIL + '">' + MAIL + '</a>.'
+        : 'Ne nalazim ovu kupovinu. Otvori link iz mejla ili mi piši na <a href="mailto:' + MAIL + '">' + MAIL + '</a>.');
+      return;
+    }
+    $('pending').hidden = true;
+    $('done').hidden = false;
+    var v = $('vid');
+    v.src = d.video;
+    calendar(d);
+    if (location.hash === '#poziv') $('poziv').scrollIntoView();
+
+    // Dokle gleda: jednom po pragu. Potpisan link istekne posle 6 h, tada se traži nov i nastavlja sa istog mesta.
+    var hit = {};
+    var started = false;
+    v.addEventListener('play', function () { if (!started) { started = true; T('video_play'); } });
+    v.addEventListener('timeupdate', function () {
+      if (!v.duration) return;
+      var pct = (v.currentTime / v.duration) * 100;
+      [25, 50, 75, 95].forEach(function (m) { if (pct >= m && !hit[m]) { hit[m] = 1; T('video_progress', { pct: m }); } });
+    });
+    var retried = false;
+    v.addEventListener('error', function () {
+      if (retried) return;
+      retried = true;
+      var at = v.currentTime;
+      load().then(function (n) { if (n.ok) { v.src = n.video; v.currentTime = at; v.play().catch(function () {}); } });
+    });
+    $('go').addEventListener('click', function () { T('cta', { cta: 'poziv' }); });
+  }).catch(function () { problem('Nema veze sa serverom. Osveži stranu.'); });
+})();
+</script>
+</body>
+</html>

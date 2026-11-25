@@ -69,6 +69,11 @@ label.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
 .kit.is-on{border:1.5px solid var(--accent-line);background:var(--accent-soft)}
 .kit-head{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.015em;line-height:1.2;margin-bottom:14px}
 .part{display:flex;gap:14px;align-items:center}
+.part+.part{margin-top:12px}
+.part-pr{margin-top:3px;font-size:14px;color:var(--muted)}
+.part-pr b{color:var(--action)}
+.part-pr s{color:var(--faint)}
+.total .gift{color:var(--action);font-weight:700}
 .part .cover{width:64px;height:82px;border-radius:6px}
 .part .cover.type{padding:6px}
 .part .cover.type b{font-size:8.5px;line-height:1.08}
@@ -170,7 +175,7 @@ label.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
 .kc .cover.type span{font-size:4.5px}
 .kc b{display:block;font-size:15.5px;line-height:1.25}
 .kc b em{font-style:normal;color:var(--action);white-space:nowrap}
-.kc b s{color:var(--faint);font-weight:500;font-size:14px}
+.kc b s{white-space:nowrap;color:var(--faint);font-weight:500;font-size:14px}
 .kc small{display:block;margin-top:3px;font-size:13.5px;line-height:1.35;color:var(--muted)}
 @media(max-width:899px){
   .product{gap:12px}

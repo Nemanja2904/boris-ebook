@@ -26,6 +26,9 @@
  * Landinzi za poziv (/saradnja i podstrane) dodaju:
  *   data-pitanja   posle termina, pre kontakta, četiri pitanja na klik (odgovori idu u call_bookings.kvalifikacija;
  *                  ko je kvalifikovan odlučuje server u lib/lead-magnet/poziv.ts, pa uz Schedule i Lead ide SubmitApplication),
+ *                  data-pitanja="profil" (strana kupljenog videa /trik/gledaj/) pita analitiku profila: dva pitanja na klik i dva
+ *                  broja (prosek pregleda, ukupno videa), a kontakt traži Instagram profil,
+ *   data-predlog-mejl  mejl je poznat, upisan je u formu ali može da se promeni,
  *   data-popup     svaki <a href="#poziv"> otvara popup sa ovim istim kalendarom (isti element se preseli u <dialog> i nazad,
  *                  pa izabrano ostaje), a i izbor vremena na strani nastavlja u popupu. Nazad na telefonu zatvara popup.
  * Praćenje za to: q_answer {q, a}, q_done, popup_open {gde}, popup_close {korak}.
@@ -51,7 +54,15 @@
   var POPUP = host.hasAttribute('data-popup') && typeof window.HTMLDialogElement === 'function' && !!window.HTMLDialogElement.prototype.showModal;
 
   // Pitanja pre kontakta. Vrednosti (prvi član) moraju da se poklope sa KVALIFIKACIJA u webapp lib/lead-magnet/poziv.ts.
-  var PITANJA = host.hasAttribute('data-pitanja') ? [
+  var PROFIL = host.getAttribute('data-pitanja') === 'profil';
+  var PITANJA = PROFIL ? [
+    { k: 'videa', t: 'Koliko videa mesečno objavljuješ?',
+      o: [['0', 'Nijedan'], ['1-4', '1 do 4'], ['5-10', '5 do 10'], ['11-20', '11 do 20'], ['20+', 'Preko 20']] },
+    { k: 'radi', t: 'Ko ti radi videe?', o: [['sam', 'Radim ih sam'], ['agencija', 'Radi ih agencija'], ['tim', 'Imam svoj tim']] },
+    { k: 'prosek', t: 'Koliki ti je prosek pregleda na poslednjih 30 videa?', num: true, ph: 'na primer 1200',
+      h: 'Otvori rilsove na svom profilu, pogledaj brojke na poslednjih 30 i upiši koliko je to po klipu, može otprilike.' },
+    { k: 'ukupno', t: 'Koliko ukupno videa imaš na profilu?', num: true, ph: 'na primer 85' }
+  ] : host.hasAttribute('data-pitanja') ? [
     { k: 'zaposleni', t: 'Koliko zaposlenih imaš?', grid: true,
       o: [['0', 'Samo ja'], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'], ['6+', '6+']] },
     { k: 'agencija', t: 'Da li je neka agencija već radila sadržaj za tebe?', o: [['da', 'Da'], ['ne', 'Ne']] },
@@ -220,6 +231,7 @@
   function renderQuestion(i) {
     var list = active(), q = list[i];
     S.korak = 'pitanje ' + q.k;
+    if (q.num) { renderNumber(q, i); return; }
     el(progress(2) + '<p class="eck-q" tabindex="-1">' + esc(q.t) + '</p><div class="eck-o' + (q.grid ? ' g' : '') + '">' +
       q.o.map(function (o) {
         return '<button type="button" data-v="' + esc(o[0]) + '" aria-pressed="' + (S.odg[q.k] === o[0]) + '">' + esc(o[1]) + '</button>';
@@ -239,7 +251,34 @@
     top();
   }
 
-  var saved = {};
+  // Broj: jedno polje, tačke i razmaci se brišu ("1.200" je 1200).
+  function renderNumber(q, i) {
+    el(progress(2) + '<form class="eck-f" novalidate><label class="eck-q" style="margin:0;display:block;font-weight:800;font-size:19px" for="eckn">' + esc(q.t) + '</label>' +
+      (q.h ? '<p class="eck-note" style="margin:0">' + esc(q.h) + '</p>' : '') +
+      '<input id="eckn" name="n" inputmode="numeric" autocomplete="off" placeholder="' + esc(q.ph || '') + '" value="' + esc(S.odg[q.k] || '') + '">' +
+      '<p class="eck-err" role="alert" hidden>Upiši broj, može i otprilike.</p>' +
+      '<button class="eck-btn" type="submit">Dalje</button></form>' +
+      '<div class="eck-backrow"><button type="button" class="eck-link" data-back>Nazad</button></div>');
+    var form = host.querySelector('form');
+    host.querySelector('[data-back]').onclick = function () { if (i) renderQuestion(i - 1); else renderPicker(); };
+    form.elements.n.focus({ preventScroll: true });
+    form.onsubmit = function (e) {
+      e.preventDefault();
+      var v = form.elements.n.value.replace(/[\s.,]/g, '');
+      if (!/^\d{1,9}$/.test(v)) {
+        form.elements.n.setAttribute('aria-invalid', 'true');
+        host.querySelector('.eck-err').hidden = false;
+        return;
+      }
+      S.odg[q.k] = String(parseInt(v, 10));
+      track('q_answer', { q: q.k, a: S.odg[q.k] });
+      var rest = active();
+      if (i + 1 < rest.length) renderQuestion(i + 1); else next();
+    };
+    top();
+  }
+
+  var saved = { email: host.getAttribute('data-predlog-mejl') || '' };
   function renderForm(error, field) {
     S.korak = 'podaci';
     var v = function (k) { return esc(saved[k] || ''); };
@@ -255,8 +294,8 @@
         '<label>Mejl<small>Na njega stiže link za poziv.</small><input name="email" type="email" autocomplete="email" inputmode="email" required value="' + v('email') + '"></label>') +
       '<label>Telefon<span class="eck-ph"><select name="pre" aria-label="Pozivni broj">' + opts + '</select>' +
       '<input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="64 123 4567" required value="' + v('phone') + '"></span></label>' +
-      '<label>Instagram, sajt ili naziv biznisa<input name="instagram" autocomplete="off" autocapitalize="none" placeholder="@tvojbiznis" required value="' + v('instagram') + '"></label>' +
-      '<label>Šta treba da znam pre poziva<small>Nije obavezno.</small><textarea name="note">' + v('note') + '</textarea></label>' +
+      '<label>' + (PROFIL ? 'Instagram profil' : 'Instagram, sajt ili naziv biznisa') + '<input name="instagram" autocomplete="off" autocapitalize="none" placeholder="' + (PROFIL ? '@tvojprofil' : '@tvojbiznis') + '" required value="' + v('instagram') + '"></label>' +
+      '<label>' + (PROFIL ? 'Napomena' : 'Šta treba da znam pre poziva') + '<small>Nije obavezno.</small><textarea name="note">' + v('note') + '</textarea></label>' +
       '<div class="eck-hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
       (error ? '<p class="eck-err" role="alert">' + esc(error) + '</p>' : '') +
       '<button class="eck-btn" type="submit">Zakaži poziv</button></form>' +
@@ -287,7 +326,7 @@
     if (S.busy) return;
     var f = form.elements;
     var body = {
-      o: EXTRA.o, k: EXTRA.k,
+      o: EXTRA.o, k: EXTRA.k, t: EXTRA.t,
       start: S.slot.iso, name: f.name.value, email: f.email.value, phone: phoneValue(f.pre.value, f.phone.value),
       instagram: f.instagram.value, note: f.note.value, website: f.website.value,
       kvalifikacija: PITANJA.length ? S.odg : undefined,

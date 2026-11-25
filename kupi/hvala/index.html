@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/kupi/kupi.css">
+<link rel="stylesheet" href="/kupi/kupi.css?v=2512">
 <script src="https://js.stripe.com/endive/stripe.js"></script>
 <script src="/kupi/kljuc.js"></script>
 </head>
@@ -18,6 +18,7 @@
   Linkovi za pristup se prikazuju odmah (ne čeka se mejl). Ako webhook još nije stigao, server sam pita Stripe.
   Pixel Purchase puca samo kad server kaže (jednom po porudžbini, eventID = PaymentIntent, isti kao CAPI).
   Druga šansa: ko je kupio jedan proizvod, 24 h od plaćanja, bez tajmera na strani (rok i cenu drži server, POST /api/public/shop/upsell).
+  Kupac koji ima video Trik (sam ili u kompletu) umesto plaćene konsultacije vidi besplatan poziv (prijava je ispod videa).
   Konsultacija: kupac ebooka vidi ponudu ispod (jednim klikom, POST /upsell sa p=konsultacija), posle plaćanja ide na /kupi/termin/.
 -->
 <header class="top">
@@ -61,7 +62,7 @@
 </main>
 
 <script src="/shop/track.js"></script>
-<script src="/kupi/komplet.js"></script>
+<script src="/kupi/komplet.js?v=2512"></script>
 <script>
 (function () {
   'use strict';
@@ -74,21 +75,28 @@
   var O = qs.get('o') || (last && last.o);
   var K = qs.get('k') || (last && last.k);
 
-  var ACT = { recept: 'Preuzmi PDF', upiti: 'Otvori Kontent mašinu' };
+  var ACT = { recept: 'Preuzmi PDF', upiti: 'Otvori Kontent mašinu', trik: 'Pogledaj video' };
   var SECOND = {
-    // kupio Recept, nudi se sveska
-    upiti: {
+    // kupio Recept, nudi se sveska (i video na poklon)
+    recept: {
       title: function (s) { return 'Hoćeš i Kontent mašinu za ' + eur(s.price) + '?'; },
       body: function () { return 'Recept sam ti donosi preglede, ali od pregleda nemaš ništa dok ti niko ne napiše poruku. Ljudi pišu tek kad ih klip na to pozove. Kontent mašina je osam koraka koje popunjavaš za svoj posao, od deset problema tvog kupca do poziva na kraju klipa i prve poruke onome ko ti se javi.'; },
       button: function (s) { return 'Dodaj Kontent mašinu za ' + eur(s.price); },
-      ok: 'Kontent mašina je dodata. Link je gore na strani, a poslao sam ga i na mejl.'
+      ok: 'Kontent mašina i video su dodati. Linkovi su gore na strani, a poslao sam ih i na mejl.'
     },
-    // kupio svesku, nudi se Recept
-    recept: {
+    // kupio svesku, nudi se Recept (i video na poklon)
+    upiti: {
       title: function (s) { return 'Hoćeš i Recept za ' + eur(s.price) + '?'; },
       body: function () { return 'Poziv na kraju klipa radi samo ako klip gleda neko ko te još ne prati. Klip koji vide samo tvoji pratioci retko donese novog kupca, koliko god dobar poziv bio. U Receptu je postupak u pet koraka po kom smišljam klipove koje gledaju i ljudi koji te ne znaju, od ciljne grupe do hooka.'; },
       button: function (s) { return 'Dodaj Recept za ' + eur(s.price); },
-      ok: 'Recept je dodat. Link je gore na strani, a poslao sam ga i na mejl.'
+      ok: 'Recept i video su dodati. Linkovi su gore na strani, a poslao sam ih i na mejl.'
+    },
+    // kupio video, nude se oba priručnika
+    trik: {
+      title: function (s) { return 'Hoćeš i oba priručnika za ' + eur(s.price) + '?'; },
+      body: function () { return 'Trik pokaže koja verzija klipa prolazi, ali ideju za klip i dalje moraš da smisliš ti. U Receptu je postupak u pet koraka po kom smišljam klipove za klijente, a u Kontent mašini za svoj posao pišeš teme, poziv na kraju klipa i prvu poruku onome ko ti se javi.'; },
+      button: function (s) { return 'Dodaj oba za ' + eur(s.price); },
+      ok: 'Oba priručnika su dodata. Linkovi su gore na strani, a poslao sam ih i na mejl.'
     }
   };
 
@@ -132,6 +140,8 @@
     $('pending').hidden = true;
     $('done').hidden = false;
     if (d.email) $('mailLine').textContent = 'Link sam poslao i na ' + d.email + '. Ako ga ne vidiš za par minuta, pogledaj u Promocije ili Spam.';
+    // Prvo ono zbog čega je došao.
+    d.links.sort(function (x, y) { return (y.product === d.entry) - (x.product === d.entry); });
     $('links').innerHTML = d.links.map(function (l) {
       return '<div><a class="link" href="' + esc(l.url) + '" target="_blank" rel="noopener" data-p="' + l.product + '">' + cover(l.product, l.name) +
         '<div><div class="l-name">' + esc(l.name) + '</div><div class="l-act">' + ACT[l.product] + '</div></div></a>' +
@@ -170,6 +180,20 @@
       go.hidden = !!k.booked_at;
       go.href = local(k.termin_url);
       go.textContent = 'Izaberi termin';
+      box.hidden = false;
+      return;
+    }
+    if (k.free) {
+      $('kTitle').textContent = k.booked ? 'Poziv je zakazan' : 'Hoćeš da pogledam tvoj profil?';
+      $('kBody').textContent = k.booked
+        ? 'Link za Google Meet ti je stigao na mejl.'
+        : 'Ispod videa je prijava za besplatan poziv 1 na 1 sa mnom. Odgovoriš na četiri pitanja o svom profilu i izabereš termin, pa na pozivu zajedno gledamo profil i kažem ti šta bih promenio.';
+      ['kWeek', 'kBtn', 'kCard', 'kFine', 'kNo', 'kErr'].forEach(function (id) { $(id).hidden = true; });
+      var fg = $('kGo');
+      fg.hidden = !!k.booked;
+      fg.href = local(k.watch_url) + '#poziv';
+      fg.textContent = 'Zakaži besplatan poziv';
+      if (box.hidden) T('konsult_view', { free: true }, { order: O });
       box.hidden = false;
       return;
     }
@@ -239,21 +263,20 @@
 
   /* ---------- druga šansa ---------- */
   var paidSecond = false;
+  // Šta je kupac već platio: proizvod kog nema među stavkama ponude.
+  function boughtOf(s) {
+    return ['recept', 'upiti', 'trik'].filter(function (p) { return !s.items.some(function (i) { return i.id === p; }); })[0];
+  }
   function renderSecond(s) {
     var box = $('second');
     if (paidSecond) return; // posle doplate kutija ostaje sa oba dela
     if (!s || declined) { box.hidden = true; return; }
-    var c = SECOND[s.product];
+    var c = SECOND[boughtOf(s)];
     $('sTitle').textContent = c.title(s);
     if (!kit) {
-      var bought = s.product === 'recept' ? 'upiti' : 'recept';
-      var names = {};
-      names[s.product] = s.name;
-      var own = (state.links || []).filter(function (l) { return l.product === bought; })[0];
-      names[bought] = own ? own.name : (bought === 'recept' ? 'Recept za smišljanje viralnog videa' : 'Kontent mašina za besplatne upite');
       kit = window.Komplet($('sKit'), {
-        have: bought, names: names, price: s.price, regular: s.regular, bundle: state.bundle, chain: s.chain, reason: c.body(s), removable: false, payButton: true,
-        labels: { headOff: 'Komplet ima dva dela, ti imaš jedan', headOn: 'Imaš oba dela', on: 'Kupljeno', off: 'Nemaš ga' },
+        items: s.items, price: s.price, bundle: state.bundle, chain: s.chain, reason: c.body(s), payButton: true,
+        labels: { headOff: 'Ovo ti fali do celog kompleta', headOn: 'Imaš ceo komplet', on: 'Kupljeno' },
         onAdd: takeSecond
       });
     }
@@ -288,6 +311,7 @@
   // Posle plaćanja doplate: sačekaj da je server vidi kao plaćenu, pa osveži linkove.
   async function afterPaid() {
     var product = state.second.product;
+    var okText = SECOND[boughtOf(state.second)].ok;
     T('second_paid', { product: product }, { order: O });
     for (var i = 0; i < 15; i++) {
       var d = await load();
@@ -297,7 +321,7 @@
         kit.set(true);
         ['sElement', 'sBtn', 'sCard', 'sNo', 'sErr'].forEach(function (id) { $(id).hidden = true; });
         $('sTitle').hidden = true;
-        $('sOk').textContent = SECOND[product].ok;
+        $('sOk').textContent = okText;
         $('sOk').hidden = false;
         render(d);
         return;
