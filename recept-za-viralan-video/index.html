@@ -110,6 +110,11 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   .si b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.03em;line-height:1;color:var(--brand)}
   .si span{display:block;margin-top:4px;font-size:13px;color:var(--muted);line-height:1.35}
 
+  .izj{padding:56px 0}
+  .izj-in{display:grid;grid-template-columns:132px 1fr;gap:36px;align-items:center;max-width:900px}
+  .izj img{width:100%;border-radius:12px;aspect-ratio:9/12;object-fit:cover;object-position:top}
+  .izj-q{font-family:var(--display);font-weight:800;font-size:clamp(24px,3vw,38px);letter-spacing:-.025em;line-height:1.15}
+  .izj-w{margin-top:14px;font-size:15px;color:var(--muted);line-height:1.5}
   /* ---------- 3. šta rešava ---------- */
   .cards{margin-top:44px;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
   .card{grid-column:span 2;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 26px}
@@ -248,6 +253,9 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
     .res .th{aspect-ratio:auto;height:100%;min-height:170px}
     .res .body{padding:16px}
     .strip-in{grid-template-columns:1fr 1fr;gap:16px 12px}
+    .izj{padding:40px 0}
+    .izj-in{grid-template-columns:84px 1fr;gap:16px}
+    .izj-w{font-size:14px;margin-top:10px}
     .si{grid-template-columns:44px 1fr;gap:10px}
     .si img{width:44px}
     .si b{font-size:24px}
@@ -280,13 +288,13 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
         <div class="sm-only"><img class="cover" src="assets/korica.jpg" alt="" width="620" height="877"></div>
         <div><p class="tag">PDF priručnik · 5 koraka</p><h1>Recept za smišljanje viralnog videa</h1></div>
       </div>
-      <div class="what lines"><p>Pet koraka po kojima smišljam klipove za klijente.</p><p>Iz tog postupka su izašli klipovi sa <span class="t">2,2 miliona</span>, <span class="t">1,2 miliona</span> i <span class="t">milion</span> pregleda.</p></div>
-      <ul class="checks"><li>Priručnik radi i kad snimaš telefonom i kad imaš malo pratilaca</li><li>PDF pročitaš za petnaestak minuta, a koristiš ga za svaki sledeći klip</li><li>PDF stiže odmah na mejl</li></ul>
+      <div class="what lines"><p>Nauči da za svoj posao smisliš klip koji može da ode viralno.</p><p>Po istom postupku sam smislio klipove sa <span class="t">2,2 miliona</span>, <span class="t">1,2 miliona</span> i <span class="t">milion</span> pregleda.</p></div>
+      <ul class="checks"><li>Tri načina da dođeš do ideje za klip</li><li>Šest formata i kada se koji koristi</li><li>Prve rečenice klipa koje dopuniš svojim poslom</li><li>Radi i kad snimaš telefonom i imaš malo pratilaca</li></ul>
       <div class="buy">
         <div class="pr"><span class="was"><small>redovna cena</small><s>29 €</s></span><b>7 €</b><span class="chip">Štediš 22 €</span></div>
         <a class="btn" href="/kupi/?p=recept" data-cta="hero">Kupi priručnik za 7 €</a>
       </div>
-      <p class="deliv">Plaćaš jednom, karticom, bez pretplate.</p>
+      <p class="deliv">PDF ti stiže odmah na mejl.<br>Plaćaš jednom, karticom, bez pretplate.</p>
     </div>
   </div>
 </section>
@@ -295,10 +303,18 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   <div class="wrap strip-in"><div class="si"><img src="assets/proof-ana.png" alt="Klip frizerskog salona sa 2,2 miliona pregleda" width="285" height="441" loading="lazy"><div><b>2,2 mil.</b><span>pregleda, frizerski salon</span></div></div><div class="si"><img src="assets/proof-ro.png" alt="Klip RO! detox sokova sa 1,2 miliona pregleda" width="163" height="286" loading="lazy"><div><b>1,2 mil.</b><span>pregleda, detox sokovi</span></div></div><div class="si"><img src="assets/proof-ivan.png" alt="Klip SuperDog Akademije sa milion pregleda" width="284" height="440" loading="lazy"><div><b>1 mil.</b><span>pregleda, SuperDog Akademija</span></div></div><div class="si"><img src="assets/proof-darvin.jpg" alt="Klip veterinarske ambulante Darvin sa 416.000 pregleda" width="570" height="882" loading="lazy"><div><b>416.000</b><span>pregleda, veterinarska ambulanta</span></div></div></div>
 </section>
 
+<section class="izj" data-section="izjava">
+  <div class="wrap izj-in">
+    <img src="assets/proof-ana.png" alt="Ana, vlasnica frizerskog salona" width="285" height="441" loading="lazy">
+    <div><p class="izj-q">„Došla sam do toga da ne mogu ni da stignem da odgovorim na sva pitanja.”</p>
+    <p class="izj-w">Ana, vlasnica frizerskog salona u Novim Banovcima.<br>Klipove sam joj smišljao po ovom postupku.</p></div>
+  </div>
+</section>
+
 <section data-section="resava">
   <div class="wrap">
     <h2 class="rv">Šta ti ovaj priručnik <span class="t">rešava</span></h2>
-    <div class="cards"><div class="card rv d0"><p class="q">„Sedneš da snimaš i ne znaš o čemu.”</p><p class="a">Teme vadiš iz problema, strahova i želja svog kupca, pa ne zavisiš od inspiracije.</p></div><div class="card rv d1"><p class="q">„Objaviš klip i dobiješ 200 pregleda.”</p><p class="a">Pre nego što upališ kameru, proveriš šta gledalac ima od tog klipa i da li ideja vredi snimanja.</p></div><div class="card rv d2"><p class="q">„Imaš temu, a ne znaš kako da je snimiš.”</p><p class="a">Šest formata, a uz svaki piše kad najbolje radi, pa znaš koji ide uz koju temu.</p></div><div class="card rv d3"><p class="q">„Ljudi odu posle prve dve sekunde.”</p><p class="a">Za isti klip napišeš tri do pet hookova i probaš ih na ljudima koji te ne prate, pre nego što ga vide tvoji pratioci.</p></div><div class="card rv d4"><p class="q">„Misliš da ti treba bolja kamera.”</p><p class="a">Klip o problemu koji ima mnogo ljudi ode daleko i kad je snimljen telefonom.</p></div></div>
+    <div class="cards"><div class="card rv d0"><p class="q">„Sedneš da snimaš i ne znaš o čemu.”</p><p class="a">Teme vadiš iz problema svog kupca, pa ne zavisiš od inspiracije.</p></div><div class="card rv d1"><p class="q">„Objaviš klip i dobiješ 200 pregleda.”</p><p class="a">Pre nego što upališ kameru, proveriš šta gledalac ima od tog klipa i da li ideja vredi snimanja.</p></div><div class="card rv d2"><p class="q">„Imaš temu, a ne znaš kako da je snimiš.”</p><p class="a">Šest formata, a uz svaki piše kad najbolje radi, pa znaš koji ide uz koju temu.</p></div><div class="card rv d3"><p class="q">„Ljudi odu posle prve dve sekunde.”</p><p class="a">Za isti klip napišeš tri do pet hookova i probaš ih na ljudima koji te ne prate, pre nego što ga vide tvoji pratioci.</p></div><div class="card rv d4"><p class="q">„Misliš da ti treba bolja kamera.”</p><p class="a">Klip o problemu koji ima mnogo ljudi ode daleko i kad je snimljen telefonom.</p></div></div>
   </div>
 </section>
 
@@ -306,8 +322,8 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   <div class="wrap">
     <h2 class="rv">Šta <span class="t">dobijaš</span></h2>
     <div class="get-grid">
-      <div class="get-what lines rv"><p>PDF od 8 strana.</p><p>Otvaraš ga na telefonu ili kompjuteru, a kad ga preuzmeš, čitaš ga i bez interneta.</p><p>Na kraju je ceo recept na jednoj strani, da ga imaš pred sobom za svaki sledeći klip.</p></div>
-      <div class="rv d1"><ol class="steps"><li><span class="n">01</span><h3>Analiza usluge i ciljne grupe</h3></li><li><span class="n">02</span><h3>Smišljanje konkretne ideje</h3></li><li><span class="n">03</span><h3>Pitanje koje sve menja</h3></li><li><span class="n">04</span><h3>Izbor formata</h3></li><li><span class="n">05</span><h3>Kreiranje hooka</h3></li></ol></div>
+      <div class="get-what lines rv"><p>Postupak u pet koraka, sa primerima, u PDF-u koji pročitaš za petnaestak minuta.</p><p>Na kraju je svih pet koraka na jednoj strani, da ih imaš pred sobom za svaki sledeći klip.</p><p>Otvaraš ga na telefonu ili kompjuteru, a kad ga preuzmeš, čitaš ga i bez interneta.</p></div>
+      <div class="rv d1"><ol class="steps"><li><span class="n">01</span><div><h3>Ko je tvoj kupac i šta ga muči</h3><p>Kad to ispišeš, već imaš prve ideje za klipove.</p></div></li><li><span class="n">02</span><div><h3>Tri načina da nađeš temu</h3><p>Jedan je za profile koji tek kreću.</p></div></li><li><span class="n">03</span><div><h3>Da li bi nepoznat čovek gledao tvoj klip</h3><p>Na to odgovoriš pre snimanja, jednim pitanjem.</p></div></li><li><span class="n">04</span><div><h3>Koji od šest formata ide uz tvoju temu</h3><p>Uz svaki piše kad najbolje radi.</p></div></li><li><span class="n">05</span><div><h3>Prva rečenica klipa</h3><p>Primeri koje dopuniš svojim poslom i način da ih isprobaš pre nego što klip vide tvoji pratioci.</p></div></li></ol></div>
     </div>
   </div>
 </section>
@@ -316,7 +332,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   <div class="wrap">
     <h2 class="rv">Za koga je <span class="t">priručnik</span></h2>
     <div class="who-grid">
-      <div class="who yes rv"><h3><i></i>Jeste za tebe ako</h3><ul><li><p>Sam snimaš klipove za svoj posao.</p><p>Salon, teretana, ordinacija, radionica ili kurs.</p></li><li><p>Pregledi ti ne rastu.</p><p>Važi i ako tek počinješ i ako snimaš godinama.</p></li></ul></div>
+      <div class="who yes rv"><h3><i></i>Jeste za tebe ako</h3><ul><li><p>Sam snimaš klipove za svoj posao.</p><p>Salon, teretana, ordinacija, radionica ili kurs.</p></li><li><p>Pregledi ti ne rastu.</p><p>Važi i ako snimaš godinama.</p></li><li><p>Hoćeš da kreneš, a još nisi objavio prvi klip.</p><p>Prvi korak radiš na papiru, pre nego što uključiš kameru.</p></li></ul></div>
       <div class="who no rv d1"><h3><i></i>Nije za tebe ako</h3><ul><li><p>Tražiš nekog da ti snima i montira.</p><p>Posao po priručniku radiš ti.</p></li><li><p>Montažer si i tražiš trikove za edit.</p><p>O montaži u priručniku nema ni reči.</p></li></ul></div>
     </div>
   </div>
@@ -340,7 +356,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
   <div class="wrap">
     <div class="offer rv">
       <div class="art-col"><img class="cover mini" src="assets/korica.jpg" alt="" width="620" height="877" loading="lazy"></div>
-      <div><p class="tag">PDF priručnik</p><h2 style="margin-top:8px">Recept za smišljanje viralnog videa</h2><ul><li>Pet koraka, od analize kupca do hooka</li><li>Primeri hookova koje dopuniš svojom nišom</li><li>Ceo recept na jednoj strani</li></ul></div>
+      <div><p class="tag">PDF priručnik</p><h2 style="margin-top:8px">Recept za smišljanje viralnog videa</h2><ul><li>Pet koraka, od analize kupca do prve rečenice klipa</li><li>Tri načina da dođeš do ideje</li><li>Šest formata i kada se koji koristi</li><li>Prve rečenice klipa koje dopuniš svojim poslom</li><li>Svih pet koraka na jednoj strani</li></ul></div>
       <div>
         <div class="pr"><span class="was"><small>redovna cena</small><s>29 €</s></span><b>7 €</b><span class="chip">Štediš 22 €</span></div>
         <a class="btn" href="/kupi/?p=recept" data-cta="cena">Kupi priručnik za 7 €</a>
@@ -350,7 +366,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 </section>
 
 <section id="pitanja" data-section="pitanja">
-  <div class="wrap"><div class="faq"><h2>Pitanja pre kupovine</h2><details open><summary>Kada dobijam priručnik?</summary><div class="ans lines"><p>Odmah posle plaćanja.</p><p>Link za preuzimanje se otvori na ekranu i stigne ti na mejl.</p><p>Ako mejl ne vidiš za par minuta, pogledaj u spamu.</p></div></details><details><summary>U kom formatu je priručnik?</summary><div class="ans lines"><p>PDF od 8 strana, za telefon i kompjuter.</p></div></details><details><summary>Kako se plaća?</summary><div class="ans lines"><p>Karticom, na sledećoj strani.</p><p>Cena je u evrima.</p></div></details><details><summary>Da li radi ako imam malo pratilaca?</summary><div class="ans lines"><p>Radi.</p><p>Jedan od tri načina za smišljanje ideje u koraku 2 je pravljen baš za nove profile.</p></div></details><details><summary>Imam pitanje koje nije ovde</summary><div class="ans lines"><p>Piši mi na Instagramu, <a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">@boris.prproj</a>.</p></div></details></div></div>
+  <div class="wrap"><div class="faq"><h2>Pitanja pre kupovine</h2><details open><summary>Kada dobijam priručnik?</summary><div class="ans lines"><p>Odmah posle plaćanja.</p><p>Link za preuzimanje se otvori na ekranu i stigne ti na mejl.</p><p>Ako mejl ne vidiš za par minuta, pogledaj u spamu.</p></div></details><details><summary>U kom formatu je priručnik?</summary><div class="ans lines"><p>PDF od 8 strana, za telefon i kompjuter.</p></div></details><details><summary>Kako se plaća?</summary><div class="ans lines"><p>Karticom, na sledećoj strani.</p><p>Cena je u evrima.</p></div></details><details><summary>Da li radi ako imam malo pratilaca?</summary><div class="ans lines"><p>Radi.</p><p>U koraku 2 je način za profile koji tek kreću.</p></div></details><details><summary>Još nisam objavio nijedan klip. Da li je za mene?</summary><div class="ans lines"><p>Jeste, ako imaš posao koji hoćeš da predstaviš.</p><p>Prvi klip snimaš tek kad znaš o čemu je.</p></div></details><details><summary>Da li radi za moj posao?</summary><div class="ans lines"><p>Postupak kreće od tvog kupca, pa su koraci isti za salon, ordinaciju, školu i prodavnicu.</p><p>Klipovi na ovoj strani su iz četiri različita posla.</p></div></details><details><summary>Zašto da platim kad saveta ima svuda besplatno?</summary><div class="ans lines"><p>Saveta ima svuda, i dok ih skupljaš prođe veče.</p><p>Ovde je jedan postupak, od prvog do petog koraka, koji pročitaš za petnaestak minuta.</p></div></details><details><summary>Imam pitanje koje nije ovde</summary><div class="ans lines"><p>Piši mi na Instagramu, <a href="https://instagram.com/boris.prproj" target="_blank" rel="noopener">@boris.prproj</a>.</p></div></details></div></div>
 </section>
 </main>
 
@@ -359,7 +375,7 @@ src="https://www.facebook.com/tr?id=4374976512714502&ev=PageView&noscript=1"
 </footer>
 
 <div class="sticky" id="sticky" aria-hidden="true">
-  <div class="tt"><b><s>29 €</s>7 €</b>Recept za viralan video</div>
+  <div class="tt"><b><s>29 €</s>7 €</b>Recept za smišljanje viralnog videa</div>
   <a class="btn" href="/kupi/?p=recept" data-cta="sticky" tabindex="-1">Kupi priručnik</a>
 </div>
 

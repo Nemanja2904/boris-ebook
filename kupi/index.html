@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/kupi/kupi.css">
+<link rel="stylesheet" href="/kupi/kupi.css?v=2511">
 <script src="https://js.stripe.com/endive/stripe.js"></script>
 <script src="/kupi/kljuc.js"></script>
 </head>
@@ -53,7 +53,7 @@
     <section class="a-email">
       <label class="lbl" for="email">Tvoj mejl</label>
       <input class="input" id="email" type="email" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="ime@primer.com" required>
-      <div class="help" id="emailHelp">Na ovu adresu šaljem link za pristup.</div>
+      <div class="help" id="emailHelp">Na ovu adresu šaljem link za pristup. Ako ne završiš kupovinu, poslaću ti jedan podsetnik.</div>
       <div class="field-err" id="emailErr" hidden></div>
     </section>
 
@@ -63,7 +63,6 @@
       <div class="total" style="display:block">
         <div class="lines" id="lines"></div>
         <div class="total-row"><span>Ukupno</span><b id="total">&nbsp;</b></div>
-        <div class="missing" id="missing" hidden></div>
       </div>
     </section>
 
@@ -80,7 +79,7 @@
 </main>
 
 <script src="/shop/track.js"></script>
-<script src="/kupi/komplet.js"></script>
+<script src="/kupi/komplet.js?v=2511"></script>
 <script>
 (function () {
   'use strict';
@@ -92,16 +91,10 @@
   var OFFER = qs.get('o') && qs.get('k') ? { o: qs.get('o'), k: qs.get('k') } : null;
   var PREV_KEY = 'shop_prev_' + P + (OFFER ? '_mejl' : '');
 
-  // Razlog uz komplet i rečenica uz zbir kad komplet nije dodat (Borisovo prvo lice). Cene dolaze sa servera.
+  // Doplata u jednom redu: naziv i zašto (Borisovo prvo lice). Cene dolaze sa servera.
   var COPY = {
-    recept: {
-      missing: 'U korpi je samo Recept, bez Kontent mašine.',
-      reason: function () { return 'Ljudi koji gledaju tvoj klip ne postaju kupci sami od sebe, neko mora da ti napiše. Kontent mašina je interaktivni priručnik koji popunjavaš za svoj posao: u njemu pišeš poziv za kraj klipa i prvu poruku, da gledalac postane upit. Ova cena važi samo uz ovu kupovinu.'; }
-    },
-    upiti: {
-      missing: 'U korpi je samo Kontent mašina, bez Recepta.',
-      reason: function () { return 'Poziv i prva poruka iz Kontent mašine ne pomažu klipu koji vide samo ljudi koji te već prate. U Receptu pokazujem postupak u pet koraka po kom smišljam viralne klipove za klijente. Ova cena važi samo uz ovu kupovinu.'; }
-    }
+    recept: { mini: { name: 'Kontent mašinu', why: 'Interaktivni priručnik u kom za svoj posao pišeš poziv za kraj klipa i prvu poruku koju šalješ onome ko ti se javi.' } },
+    upiti: { mini: { name: 'Recept', why: 'Postupak u pet koraka po kom smišljam viralne klipove za klijente.' } }
   };
   var ERR = {
     card_declined: 'Banka je odbila karticu. Probaj drugu karticu ili pozovi banku.',
@@ -156,8 +149,6 @@
       if (bumpOn) lines += '<div><span>' + esc(cfg.bump.name) + '</span><span>' + eur(cfg.bump.price) + '</span></div>';
     }
     $('lines').innerHTML = lines;
-    $('missing').hidden = !!(cfg.offer || bumpOn || !cfg.bump);
-    if (!cfg.offer && cfg.bump) $('missing').textContent = COPY[P].missing;
     $('total').textContent = eur(a);
     $('payLabel').textContent = 'Plati ' + eur(a);
     if (elements) elements.update({ amount: a });
@@ -171,6 +162,7 @@
     $('kind').textContent = pr.tagline || '';
     $('name').textContent = pr.name;
     document.title = pr.name + ' - Boris Vasić';
+    if (OFFER) $('emailHelp').textContent = 'Na ovu adresu šaljem link za pristup.';
     if (KONSULT) {
       $('about').hidden = false;
       $('emailHelp').textContent = 'Link za izbor termina šaljem na ovu adresu, pa možeš da zakažeš i kasnije.';
@@ -208,7 +200,7 @@
       names[P] = pr.name;
       names[b.id] = b.name;
       kit = window.Komplet($('kit'), {
-        have: P, names: names, price: b.price, regular: b.regular, bundle: cfg.bundle, chain: b.chain, reason: c.reason(b), removable: true,
+        have: P, names: names, price: b.price, regular: b.regular, bundle: cfg.bundle, chain: b.chain, mini: c.mini, removable: true,
         onAdd: function () { setBump(true); },
         onRemove: function () { setBump(false); }
       });
@@ -247,6 +239,15 @@
     var v = $('email').value.trim();
     return /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v) ? v.toLowerCase() : null;
   }
+
+  // Mejl se pamti čim je ceo upisan, da podsetnik za nezavršenu kupovinu ima kome da ode (jedan mejl, server).
+  var leftMail = null;
+  $('email').addEventListener('change', function () {
+    var v = emailOk();
+    if (!v || v === leftMail || OFFER || KONSULT) return;
+    leftMail = v;
+    T('email_left', { email: v });
+  });
 
   /* ---------- komplet (doplata) ---------- */
   var kit = null;

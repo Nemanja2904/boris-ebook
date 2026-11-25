@@ -9,6 +9,7 @@
  *   k.set(true|false)   // dodat ili ne (posle odgovora servera, ili odmah na checkoutu)
  *   k.busy(true|false)  // dugme dok traje plaćanje druge šanse
  *   o.payButton = true: dugme je plaćanje (hvala strana), žuto kao Plati
+ *   o.mini = { name, why }: jedan red sa kvadratićem (checkout)
  *   o.labels = { headOff, headOn, on } menja tekst (hvala strana: "kupljeno" umesto "u korpi")
  */
 (function () {
@@ -52,6 +53,21 @@
     };
     var missing = o.have === 'recept' ? 'upiti' : 'recept';
     var part = PARTS.filter(function (p) { return p.id === missing; })[0];
+
+    // Jedan red (checkout): cilj je da mejl, zbir i kartica stanu visoko na telefonu. Komplet ni ovde nije unapred izabran.
+    if (o.mini) {
+      el.className = 'kit mini';
+      el.innerHTML = '<button type="button" class="kc" data-k="kc" aria-pressed="false"><span class="kc-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7.4l2.6 2.6L11 4.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        img(missing, o.names[missing]) + '<span><b>Dodaj ' + esc(o.mini.name) + ' za <em>' + eur(o.price) + '</em> <s>redovno ' + eur((o.chain && o.chain.soldAtRegular && o.chain.regular) || o.regular) + '</s></b><small>' + esc(o.mini.why) + '</small></span></button>';
+      var kc = el.querySelector('[data-k="kc"]');
+      kc.addEventListener('click', function () { if (added) { if (o.onRemove) o.onRemove(); } else if (o.onAdd) o.onAdd(); });
+      return {
+        el: el,
+        missing: missing,
+        set: function (v) { added = !!v; el.classList.toggle('is-on', added); kc.setAttribute('aria-pressed', added ? 'true' : 'false'); },
+        busy: function () {}
+      };
+    }
 
     el.className = 'kit';
     el.innerHTML =
